@@ -1,0 +1,39 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx @anthropic/claude-code mcp:*)",
+      "Bash(claude --version)",
+      "Bash(claude mcp:*)",
+      "Bash(dir:*)",
+      "Read(C:\\Users\\AMD/**)",
+      "Read(C:\\Users\\AMD\\AppData\\Roaming\\Claude/**)",
+      "Bash(npx:*)",
+      "Bash(claude config)",
+      "Bash(claude config list)",
+      "Bash(echo $APPDATA)",
+      "Read(C:\\Users\\AMD\\AppData\\Roaming\\Claude/**)",
+      "Read(C:\\Users\\AMD\\AppData\\Roaming\\Claude/**)",
+      "mcp__sequential-thinking__sequentialthinking",
+      "Bash(npm run dev:*)",
+      "Bash(timeout 10 npm run dev)",
+      "Bash(npm run build:*)"
+    ],
+    "deny": [],
+    "ask": []
+  },
+  "enableAllProjectMcpServers": true,
+  "enabledMcpjsonServers": [
+    "supabase",
+    "github",
+    "playwright",
+    "render",
+    "memory",
+    "filesystem",
+    "everything",
+    "sequential-thinking",
+    "puppeteer",
+    "desktop-commander",
+    "excel",
+    "context7"
+  ]
+}

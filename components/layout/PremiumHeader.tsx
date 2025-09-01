@@ -1,165 +1,145 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
-import { usePathname } from 'next/navigation'
+import { useState, useEffect, useCallback } from 'react'
+import { motion, AnimatePresence, useScroll, useMotionValue, useTransform, useSpring } from 'framer-motion'
 import Link from 'next/link'
-import Image from 'next/image'
-import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion'
+import { usePathname } from 'next/navigation'
 
 interface NavItem {
   label: string
   href: string
+  color: string
+  gradient: string
+  icon: string
+  description: string
 }
 
 const navigationItems: NavItem[] = [
-  { label: 'Quero Trabalhar', href: '/para-profissionais' },
-  { label: 'Encontrar Profissional', href: '/para-empresas' },
-  { label: 'Vagas Fixas', href: '/vagas' },
-  { label: 'Admin', href: '/admin/login' },
+  { 
+    label: 'Para Profissionais', 
+    href: '/para-profissionais',
+    color: 'freela',
+    gradient: 'from-freela to-freela-600',
+    icon: '👤',
+    description: 'Encontre as melhores oportunidades'
+  },
+  { 
+    label: 'Para Empresas', 
+    href: '/para-empresas',
+    color: 'empresa',
+    gradient: 'from-empresa to-empresa-600',
+    icon: '🏢',
+    description: 'Contrate os melhores talentos'
+  },
+  { 
+    label: 'Como Funciona', 
+    href: '/como-funciona',
+    color: 'institucional-500',
+    gradient: 'from-institucional-400 to-institucional-600',
+    icon: '⚙️',
+    description: 'Entenda nosso processo'
+  },
+  { 
+    label: 'Sobre', 
+    href: '/sobre',
+    color: 'gray-700',
+    gradient: 'from-gray-600 to-gray-800',
+    icon: 'ℹ️',
+    description: 'Conheça nossa história'
+  },
 ]
 
-// Animation variants for smooth micro-interactions
-const headerVariants = {
-  idle: { 
-    scale: 1,
-    transition: { duration: 0.2 }
-  },
-  scrolled: { 
-    scale: 0.98,
-    transition: { duration: 0.3 }
-  }
-}
-
-const navItemVariants = {
-  idle: { 
-    scale: 1,
-    y: 0,
-    transition: { 
-      duration: 0.2
-    }
-  },
-  hover: { 
-    scale: 1.02,
-    y: -1,
-    transition: { 
-      duration: 0.15
-    }
-  },
-  tap: { 
-    scale: 0.98,
-    y: 0,
-    transition: { duration: 0.1 }
-  }
-}
-
-const ctaButtonVariants = {
-  idle: { 
-    scale: 1,
-    boxShadow: "0 0 0 0 rgba(18, 32, 70, 0)",
-    transition: { 
-      duration: 0.3
-    }
-  },
-  hover: { 
-    scale: 1.05,
-    boxShadow: "0 8px 25px -8px rgba(18, 32, 70, 0.3)",
-    transition: { 
-      duration: 0.2
-    }
-  },
-  tap: { 
-    scale: 0.95,
-    transition: { duration: 0.1 }
-  }
-}
-
-const logoVariants = {
-  idle: { 
-    scale: 1,
-    rotate: 0,
-    transition: { duration: 0.3 }
-  },
-  hover: { 
-    scale: 1.05,
-    rotate: [0, -2, 2, 0],
-    transition: { 
-      duration: 0.6,
-      rotate: {
-        duration: 0.8
-      }
-    }
-  }
-}
 
 export default function PremiumHeader() {
-  const [scrolled, setScrolled] = useState(false)
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isScrolled, setIsScrolled] = useState(false)
   const [hoveredItem, setHoveredItem] = useState<string | null>(null)
   const pathname = usePathname()
-  const headerRef = useRef<HTMLElement>(null)
   
-  // Enhanced scroll detection with smooth transitions
+  // Advanced scroll detection with performance optimization
   const { scrollY } = useScroll()
-  const headerOpacity = useTransform(scrollY, [0, 100], [0.95, 1])
-  const headerBackdrop = useTransform(scrollY, [0, 50], [8, 12])
+  const scrollProgress = useTransform(scrollY, [0, 100], [0, 1])
+  const headerBackground = useTransform(
+    scrollProgress,
+    [0, 1],
+    ['rgba(255, 255, 255, 0)', 'rgba(255, 255, 255, 0.98)']
+  )
+  const headerBlur = useTransform(scrollProgress, [0, 1], [0, 20])
+  const headerShadow = useTransform(
+    scrollProgress,
+    [0, 1],
+    ['0 0 0 rgba(0,0,0,0)', '0 10px 30px rgba(0,0,0,0.08)']
+  )
+  
+  // Mouse tracking for interactive effects
+  const mouseX = useMotionValue(0)
+  const mouseY = useMotionValue(0)
+  const smoothMouseX = useSpring(mouseX, { stiffness: 50, damping: 20 })
+  const smoothMouseY = useSpring(mouseY, { stiffness: 50, damping: 20 })
 
   useEffect(() => {
-    const handleScroll = () => {
-      const scrollPosition = window.scrollY
-      setScrolled(scrollPosition > 10)
+    let rafId: number
+    const updateScrollState = () => {
+      if (rafId) cancelAnimationFrame(rafId)
+      rafId = requestAnimationFrame(() => {
+        setIsScrolled(window.scrollY > 20)
+      })
     }
-
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    handleScroll()
     
-    return () => window.removeEventListener('scroll', handleScroll)
+    window.addEventListener('scroll', updateScrollState, { passive: true })
+    updateScrollState()
+    
+    return () => {
+      window.removeEventListener('scroll', updateScrollState)
+      if (rafId) cancelAnimationFrame(rafId)
+    }
   }, [])
 
-  // Close mobile menu on route change
-  useEffect(() => {
-    setMobileMenuOpen(false)
-  }, [pathname])
+  const handleMouseMove = useCallback((e: React.MouseEvent) => {
+    const rect = e.currentTarget.getBoundingClientRect()
+    mouseX.set(e.clientX - rect.left - rect.width / 2)
+    mouseY.set(e.clientY - rect.top - rect.height / 2)
+  }, [mouseX, mouseY])
 
-  // Prevent body scroll when mobile menu is open
-  useEffect(() => {
-    if (mobileMenuOpen) {
-      document.body.style.overflow = 'hidden'
-    } else {
-      document.body.style.overflow = 'unset'
-    }
-    return () => {
-      document.body.style.overflow = 'unset'
-    }
-  }, [mobileMenuOpen])
-
-  const isActiveLink = (href: string) => {
-    if (href === '/') return pathname === href
-    return pathname?.startsWith(href)
-  }
+  const isActiveRoute = (href: string) => pathname === href
 
   return (
     <>
-      {/* Premium Header with Sophisticated Micro-Interactions */}
+      {/* Premium Header with Advanced Effects */}
       <motion.header
-        ref={headerRef}
-        variants={headerVariants}
-        animate={scrolled ? "scrolled" : "idle"}
+        className="fixed top-0 left-0 right-0 z-50 transition-all duration-500"
         style={{
-          opacity: headerOpacity,
-          backdropFilter: `blur(${headerBackdrop}px)`
+          backgroundColor: headerBackground,
+          backdropFilter: `blur(${headerBlur}px)`,
+          boxShadow: headerShadow,
         }}
-        className={`
-          fixed top-0 left-0 right-0 z-50
-          h-16 lg:h-16
-          bg-white/95
-          transition-all duration-300 ease-out
-          ${scrolled 
-            ? 'shadow-lg shadow-black/10 bg-white/98' 
-            : 'shadow-sm shadow-black/5'
-          }
-          will-change-transform
-        `}
+        onMouseMove={handleMouseMove}
       >
+        {/* Animated gradient background overlay */}
+        <motion.div
+          className="absolute inset-0 opacity-30 pointer-events-none"
+          style={{
+            background: isScrolled
+              ? 'linear-gradient(135deg, transparent 0%, rgba(236, 68, 100, 0.03) 25%, rgba(20, 36, 68, 0.03) 50%, rgba(236, 212, 164, 0.03) 75%, transparent 100%)'
+              : 'transparent',
+          }}
+          animate={{
+            backgroundPosition: ['0% 0%', '100% 100%'],
+          }}
+          transition={{
+            duration: 20,
+            repeat: Infinity,
+            repeatType: 'reverse',
+          }}
+        />
+
+        {/* Interactive light effect following mouse */}
+        <motion.div
+          className="absolute inset-0 pointer-events-none opacity-50"
+          style={{
+            background: `radial-gradient(600px circle at ${smoothMouseX.get()}px ${smoothMouseY.get()}px, rgba(236, 68, 100, 0.03), transparent 40%)`,
+          }}
+        />
         <div className="h-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-full">
             
