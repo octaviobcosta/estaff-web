@@ -1,3 +1,5 @@
+import PremiumHeader from '@/components/layout/PremiumHeader'
+
 export default function PublicLayout({
   children,
 }: {
@@ -5,6 +7,7 @@ export default function PublicLayout({
 }) {
   return (
     <div className="min-h-screen bg-white">
+      <PremiumHeader />
       {children}
     </div>
   )
