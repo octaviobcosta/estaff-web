@@ -42,18 +42,7 @@ export type { AlertProps, AlertType } from './feedback/Alert'
 export { Loading } from './feedback/Loading'
 export type { LoadingProps } from './feedback/Loading'
 
-// Navigation Components
-export { Link } from './navigation/Link'
-export type { LinkProps } from './navigation/Link'
-
-export { Tabs } from './navigation/Tabs'
-export type { TabsProps, TabItem } from './navigation/Tabs'
-
-export { Breadcrumb } from './navigation/Breadcrumb'
-export type { BreadcrumbProps, BreadcrumbItem } from './navigation/Breadcrumb'
-
-export { Pagination } from './navigation/Pagination'
-export type { PaginationProps } from './navigation/Pagination'
+// Navigation Components - removed legacy exports
 
 // Re-export existing components
 export { Button } from './button'
