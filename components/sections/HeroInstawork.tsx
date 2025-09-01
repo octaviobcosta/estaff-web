@@ -9,14 +9,14 @@ import ProfileCards from '@/components/ui/ProfileCards'
 export default function HeroInstawork() {
 
   return (
-    <section className="relative min-h-screen bg-gradient-to-b from-gray-50 to-white overflow-hidden">
+    <section className="relative min-h-screen bg-gradient-to-b from-gray-50 to-white">
       {/* Background decorative elements */}
       <div className="absolute inset-0">
         <div className="absolute top-0 left-0 w-96 h-96 bg-freela/10 rounded-full blur-3xl" />
         <div className="absolute bottom-0 right-0 w-96 h-96 bg-empresa/10 rounded-full blur-3xl" />
       </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 py-20 lg:py-32">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 pt-8 pb-20 lg:pt-12 lg:pb-32">
         <div className="grid lg:grid-cols-[60%_40%] gap-12 items-center">
           {/* Left Side - Content */}
           <motion.div
@@ -110,6 +110,7 @@ export default function HeroInstawork() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.4, duration: 0.8 }}
             className="relative h-[500px] lg:h-[600px]"
+            style={{ overflow: 'visible' }}
           >
             <ProfileCards 
               containerWidth={500} 

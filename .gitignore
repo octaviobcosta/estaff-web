@@ -57,3 +57,6 @@ next-env.d.ts
 docs/
 tracking/
 external-frameworks/
+
+# MCP configuration with tokens
+.mcp.json

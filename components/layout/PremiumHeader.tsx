@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence, useScroll, useMotionValue, useTransform, useSpring } from 'framer-motion'
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 
 interface NavItem {
@@ -32,27 +33,40 @@ const navigationItems: NavItem[] = [
     description: 'Contrate os melhores talentos'
   },
   { 
-    label: 'Como Funciona', 
-    href: '/como-funciona',
+    label: 'Vagas Fixas', 
+    href: '/vagas-fixas',
     color: 'institucional-500',
     gradient: 'from-institucional-400 to-institucional-600',
-    icon: '⚙️',
-    description: 'Entenda nosso processo'
-  },
-  { 
-    label: 'Sobre', 
-    href: '/sobre',
-    color: 'gray-700',
-    gradient: 'from-gray-600 to-gray-800',
-    icon: 'ℹ️',
-    description: 'Conheça nossa história'
+    icon: '💼',
+    description: 'Oportunidades permanentes'
   },
 ]
 
+// Animation variants for different elements
+const logoVariants = {
+  idle: { scale: 1, rotate: 0 },
+  hover: { 
+    scale: 1.05, 
+    rotate: [0, -2, 2, -2, 0],
+    transition: { duration: 0.5 }
+  }
+}
+
+const navItemVariants = {
+  idle: { y: 0 },
+  hover: { y: -2 },
+  tap: { scale: 0.98 }
+}
+
+const ctaButtonVariants = {
+  idle: { scale: 1 },
+  hover: { scale: 1.05 },
+  tap: { scale: 0.98 }
+}
 
 export default function PremiumHeader() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [isScrolled, setIsScrolled] = useState(false)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
   const [hoveredItem, setHoveredItem] = useState<string | null>(null)
   const pathname = usePathname()
   
@@ -82,7 +96,7 @@ export default function PremiumHeader() {
     const updateScrollState = () => {
       if (rafId) cancelAnimationFrame(rafId)
       rafId = requestAnimationFrame(() => {
-        setIsScrolled(window.scrollY > 20)
+        setScrolled(window.scrollY > 20)
       })
     }
     
@@ -101,13 +115,19 @@ export default function PremiumHeader() {
     mouseY.set(e.clientY - rect.top - rect.height / 2)
   }, [mouseX, mouseY])
 
-  const isActiveRoute = (href: string) => pathname === href
+  const isActiveLink = (href: string) => pathname === href
+
+  // Create transform for mouse light effect
+  const mouseLight = useTransform(
+    [smoothMouseX, smoothMouseY],
+    ([x, y]) => `radial-gradient(600px circle at ${x}px ${y}px, rgba(236, 68, 100, 0.03), transparent 40%)`
+  )
 
   return (
     <>
       {/* Premium Header with Advanced Effects */}
       <motion.header
-        className="fixed top-0 left-0 right-0 z-50 transition-all duration-500"
+        className="fixed top-0 left-0 right-0 z-50 h-14 transition-all duration-500"
         style={{
           backgroundColor: headerBackground,
           backdropFilter: `blur(${headerBlur}px)`,
@@ -119,7 +139,7 @@ export default function PremiumHeader() {
         <motion.div
           className="absolute inset-0 opacity-30 pointer-events-none"
           style={{
-            background: isScrolled
+            background: scrolled
               ? 'linear-gradient(135deg, transparent 0%, rgba(236, 68, 100, 0.03) 25%, rgba(20, 36, 68, 0.03) 50%, rgba(236, 212, 164, 0.03) 75%, transparent 100%)'
               : 'transparent',
           }}
@@ -137,11 +157,11 @@ export default function PremiumHeader() {
         <motion.div
           className="absolute inset-0 pointer-events-none opacity-50"
           style={{
-            background: `radial-gradient(600px circle at ${smoothMouseX.get()}px ${smoothMouseY.get()}px, rgba(236, 68, 100, 0.03), transparent 40%)`,
+            background: mouseLight,
           }}
         />
-        <div className="h-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-full">
+        <div className="h-full max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="flex items-center justify-between h-14">
             
             {/* Logo with Delightful Hover Animation */}
             <motion.div
@@ -168,7 +188,7 @@ export default function PremiumHeader() {
 
             {/* Desktop Navigation with Smooth Hover Effects */}
             <nav className="hidden lg:flex items-center h-full" role="navigation">
-              <div className="flex items-center space-x-1 relative">
+              <div className="flex items-center space-x-6 relative">
                 {navigationItems.map((item, index) => (
                   <motion.div
                     key={item.href}
@@ -200,7 +220,7 @@ export default function PremiumHeader() {
                       {isActiveLink(item.href) && (
                         <motion.div
                           layoutId="activeNavIndicator"
-                          className="absolute bottom-1 left-4 right-4 h-0.5 bg-[#122046] rounded-full"
+                          className="absolute bottom-0.5 left-4 right-4 h-0.5 bg-[#122046] rounded-full"
                           transition={{
                             type: "spring",
                             stiffness: 380,
@@ -212,7 +232,7 @@ export default function PremiumHeader() {
                       {/* Hover indicator */}
                       {hoveredItem === item.href && !isActiveLink(item.href) && (
                         <motion.div
-                          className="absolute bottom-1 left-4 right-4 h-0.5 bg-gray-300 rounded-full"
+                          className="absolute bottom-0.5 left-4 right-4 h-0.5 bg-gray-300 rounded-full"
                           initial={{ scaleX: 0 }}
                           animate={{ scaleX: 1 }}
                           exit={{ scaleX: 0 }}
@@ -239,23 +259,25 @@ export default function PremiumHeader() {
                   href="/demo"
                   className="
                     relative overflow-hidden
-                    px-4 py-2
-                    bg-[#122046] text-white text-sm font-medium
-                    rounded-md
-                    transition-colors duration-200
+                    px-6 py-2.5
+                    bg-[#122046] text-white text-sm font-semibold
+                    rounded-lg
+                    transition-all duration-200
                     focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#122046] focus-visible:ring-offset-2
                     will-change-transform
                     group
+                    shadow-sm hover:shadow-md
                   "
                 >
                   <span className="relative z-10">Agendar Demo</span>
                   
                   {/* Animated gradient overlay */}
                   <motion.div
-                    className="absolute inset-0 bg-gradient-to-r from-[#0f1d3d] via-[#122046] to-[#0f1d3d]"
-                    initial={{ x: "-100%" }}
+                    className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
+                    initial={{ x: "-100%", opacity: 0 }}
                     whileHover={{ 
                       x: "100%",
+                      opacity: 1,
                       transition: { duration: 0.6, ease: "easeInOut" }
                     }}
                   />
@@ -267,7 +289,7 @@ export default function PremiumHeader() {
             <motion.button
               type="button"
               className="
-                lg:hidden p-2 -mr-2
+                lg:hidden p-2
                 rounded-lg
                 hover:bg-gray-50
                 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#122046] focus-visible:ring-offset-2
@@ -378,7 +400,7 @@ export default function PremiumHeader() {
               <div className="flex flex-col h-full">
                 {/* Animated Mobile Menu Header */}
                 <motion.div 
-                  className="flex items-center justify-between px-6 h-16 border-b border-gray-200/50"
+                  className="flex items-center justify-between px-6 h-14 border-b border-gray-200/50"
                   initial={{ opacity: 0, y: -20 }}
                   animate={{ 
                     opacity: 1, 
@@ -432,7 +454,7 @@ export default function PremiumHeader() {
                 </motion.div>
 
                 {/* Enhanced Mobile Navigation with Stagger Animation */}
-                <nav className="flex-1 px-6 py-8">
+                <nav className="flex-1 px-6 py-6">
                   {navigationItems.map((item, index) => (
                     <motion.div
                       key={item.href}
@@ -457,8 +479,8 @@ export default function PremiumHeader() {
                         href={item.href}
                         onClick={() => setMobileMenuOpen(false)}
                         className={`
-                          block px-4 py-4 mb-2
-                          rounded-xl
+                          block px-4 py-3 mb-2
+                          rounded-lg
                           text-base font-medium
                           transition-all duration-200 ease-out
                           will-change-transform
@@ -503,10 +525,11 @@ export default function PremiumHeader() {
                       className="
                         relative overflow-hidden
                         flex items-center justify-center
-                        w-full py-4
+                        w-full py-3
                         bg-[#122046] text-white font-semibold
-                        rounded-xl
+                        rounded-lg
                         focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#122046] focus-visible:ring-offset-2
+                        shadow-sm
                         group
                       "
                     >
@@ -542,17 +565,8 @@ export default function PremiumHeader() {
         )}
       </AnimatePresence>
 
-      {/* Dynamic Header Spacer with Smooth Transitions */}
-      <motion.div 
-        className="h-16 lg:h-16"
-        animate={{
-          height: scrolled ? "60px" : "64px"
-        }}
-        transition={{
-          duration: 0.3,
-          ease: "easeInOut"
-        }}
-      />
+      {/* Fixed Header Spacer - Pixel Perfect */}
+      <div className="h-14" />
     </>
   )
 }
