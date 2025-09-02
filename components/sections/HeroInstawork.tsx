@@ -109,13 +109,9 @@ export default function HeroInstawork() {
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.4, duration: 0.8 }}
-            className="relative h-[500px] lg:h-[600px]"
-            style={{ overflow: 'visible' }}
+            className="relative w-full h-[650px] overflow-visible"
           >
-            <ProfileCards 
-              containerWidth={500} 
-              containerHeight={600} 
-            />
+            <ProfileCards className="w-full h-full" />
           </motion.div>
         </div>
       </div>
