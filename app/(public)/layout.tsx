@@ -1,4 +1,5 @@
 import PremiumHeader from '@/components/layout/PremiumHeader'
+import Footer from '@/components/ui/footer'
 
 export default function PublicLayout({
   children,
@@ -6,9 +7,12 @@ export default function PublicLayout({
   children: React.ReactNode
 }) {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white flex flex-col">
       <PremiumHeader />
-      {children}
+      <main className="flex-1">
+        {children}
+      </main>
+      <Footer />
     </div>
   )
 }

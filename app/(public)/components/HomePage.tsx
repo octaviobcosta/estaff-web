@@ -4,6 +4,7 @@ import { useEffect, useState, useRef, useCallback } from 'react'
 import { motion, useScroll, useTransform, useInView, AnimatePresence, useMotionValue, useSpring } from 'framer-motion'
 import Image from 'next/image'
 import HeroInstawork from '@/components/sections/HeroInstawork'
+import PremiumHeader from '@/components/layout/PremiumHeader'
 
 export default function HomePage() {
   // State management
@@ -179,6 +180,9 @@ export default function HomePage() {
 
   return (
     <>
+      {/* Premium Header */}
+      <PremiumHeader />
+      
       {/* Skip to main content for accessibility */}
       <a 
         href="#main-content" 
