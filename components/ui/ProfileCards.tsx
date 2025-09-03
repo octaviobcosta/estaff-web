@@ -16,6 +16,7 @@ const PROFILE_DATA = [
     venues: 15,
     location: 'São Paulo - SP',
     verified: true,
+    description: 'Especialista em atendimento premium com foco em experiência do cliente e vendas consultivas. Reconhecida pela agilidade e carisma no atendimento em eventos de alta demanda.',
     highlightType: 'avaliacao',
     highlightData: {
       rating: 4.95,
@@ -32,6 +33,7 @@ const PROFILE_DATA = [
     venues: 25,
     location: 'São Paulo - SP',
     verified: true,
+    description: 'Chef executivo com expertise em culinária contemporânea e gestão de equipes de alta performance. Formado em gastronomia internacional com passagem por renomados restaurantes.',
     highlightType: 'experiencias',
     highlightData: {
       venues: [
@@ -51,6 +53,7 @@ const PROFILE_DATA = [
     venues: 12,
     location: 'São Paulo - SP',
     verified: true,
+    description: 'Sommelière certificada com especialização em vinhos orgânicos e harmonização gastronômica. Experiência em eventos exclusivos e consultoria para importadoras de vinhos premium.',
     highlightType: 'depoimento',
     highlightData: {
       quote: 'Profissional excepcional! Conhecimento profundo em vinhos e harmonização, sempre surpreendendo os clientes com suas sugestões precisas e atendimento impecável.',
@@ -67,6 +70,7 @@ const PROFILE_DATA = [
     venues: 30,
     location: 'São Paulo - SP',
     verified: true,
+    description: 'Mixologista criativo especializado em coquetelaria molecular e drinks autorais premium. Vencedor de competições nacionais e criador de cartas de drinks para bares conceituados.',
     highlightType: 'conquistas',
     highlightData: {}
   },
@@ -80,6 +84,7 @@ const PROFILE_DATA = [
     venues: 18,
     location: 'São Paulo - SP',
     verified: true,
+    description: 'Hostess trilíngue com experiência em eventos corporativos internacionais e protocolo diplomático. Especialista em recepção VIP e coordenação de equipes em grandes eventos.',
     highlightType: 'bio',
     highlightData: {
       bio: 'Hostess bilíngue com mais de 5 anos de experiência em eventos corporativos e sociais de alto padrão. Especializada em atendimento VIP, coordenação de equipes de recepção e protocolos internacionais. Fluente em inglês, espanhol e francês, com certificação em etiqueta empresarial e experiência em eventos diplomáticos.'
@@ -283,10 +288,10 @@ export default function ProfileCards({
         }}
         exit={{ opacity: 0, scale: 0.95 }}
         transition={{ duration: 0.5 }}
-        className="relative z-10 w-[432px] h-[576px] bg-white rounded-xl shadow-lg p-6 flex flex-col border border-gray-200"
+        className="relative z-10 w-[432px] h-[600px] bg-white rounded-xl shadow-lg p-6 flex flex-col border border-gray-200"
       >
         {/* Header Section */}
-        <div className="flex items-start gap-4 mb-4">
+        <div className="flex items-start gap-4 mb-3">
           {/* Profile Image */}
           <img
             src={currentProfile.photo}
@@ -309,28 +314,38 @@ export default function ProfileCards({
         </div>
 
         {/* Stats Section */}
-        <div className="flex items-center justify-between px-5 py-3 mb-3 bg-gradient-to-r from-[#ecd4a4]/10 to-[#ec4464]/10 rounded-lg border border-[#ecd4a4]/20">
-          <div className="flex flex-col items-center">
+        <div className="flex items-stretch justify-between px-3 py-3.5 mb-3 bg-gradient-to-r from-[#ecd4a4]/10 to-[#ec4464]/10 rounded-lg border border-[#ecd4a4]/20">
+          <div className="flex-1 flex flex-col items-center justify-center min-w-0">
             <div className="flex items-center gap-1 mb-1">
-              <Briefcase className="w-5 h-5 text-[#ec4464]" />
-              <span className="text-sm font-medium text-[#6B7280] whitespace-nowrap">Jobs</span>
+              <Briefcase className="w-4 h-4 text-[#ec4464] flex-shrink-0" />
+              <span className="text-[12px] font-medium text-[#6B7280] truncate">Jobs</span>
             </div>
-            <div className="text-xl font-bold text-[#142444]">{currentProfile.jobs}</div>
+            <div className="text-[20px] font-bold text-[#142444] leading-tight">{currentProfile.jobs}</div>
           </div>
-          <div className="flex flex-col items-center">
+          <div className="w-px bg-gray-200 mx-1.5"></div>
+          <div className="flex-1 flex flex-col items-center justify-center min-w-0">
             <div className="flex items-center gap-1 mb-1">
-              <Star className="w-5 h-5 fill-[#ecd4a4] text-[#ecd4a4]" />
-              <span className="text-sm font-medium text-[#6B7280] whitespace-nowrap">Avaliação</span>
+              <Star className="w-4 h-4 fill-[#ecd4a4] text-[#ecd4a4] flex-shrink-0" />
+              <span className="text-[12px] font-medium text-[#6B7280] truncate">Avaliação</span>
             </div>
-            <div className="text-xl font-bold text-[#142444]">{currentProfile.rating}</div>
+            <div className="text-[20px] font-bold text-[#142444] leading-tight">{currentProfile.rating}</div>
           </div>
-          <div className="flex flex-col items-center">
+          <div className="w-px bg-gray-200 mx-1.5"></div>
+          <div className="flex-1 flex flex-col items-center justify-center min-w-0">
             <div className="flex items-center gap-1 mb-1">
-              <MapPin className="w-5 h-5 text-[#142444]" />
-              <span className="text-sm font-medium text-[#6B7280] whitespace-nowrap">Locais</span>
+              <MapPin className="w-4 h-4 text-[#142444] flex-shrink-0" />
+              <span className="text-[12px] font-medium text-[#6B7280] truncate">Locais</span>
             </div>
-            <div className="text-xl font-bold text-[#142444]">{currentProfile.venues}</div>
+            <div className="text-[20px] font-bold text-[#142444] leading-tight">{currentProfile.venues}</div>
           </div>
+        </div>
+
+        {/* Description Section */}
+        <div className="px-1 mb-3">
+          <h4 className="text-[13px] font-semibold text-[#142444] mb-1.5">Sobre</h4>
+          <p className="text-[13px] text-[#6B7280] leading-[1.5] line-clamp-3">
+            {currentProfile.description}
+          </p>
         </div>
 
         {/* CTA Button - Inside the card */}
