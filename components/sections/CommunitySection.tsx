@@ -115,7 +115,7 @@ const CommunitySection = () => {
       <div className="max-w-7xl mx-auto px-4 relative z-10">
         
         {/* Two Column Layout: Numbers Left, Hero Content Right */}
-        <div className="py-8 md:py-12">
+        <div className="pt-4 pb-2 md:pt-6 md:pb-3">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
             
             {/* Left Column - Numbers (2x2 grid) */}
@@ -257,7 +257,7 @@ const CommunitySection = () => {
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
         transition={{ duration: 0.8 }}
-        className="relative pb-8 md:pb-12"
+        className="relative pb-6 md:pb-8"
       >
         {/* Elegant edge gradients */}
         <div className="absolute left-0 top-0 w-32 md:w-48 h-full bg-gradient-to-r from-white to-transparent z-10 pointer-events-none"></div>

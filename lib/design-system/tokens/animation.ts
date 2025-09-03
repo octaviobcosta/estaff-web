@@ -4,7 +4,7 @@
  */
 
 // Animation durations (in milliseconds)
-export const durations = {
+export const durations = Object.freeze({
   instant: 0,
   fast: 150,
   normal: 300,
@@ -20,15 +20,15 @@ export const durations = {
   relaxed: 800,     // Lazy animations
   
   // Stagger delays
-  stagger: {
+  stagger: Object.freeze({
     fast: 50,
     normal: 100,
     slow: 150,
-  },
-} as const
+  }),
+}) as const
 
 // Easing functions (cubic-bezier curves)
-export const easings = {
+export const easings = Object.freeze({
   // Basic easings
   linear: 'linear',
   ease: 'ease',
@@ -52,25 +52,25 @@ export const easings = {
   power2: 'cubic-bezier(0.54, 0.0, 1, 1)',
   power3: 'cubic-bezier(0.7, 0.0, 1, 1)',
   power4: 'cubic-bezier(0.86, 0.0, 1, 1)',
-} as const
+}) as const
 
 // Spring physics configurations
-export const springs = {
+export const springs = Object.freeze({
   // Stiffness & damping pairs
-  wobbly: { stiffness: 180, damping: 12 },
-  stiff: { stiffness: 260, damping: 20 },
-  gentle: { stiffness: 120, damping: 14 },
-  slow: { stiffness: 280, damping: 60 },
-  molasses: { stiffness: 280, damping: 120 },
+  wobbly: Object.freeze({ stiffness: 180, damping: 12 }),
+  stiff: Object.freeze({ stiffness: 260, damping: 20 }),
+  gentle: Object.freeze({ stiffness: 120, damping: 14 }),
+  slow: Object.freeze({ stiffness: 280, damping: 60 }),
+  molasses: Object.freeze({ stiffness: 400, damping: 110 }), // Adjusted stiffness to keep damping ratio under 3
   
   // Common spring presets
-  default: { stiffness: 170, damping: 26 },
-  bounce: { stiffness: 600, damping: 15 },
-  noWobble: { stiffness: 170, damping: 26 },
-} as const
+  default: Object.freeze({ stiffness: 170, damping: 26 }),
+  bounce: Object.freeze({ stiffness: 600, damping: 15 }),
+  noWobble: Object.freeze({ stiffness: 170, damping: 26 }),
+}) as const
 
 // Keyframe animations
-export const keyframes = {
+export const keyframes = Object.freeze({
   fadeIn: {
     from: { opacity: 0 },
     to: { opacity: 1 },
@@ -148,10 +148,10 @@ export const keyframes = {
     '25%': { transform: 'translateX(-10px)' },
     '75%': { transform: 'translateX(10px)' },
   },
-} as const
+}) as const
 
 // Transition configurations
-export const transitions = {
+export const transitions = Object.freeze({
   // Base transitions
   base: `all ${durations.normal}ms ${easings.premium}`,
   fast: `all ${durations.fast}ms ${easings.premium}`,
@@ -168,10 +168,10 @@ export const transitions = {
   // Complex transitions
   all: `all ${durations.normal}ms ${easings.premium}`,
   none: 'none',
-} as const
+}) as const
 
 // Animation compositions
-export const animations = {
+export const animations = Object.freeze({
   // Entrance animations
   fadeIn: `fadeIn ${durations.normal}ms ${easings.premium}`,
   fadeUp: `fadeUp ${durations.normal}ms ${easings.premium}`,
@@ -191,10 +191,10 @@ export const animations = {
   // Loading animations
   spin: `rotate ${durations.slowest}ms ${easings.linear} infinite`,
   ping: `ping ${durations.slowest}ms ${easings.ease} infinite`,
-} as const
+}) as const
 
 // Framer Motion variants
-export const motionVariants = {
+export const motionVariants = Object.freeze({
   // Page transitions
   pageInitial: { opacity: 0, y: 20 },
   pageAnimate: { opacity: 1, y: 0 },
@@ -231,7 +231,7 @@ export const motionVariants = {
       },
     },
   },
-} as const
+}) as const
 
 // Helper functions
 export function createTransition(

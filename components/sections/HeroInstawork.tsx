@@ -24,7 +24,7 @@ export default function HeroInstawork() {
         <div className="absolute bottom-0 right-0 w-96 h-96 bg-empresa/10 rounded-full blur-3xl" />
       </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 pt-4 pb-6 lg:pt-8 lg:pb-10" style={showDebug ? { outline: '2px solid blue' } : {}}>
+      <div className="relative z-10 max-w-7xl mx-auto px-4 pt-4 pb-2 lg:pt-8 lg:pb-4" style={showDebug ? { outline: '2px solid blue' } : {}}>
         {/* Container Debug */}
         {showDebug && (
           <div className="absolute top-2 right-2 z-50 bg-blue-600/80 text-white p-2 rounded text-xs font-mono">

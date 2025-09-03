@@ -207,7 +207,8 @@ describe('Design System Color Tokens', () => {
         expect(typeof primaryColor).toBe('string')
         expect(primaryColor).toMatch(/^#[0-9a-fA-F]{6}$/)
         
-        [...lighterShades, ...darkerShades].forEach(shade => {
+        const allShades = lighterShades.concat(darkerShades)
+        allShades.forEach(shade => {
           expect(shade).toMatch(/^#[0-9a-fA-F]{6}$/)
         })
       })

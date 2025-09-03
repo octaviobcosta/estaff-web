@@ -1,0 +1,319 @@
+{
+  "Design System Token - Spacing": {
+    "prefix": ["ds-spacing", "space"],
+    "body": ["tokens.spacing[${1|0,0.5,1,1.5,2,2.5,3,3.5,4,5,6,7,8,9,10,11,12,14,16,20,24,28,32,36,40|}]"],
+    "description": "Insert design system spacing token"
+  },
+  
+  "Design System Token - Color": {
+    "prefix": ["ds-color", "color"],
+    "body": ["tokens.colors.${1|brand.freela,brand.empresa,brand.institucional,gray,semantic.success,semantic.error,semantic.warning,semantic.info,accent|}[${2|50,100,200,300,400,500,600,700,800,900|}]"],
+    "description": "Insert design system color token"
+  },
+  
+  "Design System Token - Typography": {
+    "prefix": ["ds-typography", "typo"],
+    "body": ["tokens.typography.${1|xs,sm,base,lg,xl,2xl,3xl,4xl,5xl,6xl,7xl,8xl,9xl|}.${2|size,lineHeight,letterSpacing,fontWeight|}"],
+    "description": "Insert design system typography token"
+  },
+  
+  "Design System Token - Animation": {
+    "prefix": ["ds-animation", "anim"],
+    "body": ["tokens.${1|animations,durations,easings,springs|}.${2:property}"],
+    "description": "Insert design system animation token"
+  },
+  
+  "Design System Token - Shadow": {
+    "prefix": ["ds-shadow", "shadow"],
+    "body": ["tokens.shadows.${1|dp1,dp2,dp4,dp6,dp8,dp12,dp16,dp24|}"],
+    "description": "Insert design system shadow token"
+  },
+
+  "Design System Hook - useSpacing": {
+    "prefix": ["ds-use-spacing", "usespace"],
+    "body": [
+      "const { spacing, getSpacing, ${1:component} } = useSpacing()",
+      "$0"
+    ],
+    "description": "Use spacing design system hook"
+  },
+
+  "Design System Hook - useColors": {
+    "prefix": ["ds-use-colors", "usecolors"],
+    "body": [
+      "const { colors, primary, getThemeColor } = useColors()",
+      "$0"
+    ],
+    "description": "Use colors design system hook"
+  },
+
+  "Design System Hook - useTypography": {
+    "prefix": ["ds-use-typography", "usetypo"],
+    "body": [
+      "const { typography, getTextStyle, ${1:body} } = useTypography()",
+      "$0"
+    ],
+    "description": "Use typography design system hook"
+  },
+
+  "Design System Hook - useBreakpoint": {
+    "prefix": ["ds-use-breakpoint", "usebreakpoint"],
+    "body": [
+      "const { breakpoint, isMobile, isDesktop } = useBreakpoint()",
+      "$0"
+    ],
+    "description": "Use breakpoint design system hook"
+  },
+
+  "Design System Hook - useAnimation": {
+    "prefix": ["ds-use-animation", "useanim"],
+    "body": [
+      "const { createTransition, spring, ${1:fadeIn} } = useAnimation()",
+      "$0"
+    ],
+    "description": "Use animation design system hook"
+  },
+
+  "Button Component - Full": {
+    "prefix": ["ds-button", "button"],
+    "body": [
+      "<Button",
+      "  variant=\"${1|primary,secondary,outline,ghost,gradient,glass,glow|}\"",
+      "  size=\"${2|xs,sm,md,lg,xl|}\"",
+      "  ${3:loading={false\\}}",
+      "  ${4:disabled={false\\}}",
+      "  onClick={${5:handleClick}}",
+      ">",
+      "  ${6:Button Text}",
+      "</Button>$0"
+    ],
+    "description": "Create a design system Button component"
+  },
+
+  "Card Component - Full": {
+    "prefix": ["ds-card", "card"],
+    "body": [
+      "<Card",
+      "  variant=\"${1|default,elevated,outlined,glass|}\"",
+      "  padding=\"${2|none,sm,md,lg,xl|}\"",
+      "  ${3:hover={true\\}}",
+      ">",
+      "  ${4:/* Card content */}",
+      "</Card>$0"
+    ],
+    "description": "Create a design system Card component"
+  },
+
+  "Input Component - Full": {
+    "prefix": ["ds-input", "input"],
+    "body": [
+      "<Input",
+      "  label=\"${1:Label}\"",
+      "  placeholder=\"${2:Placeholder}\"",
+      "  ${3:required}",
+      "  ${4:error={\"${5:Error message}\"\\}}",
+      "  value={${6:value}}",
+      "  onChange={${7:handleChange}}",
+      "/>$0"
+    ],
+    "description": "Create a design system Input component"
+  },
+
+  "Container Component": {
+    "prefix": ["ds-container", "container"],
+    "body": [
+      "<Container",
+      "  size=\"${1|sm,md,lg,xl,full|}\"",
+      "  padding=\"${2|none,sm,md,lg|}\"",
+      ">",
+      "  ${3:/* Container content */}",
+      "</Container>$0"
+    ],
+    "description": "Create a design system Container component"
+  },
+
+  "Grid Component": {
+    "prefix": ["ds-grid", "grid"],
+    "body": [
+      "<Grid",
+      "  cols={${1:3}}",
+      "  gap=\"${2|none,sm,md,lg,xl|}\"",
+      "  ${3:responsive}",
+      ">",
+      "  ${4:/* Grid items */}",
+      "</Grid>$0"
+    ],
+    "description": "Create a design system Grid component"
+  },
+
+  "Stack Component": {
+    "prefix": ["ds-stack", "stack"],
+    "body": [
+      "<Stack",
+      "  direction=\"${1|vertical,horizontal|}\"",
+      "  spacing=\"${2|none,xs,sm,md,lg,xl|}\"",
+      "  align=\"${3|start,center,end,stretch|}\"",
+      ">",
+      "  ${4:/* Stack items */}",
+      "</Stack>$0"
+    ],
+    "description": "Create a design system Stack component"
+  },
+
+  "Theme Provider Setup": {
+    "prefix": ["ds-theme-provider", "themeprovider"],
+    "body": [
+      "import { ThemeProvider } from '@/lib/design-system/hooks/theme'",
+      "",
+      "<ThemeProvider defaultTheme=\"${1|freela,empresa,institucional|}\">",
+      "  ${2:/* App content */}",
+      "</ThemeProvider>$0"
+    ],
+    "description": "Setup theme provider with design system"
+  },
+
+  "Theme Colors Usage": {
+    "prefix": ["ds-theme-colors", "themecolors"],
+    "body": [
+      "const { theme, colors, primary } = useThemeColors()",
+      "// Available: primary, primaryHover, primaryLight, primaryDark",
+      "$0"
+    ],
+    "description": "Use theme colors from design system"
+  },
+
+  "Responsive Style Object": {
+    "prefix": ["ds-responsive", "responsive"],
+    "body": [
+      "const ${1:styles} = {",
+      "  fontSize: {",
+      "    base: tokens.typography.${2:base}.size,",
+      "    md: tokens.typography.${3:lg}.size,",
+      "    lg: tokens.typography.${4:xl}.size,",
+      "  },",
+      "  padding: {",
+      "    base: tokens.spacing[${5:4}],",
+      "    md: tokens.spacing[${6:6}],",
+      "    lg: tokens.spacing[${7:8}],",
+      "  },",
+      "}$0"
+    ],
+    "description": "Create responsive style object with design tokens"
+  },
+
+  "Animation with Tokens": {
+    "prefix": ["ds-motion", "motion"],
+    "body": [
+      "const ${1:motionProps} = {",
+      "  initial: { ${2:opacity: 0, y: 20} },",
+      "  animate: { ${3:opacity: 1, y: 0} },",
+      "  transition: {",
+      "    duration: Number(tokens.durations.${4:standard}.replace('ms', '')) / 1000,",
+      "    ease: tokens.easings.${5:easeOut}",
+      "  }",
+      "}$0"
+    ],
+    "description": "Create Framer Motion props with design tokens"
+  },
+
+  "CSS Custom Properties": {
+    "prefix": ["ds-css-vars", "cssvars"],
+    "body": [
+      "const ${1:cssVars} = {",
+      "  '--primary-color': tokens.colors.brand.${2:freela}[500],",
+      "  '--spacing-unit': tokens.spacing[1],",
+      "  '--border-radius': tokens.spacing[${3:2}],",
+      "  '--transition': `all $\\{tokens.durations.standard} $\\{tokens.easings.easeOut}`,",
+      "}$0"
+    ],
+    "description": "Create CSS custom properties with design tokens"
+  },
+
+  "Design System Component Template": {
+    "prefix": ["ds-component", "dscomponent"],
+    "body": [
+      "/**",
+      " * ${1:ComponentName} Component",
+      " * ${2:Component description}",
+      " */",
+      "",
+      "'use client'",
+      "",
+      "import { forwardRef } from 'react'",
+      "import { cn } from '@/lib/utils'",
+      "import { tokens } from '@/lib/design-system/tokens'",
+      "",
+      "interface ${1:ComponentName}Props {",
+      "  className?: string",
+      "  children?: React.ReactNode",
+      "  variant?: '${3|default,primary,secondary|}'",
+      "}",
+      "",
+      "const ${1:ComponentName} = forwardRef<HTMLDivElement, ${1:ComponentName}Props>(",
+      "  ({ className, children, variant = 'default', ...props }, ref) => {",
+      "    const baseStyles = {",
+      "      padding: tokens.spacing[${4:4}],",
+      "      borderRadius: tokens.spacing[${5:2}],",
+      "      fontFamily: tokens.fontFamilies.primary,",
+      "    }",
+      "",
+      "    return (",
+      "      <div",
+      "        ref={ref}",
+      "        className={cn('${6:base-classes}', className)}",
+      "        style={baseStyles}",
+      "        {...props}",
+      "      >",
+      "        {children}",
+      "      </div>",
+      "    )",
+      "  }",
+      ")",
+      "",
+      "${1:ComponentName}.displayName = '${1:ComponentName}'",
+      "",
+      "export { ${1:ComponentName} }",
+      "export type { ${1:ComponentName}Props }$0"
+    ],
+    "description": "Create a complete design system component template"
+  },
+
+  "Storybook Story Template": {
+    "prefix": ["ds-story", "story"],
+    "body": [
+      "import type { Meta, StoryObj } from '@storybook/react'",
+      "import { ${1:ComponentName} } from './${1:ComponentName}'",
+      "",
+      "const meta: Meta<typeof ${1:ComponentName}> = {",
+      "  title: '${2:Components}/${1:ComponentName}',",
+      "  component: ${1:ComponentName},",
+      "  parameters: {",
+      "    layout: 'centered',",
+      "  },",
+      "  tags: ['autodocs'],",
+      "}",
+      "",
+      "export default meta",
+      "type Story = StoryObj<typeof meta>",
+      "",
+      "export const Default: Story = {",
+      "  args: {",
+      "    ${3:children: '${1:ComponentName}'}",
+      "  },",
+      "}$0"
+    ],
+    "description": "Create a Storybook story for design system component"
+  },
+
+  "Token Validation": {
+    "prefix": ["ds-validate", "validate"],
+    "body": [
+      "const { isValid, errors } = useTokenValidation()",
+      "",
+      "if (process.env.NODE_ENV === 'development' && !isValid) {",
+      "  console.warn('Design System Issues:', errors)",
+      "}$0"
+    ],
+    "description": "Add token validation in development"
+  }
+}

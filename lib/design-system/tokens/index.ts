@@ -140,3 +140,115 @@ export type TypographyToken = keyof typeof typography
 export type AnimationToken = keyof typeof animations
 export type ShadowToken = keyof typeof shadows
 export type BreakpointToken = keyof typeof breakpoints
+
+// Advanced type utilities for component props
+export type ThemeColor = keyof typeof colors.brand
+export type ColorShade = keyof typeof colors.brand.freela
+export type SemanticColor = keyof typeof colors.semantic
+
+// Component variant types
+export type ComponentSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
+export type ComponentVariant = 'primary' | 'secondary' | 'outline' | 'ghost'
+
+// Spacing utilities
+export type SpacingValue = typeof spacing[SpacingToken]
+export type BreakpointValue = typeof breakpoints[BreakpointToken]
+
+// Animation utilities  
+export type AnimationDuration = keyof typeof durations
+export type AnimationEasing = keyof typeof easings
+export type SpringType = keyof typeof springs
+
+// Validation utilities
+export interface TokenValidationResult {
+  valid: boolean
+  errors: string[]
+  warnings: string[]
+}
+
+/**
+ * Enhanced token validation with comprehensive checks
+ */
+export function validateTokens(): TokenValidationResult {
+  const errors: string[] = []
+  const warnings: string[] = []
+  
+  // Validate spacing consistency (8px grid)
+  Object.entries(spacing).forEach(([key, value]) => {
+    const numValue = parseInt(value.replace('px', ''))
+    if (numValue % 4 !== 0 && key !== '0.5' && key !== '1.5' && key !== '2.5' && key !== '3.5') {
+      warnings.push(`Spacing token "${key}" (${value}) doesn't follow 4px base grid`)
+    }
+  })
+  
+  // Validate color contrast ratios (simplified)
+  const checkContrast = (bg: string, fg: string, name: string) => {
+    // This is a simplified contrast check
+    // In production, use a proper contrast library like 'color-contrast'
+    if (bg === fg) {
+      errors.push(`Color combination "${name}" has insufficient contrast`)
+    }
+  }
+  
+  // Check semantic color consistency
+  Object.entries(colors.semantic).forEach(([type, colorObj]) => {
+    if (!colorObj[500]) {
+      errors.push(`Semantic color "${type}" missing 500 shade`)
+    }
+  })
+  
+  // Validate typography scale progression
+  const fontSizes = Object.values(fontSizes).map(t => 
+    parseFloat(t.size.replace('px', '').replace('rem', ''))
+  )
+  
+  for (let i = 1; i < fontSizes.length; i++) {
+    if (fontSizes[i] <= fontSizes[i - 1]) {
+      warnings.push(`Typography scale not consistently increasing at index ${i}`)
+    }
+  }
+  
+  // Validate animation durations
+  Object.entries(durations).forEach(([key, duration]) => {
+    const ms = parseInt(duration.replace('ms', ''))
+    if (ms < 100 || ms > 1000) {
+      warnings.push(`Animation duration "${key}" (${duration}) outside recommended range (100ms-1000ms)`)
+    }
+  })
+  
+  // Validate shadow progression
+  const shadowKeys = Object.keys(shadows).filter(key => key.startsWith('dp'))
+  const shadowNumbers = shadowKeys.map(key => parseInt(key.replace('dp', '')))
+  
+  for (let i = 1; i < shadowNumbers.length; i++) {
+    if (shadowNumbers[i] <= shadowNumbers[i - 1]) {
+      warnings.push(`Shadow elevation not consistently increasing`)
+    }
+  }
+  
+  return {
+    valid: errors.length === 0,
+    errors,
+    warnings,
+  }
+}
+
+/**
+ * Runtime token access with validation
+ */
+export function safeTokenAccess<T extends keyof DesignTokens>(
+  category: T,
+  key: keyof DesignTokens[T]
+): DesignTokens[T][keyof DesignTokens[T]] | null {
+  try {
+    const value = tokens[category][key as any]
+    if (value === undefined) {
+      console.warn(`Token not found: ${String(category)}.${String(key)}`)
+      return null
+    }
+    return value
+  } catch (error) {
+    console.error(`Error accessing token: ${String(category)}.${String(key)}`, error)
+    return null
+  }
+}

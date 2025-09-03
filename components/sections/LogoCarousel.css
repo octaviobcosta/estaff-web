@@ -3,8 +3,8 @@
 /* Premium carousel track with smooth infinite scroll */
 .logo-track-premium {
   display: flex;
-  gap: 4rem;
-  animation: premium-scroll 45s linear infinite;
+  gap: 2rem;
+  animation: premium-scroll 30s linear infinite;
   padding: 2rem 0;
   align-items: center;
   will-change: transform;
@@ -101,8 +101,8 @@
 /* Responsive adjustments with maintained elegance */
 @media (max-width: 768px) {
   .logo-track-premium {
-    gap: 2rem;
-    animation-duration: 30s;
+    gap: 1.5rem;
+    animation-duration: 20s;
   }
   
   .logo-item-premium {
@@ -113,8 +113,8 @@
 /* Tablet optimizations */
 @media (min-width: 768px) and (max-width: 1024px) {
   .logo-track-premium {
-    gap: 2.5rem;
-    animation-duration: 35s;
+    gap: 1.75rem;
+    animation-duration: 25s;
   }
 }
 

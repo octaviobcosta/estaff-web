@@ -3,7 +3,7 @@
  * Mathematical color system with WCAG AAA compliance
  */
 
-export const colors = {
+export const colors = Object.freeze({
   // Brand Colors with semantic naming
   brand: {
     freela: {
@@ -112,7 +112,7 @@ export const colors = {
     text: 'rgba(255, 255, 255, 0.95)',
     backdrop: 'rgba(0, 0, 0, 0.4)',
   },
-} as const
+}) as const
 
 // Type-safe color getter with dot notation
 export function getColor(path: string): string {
