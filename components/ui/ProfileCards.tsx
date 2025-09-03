@@ -10,7 +10,7 @@ const PROFILE_DATA = [
     id: 1,
     name: 'Marina Costa',
     role: 'Garçonete',
-    photo: 'https://i.pravatar.cc/150?img=9',
+    photo: 'https://i.pravatar.cc/150?img=49',
     rating: 4.95,
     jobs: 143,
     venues: 15,
@@ -27,7 +27,7 @@ const PROFILE_DATA = [
     id: 2,
     name: 'Rafael Santos',
     role: 'Chef de Cozinha',
-    photo: 'https://i.pravatar.cc/150?img=7',
+    photo: 'https://i.pravatar.cc/150?img=11',
     rating: 4.8,
     jobs: 198,
     venues: 25,
@@ -47,7 +47,7 @@ const PROFILE_DATA = [
     id: 3,
     name: 'Ana Silva',
     role: 'Sommelière',
-    photo: 'https://i.pravatar.cc/150?img=1',
+    photo: 'https://i.pravatar.cc/150?img=32',
     rating: 4.9,
     jobs: 89,
     venues: 12,
@@ -64,7 +64,7 @@ const PROFILE_DATA = [
     id: 4,
     name: 'Carlos Eduardo',
     role: 'Bartender',
-    photo: 'https://i.pravatar.cc/150?img=6',
+    photo: 'https://i.pravatar.cc/150?img=15',
     rating: 4.8,
     jobs: 267,
     venues: 30,
@@ -85,7 +85,7 @@ const PROFILE_DATA = [
     id: 5,
     name: 'Amanda Martins',
     role: 'Hostess',
-    photo: 'https://i.pravatar.cc/150?img=5',
+    photo: 'https://i.pravatar.cc/150?img=20',
     rating: 4.85,
     jobs: 112,
     venues: 18,
@@ -144,9 +144,9 @@ export default function ProfileCards({
       rotateZ: -2, // Slight twist
       z: -250, // Start deeper within the card
       y: 0, // Same vertical position as main card center
-      x: -216, // Start at the center of the main card (432px width / 2)
+      x: 216, // Start at the center of the main card from the RIGHT side
       filter: 'blur(15px) brightness(1.8)',
-      transformOrigin: 'left center', // Pull from left side of main card
+      transformOrigin: 'right center', // Pull from right side of main card
     },
     visible: {
       opacity: 1,
@@ -168,9 +168,9 @@ export default function ProfileCards({
       rotateZ: 1,
       z: -200, // Sink deeper back into the card
       y: 0,
-      x: -130, // Exit more towards main card center
+      x: 130, // Exit more towards main card center from RIGHT
       filter: 'blur(12px) brightness(0.6)',
-      transformOrigin: 'left center',
+      transformOrigin: 'right center',
       transition: {
         duration: 0.6,
         ease: [0.4, 0, 0.2, 1]
@@ -360,20 +360,20 @@ export default function ProfileCards({
             <motion.div
               variants={prefersReducedMotion ? {} : { floating: premiumCardVariants.floating }}
               animate={prefersReducedMotion ? {} : "floating"}
-              className="px-6 py-5"
+              className="px-5 py-4"
             >
-              <h3 className="text-sm font-semibold text-[#142444] mb-4">Conquistas e Certificações</h3>
-              <div className="grid grid-cols-2 gap-3">
+              <h3 className="text-sm font-semibold text-[#142444] mb-3">Conquistas e Certificações</h3>
+              <div className="grid grid-cols-2 gap-2">
                 {highlightData.badges?.map((badge: any, i: number) => (
                   <div key={i} className="relative">
-                    <div className="flex flex-col items-start p-3 bg-gradient-to-br from-gray-50 to-white rounded-lg border border-gray-100 hover:shadow-md transition-shadow">
-                      <div className={`p-2 rounded-full bg-white shadow-sm mb-2 ${getBadgeIconColor(badge.icon)}`}>
+                    <div className="flex flex-col items-start p-2.5 bg-gradient-to-br from-gray-50 to-white rounded-lg border border-gray-100 hover:shadow-md transition-shadow">
+                      <div className={`p-1.5 rounded-full bg-white shadow-sm mb-1.5 ${getBadgeIconColor(badge.icon)}`}>
                         {getBadgeIcon(badge.icon)}
                       </div>
                       <div className="text-xs font-semibold text-[#142444] mb-0.5">
                         {badge.label}
                       </div>
-                      <div className="text-[10px] text-[#6B7280] leading-tight">
+                      <div className="text-[10px] text-[#6B7280] leading-[1.3]">
                         {badge.description}
                       </div>
                     </div>
@@ -418,7 +418,7 @@ export default function ProfileCards({
   }
 
   return (
-    <div className={`relative flex items-center justify-start overflow-visible w-full h-full pl-8 pb-16 ${className}`}>
+    <div className={`relative flex items-center justify-start overflow-visible w-full h-full pl-8 pb-12 ${className}`}>
       {/* Main Profile Card - Compact Professional Layout */}
       <motion.div
         key={currentProfile.id}
@@ -430,7 +430,7 @@ export default function ProfileCards({
         }}
         exit={{ opacity: 0, scale: 0.95 }}
         transition={{ duration: 0.5 }}
-        className="relative z-10 w-[432px] h-[600px] bg-white rounded-xl shadow-lg p-6 flex flex-col border border-gray-200 transform-gpu"
+        className="relative z-10 w-[432px] h-[530px] bg-white rounded-xl shadow-lg p-5 flex flex-col border border-gray-200 transform-gpu"
         style={{
           transformStyle: 'preserve-3d',
           backfaceVisibility: 'hidden'
@@ -442,79 +442,76 @@ export default function ProfileCards({
           <img
             src={currentProfile.photo}
             alt={`${currentProfile.name}`}
-            className="w-[88px] h-[88px] rounded-full object-cover border-2 border-[#ecd4a4]/30 flex-shrink-0"
+            className="w-[82px] h-[82px] rounded-full object-cover border-2 border-[#ecd4a4]/30 flex-shrink-0"
             loading="lazy"
           />
           
           {/* Profile Info */}
           <div className="flex-1 pt-1">
-            <h3 className="text-[26px] font-semibold text-[#142444] leading-[1.1] mb-0.5 whitespace-nowrap overflow-hidden text-ellipsis">
+            <h3 className="text-[24px] font-semibold text-[#142444] leading-[1.1] mb-1 whitespace-nowrap overflow-hidden text-ellipsis">
               {currentProfile.name}
             </h3>
-            <p className="text-[19px] font-medium text-[#6B7280] mb-1 whitespace-nowrap">{currentProfile.role}</p>
-            <div className="flex items-center gap-1 text-[15px] text-[#6B7280] whitespace-nowrap">
-              <MapPin className="w-4 h-4" />
+            <p className="text-[17px] font-medium text-[#6B7280] mb-1 whitespace-nowrap">{currentProfile.role}</p>
+            <div className="flex items-center gap-1 text-[13px] text-[#6B7280] whitespace-nowrap">
+              <MapPin className="w-3 h-3" />
               <span>{currentProfile.location}</span>
             </div>
           </div>
         </div>
 
-        {/* Stats Section - Elegant Design */}
-        <div className="flex items-stretch justify-center gap-2 mb-3 px-2">
+        {/* Stats Section - Compact Design */}
+        <div className="flex items-stretch justify-center gap-2 mb-3 px-1">
           {/* Jobs Stat */}
           <div className="flex-1 relative group">
-            <div className="bg-gradient-to-b from-white to-gray-50 rounded-xl border border-gray-100 hover:border-[#ec4464]/30 transition-all duration-300 px-3 py-3.5 shadow-sm hover:shadow-md">
+            <div className="bg-gradient-to-b from-white to-gray-50 rounded-lg border border-gray-100 hover:border-[#ec4464]/30 transition-all duration-300 px-2.5 py-2 shadow-sm hover:shadow-md">
               <div className="flex flex-col items-center">
-                <div className="p-2 rounded-full bg-[#ec4464]/10 mb-2 group-hover:scale-110 transition-transform duration-300">
-                  <Briefcase className="w-4 h-4 text-[#ec4464]" />
+                <div className="p-1 rounded-full bg-[#ec4464]/10 mb-1 group-hover:scale-110 transition-transform duration-300">
+                  <Briefcase className="w-3.5 h-3.5 text-[#ec4464]" />
                 </div>
-                <div className="text-[22px] font-bold text-[#142444] leading-none mb-1">{currentProfile.jobs}</div>
-                <div className="text-[11px] font-medium text-[#6B7280] uppercase tracking-wide">Jobs</div>
+                <div className="text-[18px] font-bold text-[#142444] leading-none mb-0.5">{currentProfile.jobs}</div>
+                <div className="text-[9px] font-medium text-[#6B7280] uppercase tracking-wide">Jobs</div>
               </div>
-              <div className="absolute inset-x-0 bottom-0 h-0.5 bg-gradient-to-r from-transparent via-[#ec4464]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-b-xl"></div>
             </div>
           </div>
 
           {/* Rating Stat */}
           <div className="flex-1 relative group">
-            <div className="bg-gradient-to-b from-white to-gray-50 rounded-xl border border-gray-100 hover:border-[#ecd4a4]/30 transition-all duration-300 px-3 py-3.5 shadow-sm hover:shadow-md">
+            <div className="bg-gradient-to-b from-white to-gray-50 rounded-lg border border-gray-100 hover:border-[#ecd4a4]/30 transition-all duration-300 px-2.5 py-2 shadow-sm hover:shadow-md">
               <div className="flex flex-col items-center">
-                <div className="p-2 rounded-full bg-[#ecd4a4]/10 mb-2 group-hover:scale-110 transition-transform duration-300">
-                  <Star className="w-4 h-4 fill-[#ecd4a4] text-[#ecd4a4]" />
+                <div className="p-1 rounded-full bg-[#ecd4a4]/10 mb-1 group-hover:scale-110 transition-transform duration-300">
+                  <Star className="w-3.5 h-3.5 fill-[#ecd4a4] text-[#ecd4a4]" />
                 </div>
-                <div className="text-[22px] font-bold text-[#142444] leading-none mb-1">{currentProfile.rating}</div>
-                <div className="text-[11px] font-medium text-[#6B7280] uppercase tracking-wide">Avaliação</div>
+                <div className="text-[18px] font-bold text-[#142444] leading-none mb-0.5">{currentProfile.rating}</div>
+                <div className="text-[9px] font-medium text-[#6B7280] uppercase tracking-wide">Avaliação</div>
               </div>
-              <div className="absolute inset-x-0 bottom-0 h-0.5 bg-gradient-to-r from-transparent via-[#ecd4a4]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-b-xl"></div>
             </div>
           </div>
 
           {/* Venues Stat */}
           <div className="flex-1 relative group">
-            <div className="bg-gradient-to-b from-white to-gray-50 rounded-xl border border-gray-100 hover:border-[#142444]/30 transition-all duration-300 px-3 py-3.5 shadow-sm hover:shadow-md">
+            <div className="bg-gradient-to-b from-white to-gray-50 rounded-lg border border-gray-100 hover:border-[#142444]/30 transition-all duration-300 px-2.5 py-2 shadow-sm hover:shadow-md">
               <div className="flex flex-col items-center">
-                <div className="p-2 rounded-full bg-[#142444]/10 mb-2 group-hover:scale-110 transition-transform duration-300">
-                  <MapPin className="w-4 h-4 text-[#142444]" />
+                <div className="p-1 rounded-full bg-[#142444]/10 mb-1 group-hover:scale-110 transition-transform duration-300">
+                  <MapPin className="w-3.5 h-3.5 text-[#142444]" />
                 </div>
-                <div className="text-[22px] font-bold text-[#142444] leading-none mb-1">{currentProfile.venues}</div>
-                <div className="text-[11px] font-medium text-[#6B7280] uppercase tracking-wide">Locais</div>
+                <div className="text-[18px] font-bold text-[#142444] leading-none mb-0.5">{currentProfile.venues}</div>
+                <div className="text-[9px] font-medium text-[#6B7280] uppercase tracking-wide">Locais</div>
               </div>
-              <div className="absolute inset-x-0 bottom-0 h-0.5 bg-gradient-to-r from-transparent via-[#142444]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-b-xl"></div>
             </div>
           </div>
         </div>
 
         {/* Description Section */}
-        <div className="px-1 mb-3">
-          <h4 className="text-[13px] font-semibold text-[#142444] mb-1.5">Sobre</h4>
-          <p className="text-[13px] text-[#6B7280] leading-[1.5] line-clamp-3">
+        <div className="px-1 mb-3 flex-1">
+          <h4 className="text-[12px] font-semibold text-[#142444] mb-1.5">Sobre</h4>
+          <p className="text-[12px] text-[#6B7280] leading-[1.45] line-clamp-5">
             {currentProfile.description}
           </p>
         </div>
 
-        {/* CTA Button - Inside the card */}
+        {/* CTA Button - Compact */}
         <div className="mt-auto">
-          <button className="w-full bg-[#ec4464] text-white py-3 px-5 rounded-lg font-semibold text-base hover:bg-[#d63850] active:scale-[0.98] transition-all duration-150">
+          <button className="w-full bg-[#ec4464] text-white py-2.5 px-4 rounded-lg font-semibold text-[14px] hover:bg-[#d63850] active:scale-[0.98] transition-all duration-150">
             Ver Perfil Completo
           </button>
         </div>
@@ -531,7 +528,7 @@ export default function ProfileCards({
       >
         {/* Emergence portal effect - subtle glow emanating from main card */}
         <div 
-          className="absolute w-[432px] h-[600px] pointer-events-none z-20"
+          className="absolute w-[432px] h-[530px] pointer-events-none z-20"
           style={{
             left: '-216px', // Position over main card
             background: showHighlight 
@@ -568,7 +565,7 @@ export default function ProfileCards({
       </div>
 
       {/* Navigation Dots - Outside and below the card */}
-      <div className="absolute flex gap-2 z-40" style={{ bottom: '55px', left: '224px' }}>
+      <div className="absolute flex gap-2 z-40" style={{ bottom: '-35px', left: '216px', transform: 'translateX(-50%)' }}>
         {PROFILE_DATA.map((_, index) => (
           <button
             key={index}

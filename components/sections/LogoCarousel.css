@@ -1,0 +1,40 @@
+/* Logo Carousel Styles */
+.logo-track {
+  display: flex;
+  gap: 2rem;
+  animation: scroll 28s linear infinite; /* Reduced from 40s to 28s for faster, smoother scrolling */
+}
+
+.logo-track:hover {
+  animation-play-state: paused;
+}
+
+.logo-item {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .logo-track {
+    gap: 1rem;
+  }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .logo-track {
+    animation: none;
+  }
+}

@@ -1,0 +1,42 @@
+/* LogoCarousel.module.css */
+
+@keyframes scrollCarousel {
+  0% { 
+    transform: translateX(0); 
+  }
+  100% { 
+    transform: translateX(-50%); 
+  }
+}
+
+.scrollContainer {
+  display: flex;
+  animation: scrollCarousel 40s linear infinite;
+}
+
+.scrollContainer:hover {
+  animation-play-state: paused;
+}
+
+/* Respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .scrollContainer {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
+/* Debug styles */
+.debugOverlay {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 50;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-family: monospace;
+  line-height: 1.4;
+}

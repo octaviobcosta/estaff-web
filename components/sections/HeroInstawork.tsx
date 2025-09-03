@@ -7,23 +7,45 @@ import Link from 'next/link'
 import ProfileCards from '@/components/ui/ProfileCards'
 
 export default function HeroInstawork() {
+  const [showDebug, setShowDebug] = useState(false)
 
   return (
-    <section className="relative min-h-screen bg-gradient-to-b from-gray-50 to-white">
+    <section className="relative min-h-[50vh] lg:min-h-[55vh] bg-gradient-to-b from-gray-50 to-white" style={showDebug ? { outline: '2px solid red', position: 'relative' } : {}}>
+      {/* Debug Info */}
+      {showDebug && (
+        <div className="absolute top-2 left-2 z-50 bg-black/80 text-white p-2 rounded text-xs font-mono">
+          <div>Section: Hero</div>
+          <div>min-h-[50vh] lg:min-h-[55vh]</div>
+        </div>
+      )}
       {/* Background decorative elements */}
       <div className="absolute inset-0">
         <div className="absolute top-0 left-0 w-96 h-96 bg-freela/10 rounded-full blur-3xl" />
         <div className="absolute bottom-0 right-0 w-96 h-96 bg-empresa/10 rounded-full blur-3xl" />
       </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 pt-8 pb-20 lg:pt-12 lg:pb-32">
-        <div className="grid lg:grid-cols-[50%_50%] gap-8 items-center">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 pt-4 pb-6 lg:pt-8 lg:pb-10" style={showDebug ? { outline: '2px solid blue' } : {}}>
+        {/* Container Debug */}
+        {showDebug && (
+          <div className="absolute top-2 right-2 z-50 bg-blue-600/80 text-white p-2 rounded text-xs font-mono">
+            <div>Container: max-w-7xl</div>
+            <div>pt-4 pb-6 lg:pt-8 lg:pb-10</div>
+          </div>
+        )}
+        <div className="grid lg:grid-cols-[50%_50%] gap-4 items-center" style={showDebug ? { outline: '2px solid green' } : {}}>
+          {/* Grid Debug */}
+          {showDebug && (
+            <div className="absolute bottom-2 left-2 z-50 bg-green-600/80 text-white p-2 rounded text-xs font-mono">
+              <div>Grid: 50% + 50%</div>
+              <div>gap-4</div>
+            </div>
+          )}
           {/* Left Side - Content */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="space-y-6"
+            className="space-y-4"
           >
             {/* Badge */}
             <motion.div
@@ -36,7 +58,7 @@ export default function HeroInstawork() {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
               </span>
-              <span className="text-sm font-medium text-gray-700">Conecte-se em minutos</span>
+              <span className="text-sm font-medium text-gray-700">Profissionais qualificados em minutos</span>
             </motion.div>
 
             {/* Main Title */}
@@ -46,13 +68,12 @@ export default function HeroInstawork() {
               transition={{ delay: 0.3, duration: 0.8 }}
               className="text-4xl md:text-5xl lg:text-6xl font-black leading-tight"
             >
-              <span className="text-gray-900">Staffing </span>
-              <span className="text-freela">reinventado</span>
-              <span className="text-gray-900">:</span>
+              <span className="text-gray-900">Conectando quem</span>
               <br />
-              <span className="text-gray-900">Inteligência artificial,</span>
+              <span className="text-gray-900">faz a </span>
+              <span className="text-freela">hospitalidade</span>
               <br />
-              <span className="text-gray-900">verificação humana</span>
+              <span className="text-gray-900">acontecer</span>
             </motion.h1>
 
             {/* Subtitle */}
@@ -62,8 +83,8 @@ export default function HeroInstawork() {
               transition={{ delay: 0.4, duration: 0.8 }}
               className="text-lg text-gray-600 leading-relaxed max-w-xl"
             >
-              A plataforma mais completa para conectar profissionais qualificados 
-              de hospitalidade com as melhores oportunidades. Tecnologia e 
+              A plataforma mais completa para aproximar profissionais qualificados 
+              de hospitalidade às melhores oportunidades. Tecnologia e 
               confiança em cada conexão.
             </motion.p>
 
@@ -94,13 +115,18 @@ export default function HeroInstawork() {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.6, duration: 0.8 }}
             >
-              <Link
-                href="/para-profissionais"
-                className="inline-flex items-center gap-2 text-sm font-medium text-gray-600 hover:text-freela transition-colors duration-300 group"
-              >
-                Procurando trabalho?
-                <span className="group-hover:translate-x-1 transition-transform duration-300">→</span>
-              </Link>
+              <div className="space-y-1">
+                <Link
+                  href="/para-profissionais"
+                  className="inline-flex items-center gap-2 text-sm font-medium text-gray-600 hover:text-freela transition-colors duration-300 group"
+                >
+                  Procurando trabalho?
+                  <span className="group-hover:translate-x-1 transition-transform duration-300">→</span>
+                </Link>
+                <p className="text-xs text-freela font-medium">
+                  Vagas para Bares, Restaurantes, Eventos e Hotéis
+                </p>
+              </div>
             </motion.div>
           </motion.div>
 
@@ -109,7 +135,7 @@ export default function HeroInstawork() {
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.4, duration: 0.8 }}
-            className="relative w-full h-[650px] overflow-visible pl-6"
+            className="relative w-full h-[460px] overflow-visible pl-6"
           >
             <ProfileCards className="w-full h-full" />
           </motion.div>
