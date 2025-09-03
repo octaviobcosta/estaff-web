@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Star, MapPin, Briefcase, Trophy, Award, Medal } from 'lucide-react'
+import { Star, MapPin, Briefcase, Trophy, Award, Medal, Shield, TrendingUp, Heart, Clock } from 'lucide-react'
 
 // Simplified profile data for cleaner display
 const PROFILE_DATA = [
@@ -72,7 +72,14 @@ const PROFILE_DATA = [
     verified: true,
     description: 'Mixologista criativo especializado em coquetelaria molecular e drinks autorais premium. Vencedor de competições nacionais e criador de cartas de drinks para bares conceituados.',
     highlightType: 'conquistas',
-    highlightData: {}
+    highlightData: {
+      badges: [
+        { icon: 'top_rated', label: 'Bem Avaliado', description: '4.8+ de avaliação' },
+        { icon: 'in_demand', label: 'Disputado', description: 'Alto índice de requisições' },
+        { icon: 'verified', label: 'Verificado', description: 'Perfil autenticado' },
+        { icon: 'premium', label: 'Premium', description: 'Profissional de elite' }
+      ]
+    }
   },
   {
     id: 5,
@@ -219,7 +226,7 @@ export default function ProfileCards({
         )
       
       case 'conquistas':
-        // Card 4 - Certificações
+        // Card 4 - Conquistas e Certificações
         return (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -229,20 +236,55 @@ export default function ProfileCards({
             className={HIGHLIGHT_BASE_CLASSES}
           >
             <div className="px-6 py-5">
-              <h3 className="text-sm font-semibold text-[#142444] mb-3">Certificações</h3>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="flex items-center justify-center py-2">
-                  <Trophy className="w-8 h-8 text-[#ecd4a4]" />
-                </div>
-                <div className="flex items-center justify-center py-2">
-                  <Award className="w-8 h-8 text-[#ec4464]" />
-                </div>
-                <div className="flex items-center justify-center py-2">
-                  <Medal className="w-8 h-8 text-[#142444]" />
-                </div>
-                <div className="flex items-center justify-center py-2">
-                  <Star className="w-8 h-8 text-[#ecd4a4] fill-[#ecd4a4]" />
-                </div>
+              <h3 className="text-sm font-semibold text-[#142444] mb-4">Conquistas e Certificações</h3>
+              <div className="grid grid-cols-2 gap-3">
+                {highlightData.badges?.map((badge: any, i: number) => {
+                  const getIcon = () => {
+                    switch (badge.icon) {
+                      case 'top_rated':
+                        return <Star className="w-5 h-5" />
+                      case 'in_demand':
+                        return <TrendingUp className="w-5 h-5" />
+                      case 'verified':
+                        return <Shield className="w-5 h-5" />
+                      case 'premium':
+                        return <Trophy className="w-5 h-5" />
+                      default:
+                        return <Award className="w-5 h-5" />
+                    }
+                  }
+
+                  const getIconColor = () => {
+                    switch (badge.icon) {
+                      case 'top_rated':
+                        return 'text-[#ecd4a4] fill-[#ecd4a4]'
+                      case 'in_demand':
+                        return 'text-[#ec4464]'
+                      case 'verified':
+                        return 'text-[#22c55e]'
+                      case 'premium':
+                        return 'text-[#142444]'
+                      default:
+                        return 'text-[#6B7280]'
+                    }
+                  }
+
+                  return (
+                    <div key={i} className="relative">
+                      <div className="flex flex-col items-start p-3 bg-gradient-to-br from-gray-50 to-white rounded-lg border border-gray-100 hover:shadow-md transition-shadow">
+                        <div className={`p-2 rounded-full bg-white shadow-sm mb-2 ${getIconColor()}`}>
+                          {getIcon()}
+                        </div>
+                        <div className="text-xs font-semibold text-[#142444] mb-0.5">
+                          {badge.label}
+                        </div>
+                        <div className="text-[10px] text-[#6B7280] leading-tight">
+                          {badge.description}
+                        </div>
+                      </div>
+                    </div>
+                  )
+                })}
               </div>
             </div>
           </motion.div>
@@ -313,30 +355,48 @@ export default function ProfileCards({
           </div>
         </div>
 
-        {/* Stats Section */}
-        <div className="flex items-stretch justify-between px-3 py-3.5 mb-3 bg-gradient-to-r from-[#ecd4a4]/10 to-[#ec4464]/10 rounded-lg border border-[#ecd4a4]/20">
-          <div className="flex-1 flex flex-col items-center justify-center min-w-0">
-            <div className="flex items-center gap-1 mb-1">
-              <Briefcase className="w-4 h-4 text-[#ec4464] flex-shrink-0" />
-              <span className="text-[12px] font-medium text-[#6B7280] truncate">Jobs</span>
+        {/* Stats Section - Elegant Design */}
+        <div className="flex items-stretch justify-center gap-2 mb-3 px-2">
+          {/* Jobs Stat */}
+          <div className="flex-1 relative group">
+            <div className="bg-gradient-to-b from-white to-gray-50 rounded-xl border border-gray-100 hover:border-[#ec4464]/30 transition-all duration-300 px-3 py-3.5 shadow-sm hover:shadow-md">
+              <div className="flex flex-col items-center">
+                <div className="p-2 rounded-full bg-[#ec4464]/10 mb-2 group-hover:scale-110 transition-transform duration-300">
+                  <Briefcase className="w-4 h-4 text-[#ec4464]" />
+                </div>
+                <div className="text-[22px] font-bold text-[#142444] leading-none mb-1">{currentProfile.jobs}</div>
+                <div className="text-[11px] font-medium text-[#6B7280] uppercase tracking-wide">Jobs</div>
+              </div>
+              <div className="absolute inset-x-0 bottom-0 h-0.5 bg-gradient-to-r from-transparent via-[#ec4464]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-b-xl"></div>
             </div>
-            <div className="text-[20px] font-bold text-[#142444] leading-tight">{currentProfile.jobs}</div>
           </div>
-          <div className="w-px bg-gray-200 mx-1.5"></div>
-          <div className="flex-1 flex flex-col items-center justify-center min-w-0">
-            <div className="flex items-center gap-1 mb-1">
-              <Star className="w-4 h-4 fill-[#ecd4a4] text-[#ecd4a4] flex-shrink-0" />
-              <span className="text-[12px] font-medium text-[#6B7280] truncate">Avaliação</span>
+
+          {/* Rating Stat */}
+          <div className="flex-1 relative group">
+            <div className="bg-gradient-to-b from-white to-gray-50 rounded-xl border border-gray-100 hover:border-[#ecd4a4]/30 transition-all duration-300 px-3 py-3.5 shadow-sm hover:shadow-md">
+              <div className="flex flex-col items-center">
+                <div className="p-2 rounded-full bg-[#ecd4a4]/10 mb-2 group-hover:scale-110 transition-transform duration-300">
+                  <Star className="w-4 h-4 fill-[#ecd4a4] text-[#ecd4a4]" />
+                </div>
+                <div className="text-[22px] font-bold text-[#142444] leading-none mb-1">{currentProfile.rating}</div>
+                <div className="text-[11px] font-medium text-[#6B7280] uppercase tracking-wide">Avaliação</div>
+              </div>
+              <div className="absolute inset-x-0 bottom-0 h-0.5 bg-gradient-to-r from-transparent via-[#ecd4a4]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-b-xl"></div>
             </div>
-            <div className="text-[20px] font-bold text-[#142444] leading-tight">{currentProfile.rating}</div>
           </div>
-          <div className="w-px bg-gray-200 mx-1.5"></div>
-          <div className="flex-1 flex flex-col items-center justify-center min-w-0">
-            <div className="flex items-center gap-1 mb-1">
-              <MapPin className="w-4 h-4 text-[#142444] flex-shrink-0" />
-              <span className="text-[12px] font-medium text-[#6B7280] truncate">Locais</span>
+
+          {/* Venues Stat */}
+          <div className="flex-1 relative group">
+            <div className="bg-gradient-to-b from-white to-gray-50 rounded-xl border border-gray-100 hover:border-[#142444]/30 transition-all duration-300 px-3 py-3.5 shadow-sm hover:shadow-md">
+              <div className="flex flex-col items-center">
+                <div className="p-2 rounded-full bg-[#142444]/10 mb-2 group-hover:scale-110 transition-transform duration-300">
+                  <MapPin className="w-4 h-4 text-[#142444]" />
+                </div>
+                <div className="text-[22px] font-bold text-[#142444] leading-none mb-1">{currentProfile.venues}</div>
+                <div className="text-[11px] font-medium text-[#6B7280] uppercase tracking-wide">Locais</div>
+              </div>
+              <div className="absolute inset-x-0 bottom-0 h-0.5 bg-gradient-to-r from-transparent via-[#142444]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-b-xl"></div>
             </div>
-            <div className="text-[20px] font-bold text-[#142444] leading-tight">{currentProfile.venues}</div>
           </div>
         </div>
 
