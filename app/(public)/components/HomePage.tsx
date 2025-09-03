@@ -4,7 +4,8 @@ import { useEffect, useState, useRef, useCallback } from 'react'
 import { motion, useScroll, useTransform, useInView, AnimatePresence, useMotionValue, useSpring } from 'framer-motion'
 import Image from 'next/image'
 import HeroInstawork from '@/components/sections/HeroInstawork'
-import LogoCarousel from '@/components/sections/LogoCarousel'
+import CommunitySection from '@/components/sections/CommunitySection'
+// import LogoCarousel from '@/components/sections/LogoCarousel'
 // import LogoCarouselSimple from '@/components/sections/LogoCarouselSimple'
 // import TestCarousel from '@/components/sections/TestCarousel'
 import PremiumHeader from '@/components/layout/PremiumHeader'
@@ -259,8 +260,8 @@ export default function HomePage() {
         {/* NEW INSTAWORK-STYLE HERO SECTION */}
         <HeroInstawork />
 
-        {/* LOGO CAROUSEL SECTION */}
-        <LogoCarousel />
+        {/* COMMUNITY SECTION */}
+        <CommunitySection />
 
       </main>
 

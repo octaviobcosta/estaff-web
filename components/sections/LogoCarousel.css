@@ -1,22 +1,33 @@
-/* Logo Carousel Styles */
-.logo-track {
+/* Premium Logo Carousel Styles */
+
+/* Premium carousel track with smooth infinite scroll */
+.logo-track-premium {
   display: flex;
-  gap: 2rem;
-  animation: scroll 28s linear infinite; /* Reduced from 40s to 28s for faster, smoother scrolling */
+  gap: 4rem;
+  animation: premium-scroll 45s linear infinite;
+  padding: 2rem 0;
+  align-items: center;
+  will-change: transform;
 }
 
-.logo-track:hover {
+.logo-track-premium:hover {
   animation-play-state: paused;
 }
 
-.logo-item {
+/* Premium logo items with elegant spacing */
+.logo-item-premium {
   flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
+  padding: 0.5rem;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-@keyframes scroll {
+/* Smooth infinite scroll with optimized performance */
+@keyframes premium-scroll {
   0% {
     transform: translateX(0);
   }
@@ -25,16 +36,199 @@
   }
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-  .logo-track {
-    gap: 1rem;
+/* Premium counter animation with elegant easing */
+@keyframes premium-count {
+  0% {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
   }
 }
 
-/* Accessibility */
+/* Elegant number reveal animation */
+@keyframes number-reveal {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+    filter: blur(4px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+/* Subtle floating animation for special metrics */
+@keyframes gentle-float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+/* Premium hover state for metrics */
+.metric-premium {
+  position: relative;
+  overflow: hidden;
+}
+
+.metric-premium::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(20, 36, 68, 0.03),
+    transparent
+  );
+  transition: left 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.metric-premium:hover::before {
+  left: 100%;
+}
+
+/* Responsive adjustments with maintained elegance */
+@media (max-width: 768px) {
+  .logo-track-premium {
+    gap: 2rem;
+    animation-duration: 30s;
+  }
+  
+  .logo-item-premium {
+    padding: 0.25rem;
+  }
+}
+
+/* Tablet optimizations */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .logo-track-premium {
+    gap: 2.5rem;
+    animation-duration: 35s;
+  }
+}
+
+/* Accessibility and reduced motion */
 @media (prefers-reduced-motion: reduce) {
-  .logo-track {
+  .logo-track-premium {
     animation: none;
+    overflow-x: auto;
+    scrollbar-width: thin;
+    scroll-behavior: smooth;
+  }
+  
+  .logo-track-premium::-webkit-scrollbar {
+    height: 6px;
+  }
+  
+  .logo-track-premium::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 3px;
+  }
+  
+  .logo-track-premium::-webkit-scrollbar-thumb {
+    background: rgba(20, 36, 68, 0.2);
+    border-radius: 3px;
+    transition: background 0.2s;
+  }
+  
+  .logo-track-premium::-webkit-scrollbar-thumb:hover {
+    background: rgba(20, 36, 68, 0.3);
+  }
+  
+  @keyframes premium-count,
+  @keyframes number-reveal,
+  @keyframes gentle-float,
+  @keyframes premium-scroll {
+    animation: none !important;
+  }
+}
+
+/* Premium number animations */
+@keyframes number-glow {
+  0%, 100% {
+    text-shadow: 0 0 20px rgba(20, 36, 68, 0.1);
+  }
+  50% {
+    text-shadow: 0 0 30px rgba(20, 36, 68, 0.15);
+  }
+}
+
+@keyframes metric-pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.02);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* 3D card flip effect for metrics on hover */
+.metric-card-3d {
+  transform-style: preserve-3d;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.metric-card-3d:hover {
+  transform: rotateY(5deg) rotateX(-5deg) scale(1.05);
+}
+
+/* Premium shimmer effect for numbers */
+@keyframes shimmer {
+  0% {
+    background-position: -100% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.shimmer-text {
+  background: linear-gradient(
+    120deg,
+    transparent 20%,
+    rgba(20, 36, 68, 0.1) 40%,
+    rgba(20, 36, 68, 0.1) 60%,
+    transparent 80%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 3s infinite;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .logo-item-premium img {
+    opacity: 0.9;
+  }
+  
+  .logo-item-premium:hover img {
+    opacity: 1;
+  }
+}
+
+/* Print styles */
+@media print {
+  .logo-track-premium {
+    animation: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  
+  .logo-item-premium {
+    break-inside: avoid;
   }
 }
