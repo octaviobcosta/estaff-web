@@ -54,6 +54,7 @@ const config: Config = {
         },
         'gray': {
           DEFAULT: '#333238',
+          25: '#fafafa',
           50: '#f7f7f8',
           100: '#efefef',
           200: '#dcdcde',

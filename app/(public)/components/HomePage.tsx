@@ -4,6 +4,7 @@ import { useEffect, useState, useRef, useCallback } from 'react'
 import { motion, useScroll, useTransform, useInView, AnimatePresence, useMotionValue, useSpring } from 'framer-motion'
 import Image from 'next/image'
 import HeroInstawork from '@/components/sections/HeroInstawork'
+import LogoCarousel from '@/components/sections/LogoCarousel'
 import PremiumHeader from '@/components/layout/PremiumHeader'
 
 export default function HomePage() {
@@ -225,6 +226,9 @@ export default function HomePage() {
       <main id="main-content" className="min-h-screen bg-gradient-to-b from-white via-gray-50 to-white overflow-x-hidden" role="main">
         {/* NEW INSTAWORK-STYLE HERO SECTION */}
         <HeroInstawork />
+
+        {/* LOGO CAROUSEL SECTION */}
+        <LogoCarousel />
 
         {/* HOSPITALIDADE SECTION with premium cards */}
         <section className="py-32 relative">

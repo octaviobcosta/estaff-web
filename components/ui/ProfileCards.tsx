@@ -135,25 +135,112 @@ export default function ProfileCards({
     }
   }, [])
 
-  // Render simplified highlight cards
+  // Premium emergence animation variants with spark effect
+  const premiumCardVariants = {
+    hidden: {
+      opacity: 0,
+      scale: 0.8,
+      rotateX: -15,
+      rotateY: 5,
+      z: -100,
+      y: 50,
+      x: -50,
+      filter: 'blur(8px) brightness(1.2)',
+    },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      rotateX: 0,
+      rotateY: 0,
+      z: 0,
+      y: 0,
+      x: 0,
+      filter: 'blur(0px) brightness(1)',
+    },
+    exit: {
+      opacity: 0,
+      scale: 0.9,
+      rotateX: 15,
+      rotateY: -5,
+      z: -50,
+      y: 30,
+      filter: 'blur(4px) brightness(0.8)',
+      transition: {
+        duration: 0.4,
+        ease: [0.4, 0, 0.2, 1]
+      }
+    }
+  }
+
+  // Floating animation with accessibility consideration
+  const floatingVariants = {
+    floating: {
+      y: [-2, 2, -2],
+      rotateX: [-1, 1, -1],
+      transition: {
+        duration: 4,
+        repeat: Infinity,
+        ease: "easeInOut"
+      }
+    },
+    static: {
+      y: 0,
+      rotateX: 0
+    }
+  }
+
+  // Check for reduced motion preference
+  const prefersReducedMotion = typeof window !== 'undefined' && 
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+  // Render premium highlight cards with glassmorphism
   const renderHighlight = () => {
     if (!currentProfile) return null
     const { highlightType, highlightData } = currentProfile
     
-    // Simplified card styling with professional colors - auto height
-    const HIGHLIGHT_BASE_CLASSES = "w-[400px] rounded-xl shadow-xl z-30 pointer-events-auto bg-white border border-gray-200"
+    // Premium glassmorphism styling with emergence effects and GPU optimization
+    const HIGHLIGHT_BASE_CLASSES = "w-[400px] rounded-xl z-50 pointer-events-auto relative overflow-hidden " +
+      "backdrop-blur-xl bg-white/95 border border-white/30 " +
+      "shadow-2xl shadow-black/[0.08] will-change-transform " +
+      "before:absolute before:inset-0 before:rounded-xl before:p-[1px] " +
+      "before:bg-gradient-to-r before:from-white/40 before:via-white/10 before:to-white/40 " +
+      "before:-z-10 before:opacity-70 " +
+      "after:absolute after:inset-0 after:rounded-xl after:bg-gradient-to-br " +
+      "after:from-white/15 after:via-transparent after:to-white/5 after:-z-10 " +
+      "transform-gpu isolation-isolate"
     
     switch (highlightType) {
       case 'avaliacao':
-        // Card 1 - Performance Indicators
+        // Card 1 - Performance Indicators with Premium Emergence
         return (
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 20 }}
-            transition={{ type: "spring", damping: 25 }}
-            className={HIGHLIGHT_BASE_CLASSES}
+            variants={premiumCardVariants}
+            initial="hidden"
+            animate={prefersReducedMotion ? "visible" : ["visible", "floating"]}
+            exit="exit"
+            transition={{
+              duration: 0.8,
+              ease: [0.16, 1, 0.3, 1],
+              delay: 0.1
+            }}
+            style={{
+              transformStyle: 'preserve-3d',
+              perspective: 1000,
+              willChange: 'transform, opacity'
+            }}
+            whileHover={{
+              scale: 1.02,
+              rotateY: 2,
+              rotateX: -2,
+              transition: { duration: 0.3, ease: "easeOut" }
+            }}
+            className={`${HIGHLIGHT_BASE_CLASSES} group hover:shadow-3xl hover:shadow-[#ec4464]/20`}
           >
+            {/* Premium glow effect */}
+            <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-[#ec4464]/5 via-transparent to-[#ecd4a4]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            
+            {/* Light streak effect */}
+            <div className="absolute top-0 left-1/4 w-1/2 h-[1px] bg-gradient-to-r from-transparent via-white/40 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-700"></div>
             <div className="px-6 py-5">
               <h3 className="text-sm font-semibold text-[#142444] mb-3">Performance</h3>
               <div className="flex items-center justify-center">
@@ -174,15 +261,36 @@ export default function ProfileCards({
         )
       
       case 'experiencias':
-        // Card 2 - Onde Trabalhou
+        // Card 2 - Onde Trabalhou with Premium Emergence
         return (
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 20 }}
-            transition={{ type: "spring", damping: 25 }}
-            className={HIGHLIGHT_BASE_CLASSES}
+            variants={premiumCardVariants}
+            initial="hidden"
+            animate={prefersReducedMotion ? "visible" : ["visible", "floating"]}
+            exit="exit"
+            transition={{
+              duration: 0.8,
+              ease: [0.16, 1, 0.3, 1],
+              delay: 0.2
+            }}
+            style={{
+              transformStyle: 'preserve-3d',
+              perspective: 1000,
+              willChange: 'transform, opacity'
+            }}
+            whileHover={{
+              scale: 1.02,
+              rotateY: -2,
+              rotateX: 2,
+              transition: { duration: 0.3, ease: "easeOut" }
+            }}
+            className={`${HIGHLIGHT_BASE_CLASSES} group hover:shadow-3xl hover:shadow-[#ec4464]/20`}
           >
+            {/* Premium glow effect */}
+            <div className="absolute inset-0 rounded-xl bg-gradient-to-l from-[#ec4464]/5 via-transparent to-[#142444]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            
+            {/* Light streak effect */}
+            <div className="absolute top-0 right-1/4 w-1/2 h-[1px] bg-gradient-to-l from-transparent via-white/40 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-700"></div>
             <div className="px-6 py-5">
               <h3 className="text-sm font-semibold text-[#142444] mb-3">Onde Trabalhou</h3>
               <div className="space-y-3">
@@ -201,15 +309,36 @@ export default function ProfileCards({
         )
       
       case 'depoimento':
-        // Card 3 - Último Feedback
+        // Card 3 - Último Feedback with Premium Emergence
         return (
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 20 }}
-            transition={{ type: "spring", damping: 25 }}
-            className={HIGHLIGHT_BASE_CLASSES}
+            variants={premiumCardVariants}
+            initial="hidden"
+            animate={prefersReducedMotion ? "visible" : ["visible", "floating"]}
+            exit="exit"
+            transition={{
+              duration: 0.8,
+              ease: [0.16, 1, 0.3, 1],
+              delay: 0.15
+            }}
+            style={{
+              transformStyle: 'preserve-3d',
+              perspective: 1000,
+              willChange: 'transform, opacity'
+            }}
+            whileHover={{
+              scale: 1.02,
+              rotateY: 3,
+              rotateX: -1,
+              transition: { duration: 0.3, ease: "easeOut" }
+            }}
+            className={`${HIGHLIGHT_BASE_CLASSES} group hover:shadow-3xl hover:shadow-[#ecd4a4]/20`}
           >
+            {/* Premium glow effect */}
+            <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-[#ecd4a4]/10 via-transparent to-[#ec4464]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            
+            {/* Light streak effect */}
+            <div className="absolute top-2 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[#ecd4a4]/30 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-700"></div>
             <div className="relative px-6 py-5">
               <h3 className="text-sm font-semibold text-[#142444] mb-3">Último Feedback</h3>
               <div className="relative">
@@ -226,15 +355,36 @@ export default function ProfileCards({
         )
       
       case 'conquistas':
-        // Card 4 - Conquistas e Certificações
+        // Card 4 - Conquistas e Certificações with Premium Emergence
         return (
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 20 }}
-            transition={{ type: "spring", damping: 25 }}
-            className={HIGHLIGHT_BASE_CLASSES}
+            variants={premiumCardVariants}
+            initial="hidden"
+            animate={prefersReducedMotion ? "visible" : ["visible", "floating"]}
+            exit="exit"
+            transition={{
+              duration: 0.8,
+              ease: [0.16, 1, 0.3, 1],
+              delay: 0.25
+            }}
+            style={{
+              transformStyle: 'preserve-3d',
+              perspective: 1000,
+              willChange: 'transform, opacity'
+            }}
+            whileHover={{
+              scale: 1.02,
+              rotateY: -3,
+              rotateX: 2,
+              transition: { duration: 0.3, ease: "easeOut" }
+            }}
+            className={`${HIGHLIGHT_BASE_CLASSES} group hover:shadow-3xl hover:shadow-[#142444]/20`}
           >
+            {/* Premium glow effect */}
+            <div className="absolute inset-0 rounded-xl bg-gradient-to-tr from-[#142444]/5 via-transparent to-[#ecd4a4]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            
+            {/* Light streak effect */}
+            <div className="absolute bottom-2 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[#142444]/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-700"></div>
             <div className="px-6 py-5">
               <h3 className="text-sm font-semibold text-[#142444] mb-4">Conquistas e Certificações</h3>
               <div className="grid grid-cols-2 gap-3">
@@ -291,15 +441,38 @@ export default function ProfileCards({
         )
       
       case 'bio':
-        // Card 5 - Sobre o Profissional
+        // Card 5 - Sobre o Profissional with Premium Emergence
         return (
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 20 }}
-            transition={{ type: "spring", damping: 25 }}
-            className={`${HIGHLIGHT_BASE_CLASSES} overflow-hidden`}
+            variants={premiumCardVariants}
+            initial="hidden"
+            animate={prefersReducedMotion ? "visible" : ["visible", "floating"]}
+            exit="exit"
+            transition={{
+              duration: 0.8,
+              ease: [0.16, 1, 0.3, 1],
+              delay: 0.3
+            }}
+            style={{
+              transformStyle: 'preserve-3d',
+              perspective: 1000,
+              willChange: 'transform, opacity'
+            }}
+            whileHover={{
+              scale: 1.02,
+              rotateY: 1,
+              rotateX: -3,
+              transition: { duration: 0.3, ease: "easeOut" }
+            }}
+            className={`${HIGHLIGHT_BASE_CLASSES} group hover:shadow-3xl hover:shadow-[#ecd4a4]/25 overflow-hidden`}
           >
+            {/* Premium glow effect with bio-specific colors */}
+            <div className="absolute inset-0 rounded-xl bg-gradient-to-bl from-[#ecd4a4]/10 via-transparent to-[#ecd4a4]/15 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            
+            {/* Light streak effect - diagonal */}
+            <div className="absolute top-0 left-0 w-full h-full overflow-hidden rounded-xl">
+              <div className="absolute -top-2 -left-2 w-1/3 h-[2px] bg-gradient-to-r from-transparent via-[#ecd4a4]/40 to-transparent transform rotate-12 opacity-0 group-hover:opacity-100 transition-all duration-700"></div>
+            </div>
             <div className="px-6 py-5 relative">
               <div className="absolute inset-0 bg-[#ecd4a4] opacity-5 rounded-xl"></div>
               <div className="relative">
@@ -330,7 +503,11 @@ export default function ProfileCards({
         }}
         exit={{ opacity: 0, scale: 0.95 }}
         transition={{ duration: 0.5 }}
-        className="relative z-10 w-[432px] h-[600px] bg-white rounded-xl shadow-lg p-6 flex flex-col border border-gray-200"
+        className="relative z-10 w-[432px] h-[600px] bg-white rounded-xl shadow-lg p-6 flex flex-col border border-gray-200 transform-gpu"
+        style={{
+          transformStyle: 'preserve-3d',
+          backfaceVisibility: 'hidden'
+        }}
       >
         {/* Header Section */}
         <div className="flex items-start gap-4 mb-3">
@@ -416,10 +593,27 @@ export default function ProfileCards({
         </div>
       </motion.div>
 
-      {/* Animated Highlight Rectangle - Crossing the card */}
-      <div className="absolute inset-0 flex justify-start items-center pointer-events-none overflow-visible" style={{ paddingLeft: '30px' }}>
+      {/* Premium Highlight Cards - 3D Emergence Container */}
+      <div 
+        className="absolute inset-0 flex justify-start items-center pointer-events-none overflow-visible z-30" 
+        style={{ 
+          paddingLeft: '30px',
+          perspective: '1200px',
+          transformStyle: 'preserve-3d'
+        }}
+      >
         <AnimatePresence mode="wait">
-          {showHighlight && renderHighlight()}
+          {showHighlight && (
+            <motion.div
+              className="w-full h-full flex justify-start items-center"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              {renderHighlight()}
+            </motion.div>
+          )}
         </AnimatePresence>
       </div>
 
