@@ -2,7 +2,6 @@
 
 import { motion, useInView } from 'framer-motion'
 import { useRef, useEffect, useState } from 'react'
-import Image from 'next/image'
 
 const LogoCarousel = () => {
   const ref = useRef(null)
@@ -17,7 +16,7 @@ const LogoCarousel = () => {
   const logos = [
     { name: 'Arcos', src: '/logocarrossel/arcos.png', alt: 'Arcos logo' },
     { name: 'Blue Note', src: '/logocarrossel/bluenote.png', alt: 'Blue Note logo' },
-    { name: 'Brahma', src: '/logocarrossel/brahma – 1.png', alt: 'Brahma logo' },
+    { name: 'Brahma', src: '/logocarrossel/brahma.png', alt: 'Brahma logo' },
     { name: 'Quintal', src: '/logocarrossel/quintal.png', alt: 'Quintal logo' },
     { name: 'Riviera', src: '/logocarrossel/riviera.png', alt: 'Riviera logo' },
     { name: 'Logo 1', src: '/logocarrossel/1.png', alt: 'Partner logo' },
@@ -56,8 +55,9 @@ const LogoCarousel = () => {
   return (
     <section 
       ref={ref} 
-      className="relative py-16 md:py-20 lg:py-24 bg-gradient-to-b from-white via-gray-25 to-white overflow-hidden"
+      className="relative py-16 md:py-20 lg:py-24 bg-gradient-to-b from-white via-gray-50 to-white overflow-hidden"
       aria-label="Nossos parceiros"
+      style={{ minHeight: '400px' }}
     >
       {/* Subtle background decoration */}
       <div className="absolute inset-0">
@@ -126,14 +126,11 @@ const LogoCarousel = () => {
                 <div className="relative w-32 h-16 md:w-40 md:h-20 lg:w-48 lg:h-24 bg-white/80 backdrop-blur-sm rounded-xl md:rounded-2xl shadow-sm border border-gray-100/50 flex items-center justify-center p-3 md:p-4 transition-all duration-300 group-hover:shadow-lg group-hover:border-gray-200/70">
                   {/* Logo container with proper aspect ratio */}
                   <div className="relative w-full h-full flex items-center justify-center">
-                    <Image
+                    <img
                       src={logo.src}
                       alt={logo.alt}
-                      width={192}
-                      height={96}
-                      className="max-w-full max-h-full object-contain filter grayscale hover:grayscale-0 transition-all duration-500 opacity-60 group-hover:opacity-100"
+                      className="max-w-full max-h-full w-auto h-auto object-contain filter grayscale hover:grayscale-0 transition-all duration-500 opacity-60 group-hover:opacity-100"
                       loading="lazy"
-                      sizes="(max-width: 768px) 128px, (max-width: 1024px) 160px, 192px"
                     />
                   </div>
                   

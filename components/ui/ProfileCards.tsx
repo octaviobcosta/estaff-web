@@ -109,8 +109,7 @@ export default function ProfileCards({
   const [currentIndex, setCurrentIndex] = useState(0)
   const [showHighlight, setShowHighlight] = useState(false)
 
-  const currentProfile = PROFILE_DATA[currentIndex]!
-  if (!currentProfile) return null
+  const currentProfile = PROFILE_DATA[currentIndex]
 
   // Auto-cycle through profiles with optimized timing
   useEffect(() => {
@@ -135,113 +134,141 @@ export default function ProfileCards({
     }
   }, [])
 
-  // Premium emergence animation variants with spark effect
+  // Premium emergence animation variants - FROM WITHIN the main card
   const premiumCardVariants = {
     hidden: {
       opacity: 0,
-      scale: 0.8,
-      rotateX: -15,
-      rotateY: 5,
-      z: -100,
-      y: 50,
-      x: -50,
-      filter: 'blur(8px) brightness(1.2)',
+      scale: 0.2, // Start even smaller for more dramatic emergence
+      rotateX: 0,
+      rotateY: -5, // Slight initial rotation for "pulling" effect
+      rotateZ: -2, // Slight twist
+      z: -250, // Start deeper within the card
+      y: 0, // Same vertical position as main card center
+      x: -216, // Start at the center of the main card (432px width / 2)
+      filter: 'blur(15px) brightness(1.8)',
+      transformOrigin: 'left center', // Pull from left side of main card
     },
     visible: {
       opacity: 1,
       scale: 1,
       rotateX: 0,
       rotateY: 0,
-      z: 0,
+      rotateZ: 0,
+      z: 50, // Emerge forward from the card
       y: 0,
-      x: 0,
+      x: 0, // Final position
       filter: 'blur(0px) brightness(1)',
+      transformOrigin: 'center center',
     },
     exit: {
       opacity: 0,
-      scale: 0.9,
-      rotateX: 15,
-      rotateY: -5,
-      z: -50,
-      y: 30,
-      filter: 'blur(4px) brightness(0.8)',
+      scale: 0.15,
+      rotateX: 3,
+      rotateY: 3,
+      rotateZ: 1,
+      z: -200, // Sink deeper back into the card
+      y: 0,
+      x: -130, // Exit more towards main card center
+      filter: 'blur(12px) brightness(0.6)',
+      transformOrigin: 'left center',
       transition: {
-        duration: 0.4,
+        duration: 0.6,
         ease: [0.4, 0, 0.2, 1]
       }
-    }
-  }
-
-  // Floating animation with accessibility consideration
-  const floatingVariants = {
+    },
     floating: {
       y: [-2, 2, -2],
-      rotateX: [-1, 1, -1],
+      z: [50, 58, 50], // More pronounced depth floating
+      rotateX: [-0.5, 0.5, -0.5],
+      scale: [1, 1.008, 1], // Slightly more breathing
       transition: {
-        duration: 4,
+        duration: 5,
         repeat: Infinity,
         ease: "easeInOut"
       }
-    },
-    static: {
-      y: 0,
-      rotateX: 0
     }
   }
 
-  // Check for reduced motion preference
+  // Check for reduced motion preference - single check
   const prefersReducedMotion = typeof window !== 'undefined' && 
     window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+  // Premium glassmorphism base classes - optimized constant
+  const HIGHLIGHT_BASE_CLASSES = "w-[400px] rounded-xl z-50 pointer-events-auto relative overflow-hidden " +
+    "backdrop-blur-xl bg-white/95 border border-white/30 " +
+    "shadow-2xl shadow-black/[0.08] will-change-transform " +
+    "before:absolute before:inset-0 before:rounded-xl before:p-[1px] " +
+    "before:bg-gradient-to-r before:from-white/40 before:via-white/10 before:to-white/40 " +
+    "before:-z-10 before:opacity-70 " +
+    "after:absolute after:inset-0 after:rounded-xl after:bg-gradient-to-br " +
+    "after:from-white/15 after:via-transparent after:to-white/5 after:-z-10 " +
+    "transform-gpu isolation-isolate"
+
+  // Badge icon/color logic - consolidated
+  const getBadgeIcon = (iconType: string) => {
+    switch (iconType) {
+      case 'top_rated': return <Star className="w-5 h-5" />
+      case 'in_demand': return <TrendingUp className="w-5 h-5" />
+      case 'verified': return <Shield className="w-5 h-5" />
+      case 'premium': return <Trophy className="w-5 h-5" />
+      default: return <Award className="w-5 h-5" />
+    }
+  }
+
+  const getBadgeIconColor = (iconType: string) => {
+    switch (iconType) {
+      case 'top_rated': return 'text-[#ecd4a4] fill-[#ecd4a4]'
+      case 'in_demand': return 'text-[#ec4464]'
+      case 'verified': return 'text-[#22c55e]'
+      case 'premium': return 'text-[#142444]'
+      default: return 'text-[#6B7280]'
+    }
+  }
+
+  // Common card props - eliminate duplication
+  const getCardProps = (delay: number) => ({
+    variants: premiumCardVariants,
+    initial: "hidden",
+    animate: "visible",
+    exit: "exit",
+    transition: {
+      duration: 0.9,
+      ease: [0.25, 0.8, 0.25, 1],
+      delay
+    },
+    style: {
+      transformStyle: 'preserve-3d' as const,
+      perspective: 1000,
+      willChange: 'transform, opacity'
+    },
+    whileHover: {
+      scale: 1.02,
+      z: 60,
+      transition: { duration: 0.3, ease: "easeOut" }
+    }
+  })
 
   // Render premium highlight cards with glassmorphism
   const renderHighlight = () => {
     if (!currentProfile) return null
     const { highlightType, highlightData } = currentProfile
     
-    // Premium glassmorphism styling with emergence effects and GPU optimization
-    const HIGHLIGHT_BASE_CLASSES = "w-[400px] rounded-xl z-50 pointer-events-auto relative overflow-hidden " +
-      "backdrop-blur-xl bg-white/95 border border-white/30 " +
-      "shadow-2xl shadow-black/[0.08] will-change-transform " +
-      "before:absolute before:inset-0 before:rounded-xl before:p-[1px] " +
-      "before:bg-gradient-to-r before:from-white/40 before:via-white/10 before:to-white/40 " +
-      "before:-z-10 before:opacity-70 " +
-      "after:absolute after:inset-0 after:rounded-xl after:bg-gradient-to-br " +
-      "after:from-white/15 after:via-transparent after:to-white/5 after:-z-10 " +
-      "transform-gpu isolation-isolate"
-    
     switch (highlightType) {
       case 'avaliacao':
-        // Card 1 - Performance Indicators with Premium Emergence
         return (
           <motion.div
-            variants={premiumCardVariants}
-            initial="hidden"
-            animate={prefersReducedMotion ? "visible" : ["visible", "floating"]}
-            exit="exit"
-            transition={{
-              duration: 0.8,
-              ease: [0.16, 1, 0.3, 1],
-              delay: 0.1
-            }}
-            style={{
-              transformStyle: 'preserve-3d',
-              perspective: 1000,
-              willChange: 'transform, opacity'
-            }}
-            whileHover={{
-              scale: 1.02,
-              rotateY: 2,
-              rotateX: -2,
-              transition: { duration: 0.3, ease: "easeOut" }
-            }}
+            {...getCardProps(0.1)}
+            whileHover={{ ...getCardProps(0.1).whileHover, rotateY: 2, rotateX: -2 }}
             className={`${HIGHLIGHT_BASE_CLASSES} group hover:shadow-3xl hover:shadow-[#ec4464]/20`}
           >
-            {/* Premium glow effect */}
             <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-[#ec4464]/5 via-transparent to-[#ecd4a4]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-            
-            {/* Light streak effect */}
             <div className="absolute top-0 left-1/4 w-1/2 h-[1px] bg-gradient-to-r from-transparent via-white/40 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-700"></div>
-            <div className="px-6 py-5">
+            
+            <motion.div
+              variants={prefersReducedMotion ? {} : { floating: premiumCardVariants.floating }}
+              animate={prefersReducedMotion ? {} : "floating"}
+              className="px-6 py-5"
+            >
               <h3 className="text-sm font-semibold text-[#142444] mb-3">Performance</h3>
               <div className="flex items-center justify-center">
                 <div className="flex-1 flex flex-col items-center justify-center">
@@ -256,42 +283,25 @@ export default function ProfileCards({
                   <div className="text-xs text-[#6B7280] mt-1">Jobs</div>
                 </div>
               </div>
-            </div>
+            </motion.div>
           </motion.div>
         )
       
       case 'experiencias':
-        // Card 2 - Onde Trabalhou with Premium Emergence
         return (
           <motion.div
-            variants={premiumCardVariants}
-            initial="hidden"
-            animate={prefersReducedMotion ? "visible" : ["visible", "floating"]}
-            exit="exit"
-            transition={{
-              duration: 0.8,
-              ease: [0.16, 1, 0.3, 1],
-              delay: 0.2
-            }}
-            style={{
-              transformStyle: 'preserve-3d',
-              perspective: 1000,
-              willChange: 'transform, opacity'
-            }}
-            whileHover={{
-              scale: 1.02,
-              rotateY: -2,
-              rotateX: 2,
-              transition: { duration: 0.3, ease: "easeOut" }
-            }}
+            {...getCardProps(0.2)}
+            whileHover={{ ...getCardProps(0.2).whileHover, rotateY: -2, rotateX: 2 }}
             className={`${HIGHLIGHT_BASE_CLASSES} group hover:shadow-3xl hover:shadow-[#ec4464]/20`}
           >
-            {/* Premium glow effect */}
             <div className="absolute inset-0 rounded-xl bg-gradient-to-l from-[#ec4464]/5 via-transparent to-[#142444]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-            
-            {/* Light streak effect */}
             <div className="absolute top-0 right-1/4 w-1/2 h-[1px] bg-gradient-to-l from-transparent via-white/40 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-700"></div>
-            <div className="px-6 py-5">
+            
+            <motion.div
+              variants={prefersReducedMotion ? {} : { floating: premiumCardVariants.floating }}
+              animate={prefersReducedMotion ? {} : "floating"}
+              className="px-6 py-5"
+            >
               <h3 className="text-sm font-semibold text-[#142444] mb-3">Onde Trabalhou</h3>
               <div className="space-y-3">
                 {highlightData.venues?.map((venue: any, i: number) => (
@@ -304,42 +314,25 @@ export default function ProfileCards({
                   </div>
                 ))}
               </div>
-            </div>
+            </motion.div>
           </motion.div>
         )
       
       case 'depoimento':
-        // Card 3 - Último Feedback with Premium Emergence
         return (
           <motion.div
-            variants={premiumCardVariants}
-            initial="hidden"
-            animate={prefersReducedMotion ? "visible" : ["visible", "floating"]}
-            exit="exit"
-            transition={{
-              duration: 0.8,
-              ease: [0.16, 1, 0.3, 1],
-              delay: 0.15
-            }}
-            style={{
-              transformStyle: 'preserve-3d',
-              perspective: 1000,
-              willChange: 'transform, opacity'
-            }}
-            whileHover={{
-              scale: 1.02,
-              rotateY: 3,
-              rotateX: -1,
-              transition: { duration: 0.3, ease: "easeOut" }
-            }}
+            {...getCardProps(0.15)}
+            whileHover={{ ...getCardProps(0.15).whileHover, rotateY: 3, rotateX: -1 }}
             className={`${HIGHLIGHT_BASE_CLASSES} group hover:shadow-3xl hover:shadow-[#ecd4a4]/20`}
           >
-            {/* Premium glow effect */}
             <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-[#ecd4a4]/10 via-transparent to-[#ec4464]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-            
-            {/* Light streak effect */}
             <div className="absolute top-2 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[#ecd4a4]/30 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-700"></div>
-            <div className="relative px-6 py-5">
+            
+            <motion.div
+              variants={prefersReducedMotion ? {} : { floating: premiumCardVariants.floating }}
+              animate={prefersReducedMotion ? {} : "floating"}
+              className="relative px-6 py-5"
+            >
               <h3 className="text-sm font-semibold text-[#142444] mb-3">Último Feedback</h3>
               <div className="relative">
                 <span className="absolute top-0 left-0 text-4xl text-[#ecd4a4] opacity-20 font-serif leading-none">"</span>
@@ -350,130 +343,64 @@ export default function ProfileCards({
                   — {highlightData.author}
                 </p>
               </div>
-            </div>
+            </motion.div>
           </motion.div>
         )
       
       case 'conquistas':
-        // Card 4 - Conquistas e Certificações with Premium Emergence
         return (
           <motion.div
-            variants={premiumCardVariants}
-            initial="hidden"
-            animate={prefersReducedMotion ? "visible" : ["visible", "floating"]}
-            exit="exit"
-            transition={{
-              duration: 0.8,
-              ease: [0.16, 1, 0.3, 1],
-              delay: 0.25
-            }}
-            style={{
-              transformStyle: 'preserve-3d',
-              perspective: 1000,
-              willChange: 'transform, opacity'
-            }}
-            whileHover={{
-              scale: 1.02,
-              rotateY: -3,
-              rotateX: 2,
-              transition: { duration: 0.3, ease: "easeOut" }
-            }}
+            {...getCardProps(0.25)}
+            whileHover={{ ...getCardProps(0.25).whileHover, rotateY: -3, rotateX: 2 }}
             className={`${HIGHLIGHT_BASE_CLASSES} group hover:shadow-3xl hover:shadow-[#142444]/20`}
           >
-            {/* Premium glow effect */}
             <div className="absolute inset-0 rounded-xl bg-gradient-to-tr from-[#142444]/5 via-transparent to-[#ecd4a4]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-            
-            {/* Light streak effect */}
             <div className="absolute bottom-2 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[#142444]/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-700"></div>
-            <div className="px-6 py-5">
+            
+            <motion.div
+              variants={prefersReducedMotion ? {} : { floating: premiumCardVariants.floating }}
+              animate={prefersReducedMotion ? {} : "floating"}
+              className="px-6 py-5"
+            >
               <h3 className="text-sm font-semibold text-[#142444] mb-4">Conquistas e Certificações</h3>
               <div className="grid grid-cols-2 gap-3">
-                {highlightData.badges?.map((badge: any, i: number) => {
-                  const getIcon = () => {
-                    switch (badge.icon) {
-                      case 'top_rated':
-                        return <Star className="w-5 h-5" />
-                      case 'in_demand':
-                        return <TrendingUp className="w-5 h-5" />
-                      case 'verified':
-                        return <Shield className="w-5 h-5" />
-                      case 'premium':
-                        return <Trophy className="w-5 h-5" />
-                      default:
-                        return <Award className="w-5 h-5" />
-                    }
-                  }
-
-                  const getIconColor = () => {
-                    switch (badge.icon) {
-                      case 'top_rated':
-                        return 'text-[#ecd4a4] fill-[#ecd4a4]'
-                      case 'in_demand':
-                        return 'text-[#ec4464]'
-                      case 'verified':
-                        return 'text-[#22c55e]'
-                      case 'premium':
-                        return 'text-[#142444]'
-                      default:
-                        return 'text-[#6B7280]'
-                    }
-                  }
-
-                  return (
-                    <div key={i} className="relative">
-                      <div className="flex flex-col items-start p-3 bg-gradient-to-br from-gray-50 to-white rounded-lg border border-gray-100 hover:shadow-md transition-shadow">
-                        <div className={`p-2 rounded-full bg-white shadow-sm mb-2 ${getIconColor()}`}>
-                          {getIcon()}
-                        </div>
-                        <div className="text-xs font-semibold text-[#142444] mb-0.5">
-                          {badge.label}
-                        </div>
-                        <div className="text-[10px] text-[#6B7280] leading-tight">
-                          {badge.description}
-                        </div>
+                {highlightData.badges?.map((badge: any, i: number) => (
+                  <div key={i} className="relative">
+                    <div className="flex flex-col items-start p-3 bg-gradient-to-br from-gray-50 to-white rounded-lg border border-gray-100 hover:shadow-md transition-shadow">
+                      <div className={`p-2 rounded-full bg-white shadow-sm mb-2 ${getBadgeIconColor(badge.icon)}`}>
+                        {getBadgeIcon(badge.icon)}
+                      </div>
+                      <div className="text-xs font-semibold text-[#142444] mb-0.5">
+                        {badge.label}
+                      </div>
+                      <div className="text-[10px] text-[#6B7280] leading-tight">
+                        {badge.description}
                       </div>
                     </div>
-                  )
-                })}
+                  </div>
+                ))}
               </div>
-            </div>
+            </motion.div>
           </motion.div>
         )
       
       case 'bio':
-        // Card 5 - Sobre o Profissional with Premium Emergence
         return (
           <motion.div
-            variants={premiumCardVariants}
-            initial="hidden"
-            animate={prefersReducedMotion ? "visible" : ["visible", "floating"]}
-            exit="exit"
-            transition={{
-              duration: 0.8,
-              ease: [0.16, 1, 0.3, 1],
-              delay: 0.3
-            }}
-            style={{
-              transformStyle: 'preserve-3d',
-              perspective: 1000,
-              willChange: 'transform, opacity'
-            }}
-            whileHover={{
-              scale: 1.02,
-              rotateY: 1,
-              rotateX: -3,
-              transition: { duration: 0.3, ease: "easeOut" }
-            }}
+            {...getCardProps(0.3)}
+            whileHover={{ ...getCardProps(0.3).whileHover, rotateY: 1, rotateX: -3 }}
             className={`${HIGHLIGHT_BASE_CLASSES} group hover:shadow-3xl hover:shadow-[#ecd4a4]/25 overflow-hidden`}
           >
-            {/* Premium glow effect with bio-specific colors */}
             <div className="absolute inset-0 rounded-xl bg-gradient-to-bl from-[#ecd4a4]/10 via-transparent to-[#ecd4a4]/15 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-            
-            {/* Light streak effect - diagonal */}
             <div className="absolute top-0 left-0 w-full h-full overflow-hidden rounded-xl">
               <div className="absolute -top-2 -left-2 w-1/3 h-[2px] bg-gradient-to-r from-transparent via-[#ecd4a4]/40 to-transparent transform rotate-12 opacity-0 group-hover:opacity-100 transition-all duration-700"></div>
             </div>
-            <div className="px-6 py-5 relative">
+            
+            <motion.div
+              variants={prefersReducedMotion ? {} : { floating: premiumCardVariants.floating }}
+              animate={prefersReducedMotion ? {} : "floating"}
+              className="px-6 py-5 relative"
+            >
               <div className="absolute inset-0 bg-[#ecd4a4] opacity-5 rounded-xl"></div>
               <div className="relative">
                 <h3 className="text-sm font-semibold text-[#142444] mb-3">Sobre o Profissional</h3>
@@ -481,7 +408,7 @@ export default function ProfileCards({
                   {highlightData.bio}
                 </p>
               </div>
-            </div>
+            </motion.div>
           </motion.div>
         )
       
@@ -598,7 +525,30 @@ export default function ProfileCards({
         className="absolute inset-0 flex justify-start items-center pointer-events-none overflow-visible z-30" 
         style={{ 
           paddingLeft: '30px',
-          perspective: '1200px',
+          perspective: '1500px', // Increased perspective for more dramatic depth
+          transformStyle: 'preserve-3d'
+        }}
+      >
+        {/* Emergence portal effect - subtle glow emanating from main card */}
+        <div 
+          className="absolute w-[432px] h-[600px] pointer-events-none z-20"
+          style={{
+            left: '-216px', // Position over main card
+            background: showHighlight 
+              ? 'radial-gradient(circle at center, rgba(236, 68, 100, 0.03) 0%, transparent 60%)'
+              : 'transparent',
+            borderRadius: '12px',
+            transition: 'background 0.8s ease-out'
+          }}
+        />
+      </div>
+
+      {/* Highlight Cards Container */}
+      <div 
+        className="absolute inset-0 flex justify-start items-center pointer-events-none overflow-visible z-30" 
+        style={{ 
+          paddingLeft: '30px',
+          perspective: '1500px',
           transformStyle: 'preserve-3d'
         }}
       >
