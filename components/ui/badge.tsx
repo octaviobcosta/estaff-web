@@ -3,6 +3,7 @@
 import { HTMLAttributes, forwardRef } from 'react'
 import { motion } from 'framer-motion'
 import { cn } from '@/lib/utils'
+import { tokens } from '@/lib/design-system/tokens'
 
 interface BadgeProps extends HTMLAttributes<HTMLSpanElement> {
   variant?: 'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'danger' | 'gradient'
@@ -26,47 +27,135 @@ const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
     ...props 
   }, ref) => {
     
-    const baseClasses = 'inline-flex items-center justify-center font-medium transition-all duration-300'
+    const baseClasses = 'inline-flex items-center justify-center font-medium transition-all'
     
-    const variantClasses = {
-      default: 'bg-gray-100 text-gray-700',
-      primary: 'bg-freela text-white',
-      secondary: 'bg-empresa text-white',
-      success: 'bg-green-500 text-white',
-      warning: 'bg-yellow-500 text-white',
-      danger: 'bg-red-500 text-white',
-      gradient: `bg-gradient-to-r text-white ${getGradient(gradient)}`
+    // Pixel-perfect variant styling using design tokens
+    const variantStyles = {
+      default: {
+        backgroundColor: tokens.colors.gray[100],
+        color: tokens.colors.gray[700],
+      },
+      primary: {
+        backgroundColor: tokens.colors.brand.freela[500],
+        color: tokens.colors.brand.neutral.white,
+      },
+      secondary: {
+        backgroundColor: tokens.colors.brand.empresa[700],
+        color: tokens.colors.brand.neutral.white,
+      },
+      success: {
+        backgroundColor: tokens.colors.semantic.success[500],
+        color: tokens.colors.brand.neutral.white,
+      },
+      warning: {
+        backgroundColor: tokens.colors.semantic.warning[500],
+        color: tokens.colors.brand.neutral.white,
+      },
+      danger: {
+        backgroundColor: tokens.colors.semantic.error[500],
+        color: tokens.colors.brand.neutral.white,
+      },
+      gradient: {
+        background: `linear-gradient(135deg, ${getGradientColors(gradient)})`,
+        color: tokens.colors.brand.neutral.white,
+      }
     }
     
-    const sizeClasses = {
-      xs: 'px-2 py-0.5 text-xs',
-      sm: 'px-2.5 py-0.5 text-sm',
-      md: 'px-3 py-1 text-base',
-      lg: 'px-4 py-1.5 text-lg'
+    // 8px grid-aligned sizing using tokens
+    const sizeStyles = {
+      xs: {
+        paddingLeft: tokens.spacing[2],     // 8px
+        paddingRight: tokens.spacing[2],    // 8px
+        paddingTop: tokens.spacing[0.5],    // 2px
+        paddingBottom: tokens.spacing[0.5], // 2px
+        fontSize: tokens.typography.xs.size,
+        lineHeight: tokens.typography.xs.lineHeight,
+        letterSpacing: tokens.typography.xs.letterSpacing,
+        minHeight: tokens.spacing[5],       // 20px
+      },
+      sm: {
+        paddingLeft: tokens.spacing[2.5],   // 10px
+        paddingRight: tokens.spacing[2.5],  // 10px
+        paddingTop: tokens.spacing[0.5],    // 2px
+        paddingBottom: tokens.spacing[0.5], // 2px
+        fontSize: tokens.typography.sm.size,
+        lineHeight: tokens.typography.sm.lineHeight,
+        letterSpacing: tokens.typography.sm.letterSpacing,
+        minHeight: tokens.spacing[6],       // 24px
+      },
+      md: {
+        paddingLeft: tokens.spacing[3],     // 12px
+        paddingRight: tokens.spacing[3],    // 12px
+        paddingTop: tokens.spacing[1],      // 4px
+        paddingBottom: tokens.spacing[1],   // 4px
+        fontSize: tokens.typography.base.size,
+        lineHeight: tokens.typography.base.lineHeight,
+        letterSpacing: tokens.typography.base.letterSpacing,
+        minHeight: tokens.spacing[8],       // 32px
+      },
+      lg: {
+        paddingLeft: tokens.spacing[4],     // 16px
+        paddingRight: tokens.spacing[4],    // 16px
+        paddingTop: tokens.spacing[1.5],    // 6px
+        paddingBottom: tokens.spacing[1.5], // 6px
+        fontSize: tokens.typography.lg.size,
+        lineHeight: tokens.typography.lg.lineHeight,
+        letterSpacing: tokens.typography.lg.letterSpacing,
+        minHeight: tokens.spacing[10],      // 40px
+      }
     }
 
-    const roundedClasses = {
-      sm: 'rounded',
-      md: 'rounded-md',
-      lg: 'rounded-lg',
-      full: 'rounded-full'
+    const roundedStyles = {
+      sm: { borderRadius: tokens.spacing[1] },    // 4px
+      md: { borderRadius: tokens.spacing[1.5] },  // 6px
+      lg: { borderRadius: tokens.spacing[2] },    // 8px
+      full: { borderRadius: '9999px' }
     }
     
-    function getGradient(type: string) {
-      const gradients = {
-        brand: 'from-freela to-empresa',
-        freela: 'from-freela-400 to-freela-600',
-        empresa: 'from-empresa-700 to-empresa-900',
-        institucional: 'from-institucional-300 to-institucional-500',
-        premium: 'from-purple-500 to-pink-500'
+    function getGradientColors(type: string): string {
+      const gradientColors = {
+        brand: `${tokens.colors.brand.freela[500]}, ${tokens.colors.brand.empresa[600]}`,
+        freela: `${tokens.colors.brand.freela[400]}, ${tokens.colors.brand.freela[600]}`,
+        empresa: `${tokens.colors.brand.empresa[700]}, ${tokens.colors.brand.empresa[900]}`,
+        institucional: `${tokens.colors.brand.institucional[300]}, ${tokens.colors.brand.institucional[500]}`,
+        premium: `${tokens.colors.accent.purple[500]}, ${tokens.colors.accent.pink[500]}`
       }
-      return gradients[type as keyof typeof gradients] || gradients.brand
+      return gradientColors[type as keyof typeof gradientColors] || gradientColors.brand
+    }
+
+    // Combine all styles for pixel-perfect rendering
+    const combinedStyle = {
+      ...variantStyles[variant],
+      ...sizeStyles[size],
+      ...roundedStyles[rounded],
+      fontFamily: tokens.fontFamilies.primary,
+      fontWeight: tokens.fontWeights.medium,
+      transitionDuration: tokens.durations.standard,
+      transitionTimingFunction: tokens.easings.easeOut,
     }
 
     const animationProps = animated ? {
       initial: { scale: 0, opacity: 0 },
-      animate: { scale: 1, opacity: 1 },
-      transition: { type: 'spring', stiffness: 500, damping: 15 }
+      animate: { 
+        scale: 1, 
+        opacity: 1,
+        transition: {
+          type: 'spring',
+          ...tokens.springs.bouncy,
+          duration: Number(tokens.durations.fast.replace('ms', '')) / 1000
+        }
+      }
+    } : {}
+
+    const pulseAnimation = pulse ? {
+      animate: {
+        opacity: [1, 0.5, 1],
+        transition: {
+          duration: Number(tokens.durations.slow.replace('ms', '')) / 1000,
+          repeat: Infinity,
+          ease: tokens.easings.easeInOut
+        }
+      }
     } : {}
 
     if (animated) {
@@ -76,15 +165,10 @@ const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
       return (
         <motion.span
           ref={ref}
-          className={cn(
-            baseClasses,
-            variantClasses[variant],
-            sizeClasses[size],
-            roundedClasses[rounded],
-            pulse && 'animate-pulse',
-            className
-          )}
+          className={cn(baseClasses, className)}
+          style={combinedStyle}
           {...animationProps}
+          {...pulseAnimation}
           {...motionProps}
         >
           {children}
@@ -95,14 +179,8 @@ const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
     return (
       <span
         ref={ref}
-        className={cn(
-          baseClasses,
-          variantClasses[variant],
-          sizeClasses[size],
-          roundedClasses[rounded],
-          pulse && 'animate-pulse',
-          className
-        )}
+        className={cn(baseClasses, pulse && 'animate-pulse', className)}
+        style={combinedStyle}
         {...props}
       >
         {children}
@@ -147,11 +225,24 @@ interface StatusBadgeProps extends Omit<BadgeProps, 'children' | 'variant'> {
 
 const StatusBadge = forwardRef<HTMLSpanElement, StatusBadgeProps>(
   ({ status, showLabel = false, className, ...props }, ref) => {
+    // Pixel-perfect status configuration using design tokens
     const statusConfig = {
-      online: { color: 'bg-green-500', label: 'Online' },
-      offline: { color: 'bg-gray-400', label: 'Offline' },
-      away: { color: 'bg-yellow-500', label: 'Ausente' },
-      busy: { color: 'bg-red-500', label: 'Ocupado' }
+      online: { 
+        backgroundColor: tokens.colors.semantic.success[500], 
+        label: 'Online' 
+      },
+      offline: { 
+        backgroundColor: tokens.colors.gray[400], 
+        label: 'Offline' 
+      },
+      away: { 
+        backgroundColor: tokens.colors.semantic.warning[500], 
+        label: 'Ausente' 
+      },
+      busy: { 
+        backgroundColor: tokens.colors.semantic.error[500], 
+        label: 'Ocupado' 
+      }
     }
 
     const config = statusConfig[status]
@@ -160,24 +251,44 @@ const StatusBadge = forwardRef<HTMLSpanElement, StatusBadgeProps>(
       return (
         <Badge
           ref={ref}
-          className={cn('gap-1.5', className)}
+          className={className}
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: tokens.spacing[1.5], // 6px
+          }}
           {...props}
         >
-          <span className={cn('w-2 h-2 rounded-full', config.color)} />
+          <span 
+            style={{
+              width: tokens.spacing[2],      // 8px
+              height: tokens.spacing[2],     // 8px
+              borderRadius: '50%',
+              backgroundColor: config.backgroundColor,
+              flexShrink: 0,
+            }}
+          />
           {config.label}
         </Badge>
       )
     }
 
+    const dotStyle = {
+      display: 'inline-block',
+      width: tokens.spacing[3],      // 12px
+      height: tokens.spacing[3],     // 12px
+      borderRadius: '50%',
+      backgroundColor: config.backgroundColor,
+      ...(status === 'online' && {
+        animation: `pulse ${tokens.durations.slow} infinite`,
+      })
+    }
+
     return (
       <span
         ref={ref}
-        className={cn(
-          'inline-block w-3 h-3 rounded-full',
-          config.color,
-          status === 'online' && 'animate-pulse',
-          className
-        )}
+        className={className}
+        style={dotStyle}
         {...props}
       />
     )

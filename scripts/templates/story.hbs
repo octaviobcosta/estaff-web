@@ -1,0 +1,221 @@
+import type { Meta, StoryObj } from '@storybook/react'
+import { {{componentName}} } from './{{componentName}}'
+
+const meta: Meta<typeof {{componentName}}> = {
+  title: '{{capitalize componentType}}s/{{componentName}}',
+  component: {{componentName}},
+  parameters: {
+    layout: 'centered',
+    docs: {
+      description: {
+        component: '{{componentName}} - {{config.componentTypes.[componentType].description}}<br/>Generated with estaff-web component generator.',
+      },
+    },
+  },
+  tags: ['autodocs'],
+  argTypes: {
+    variant: {
+      control: 'select',
+      options: [{{#each variants}}'{{this}}'{{#unless @last}}, {{/unless}}{{/each}}],
+      description: 'Visual variant of the component',
+    },
+    size: {
+      control: 'select', 
+      options: [{{#each sizes}}'{{this}}'{{#unless @last}}, {{/unless}}{{/each}}],
+      description: 'Size of the component',
+    },
+    {{#if includeAnimations}}
+    animation: {
+      control: 'select',
+      options: ['none', 'scale', 'pulse', 'bounce'],
+      description: 'Animation type on interaction',
+    },
+    disableAnimations: {
+      control: 'boolean',
+      description: 'Disable all animations',
+    },
+    {{/if}}
+    fullWidth: {
+      control: 'boolean',
+      description: 'Whether the component takes full width',
+    },
+    disabled: {
+      control: 'boolean',
+      description: 'Whether the component is disabled',
+    },
+    loading: {
+      control: 'boolean',
+      description: 'Whether the component is in loading state',
+    },
+    children: {
+      control: 'text',
+      description: 'Content to display inside the component',
+    },
+  },
+}
+
+export default meta
+type Story = StoryObj<typeof meta>
+
+// Default story
+export const Default: Story = {
+  args: {
+    children: '{{componentName}}',
+    variant: '{{variants.[0]}}',
+    size: '{{sizes.[0]}}',
+    {{#if includeAnimations}}
+    animation: 'scale',
+    disableAnimations: false,
+    {{/if}}
+    fullWidth: false,
+    disabled: false,
+    loading: false,
+  },
+}
+
+// Variant stories
+{{#each variants}}
+export const {{capitalize this}}: Story = {
+  args: {
+    ...Default.args,
+    variant: '{{this}}',
+    children: '{{capitalize this}} {{../componentName}}',
+  },
+}
+{{/each}}
+
+// Size stories  
+{{#each sizes}}
+export const Size{{capitalize this}}: Story = {
+  args: {
+    ...Default.args,
+    size: '{{this}}',
+    children: '{{capitalize this}} size',
+  },
+}
+{{/each}}
+
+{{#if includeAnimations}}
+// Animation stories
+export const WithScaleAnimation: Story = {
+  args: {
+    ...Default.args,
+    animation: 'scale',
+    children: 'Scale Animation',
+  },
+}
+
+export const WithPulseAnimation: Story = {
+  args: {
+    ...Default.args,
+    animation: 'pulse',
+    children: 'Pulse Animation', 
+  },
+}
+
+export const NoAnimations: Story = {
+  args: {
+    ...Default.args,
+    disableAnimations: true,
+    children: 'No Animations',
+  },
+}
+{{/if}}
+
+// State stories
+export const Loading: Story = {
+  args: {
+    ...Default.args,
+    loading: true,
+    children: 'Loading...',
+  },
+}
+
+export const Disabled: Story = {
+  args: {
+    ...Default.args,
+    disabled: true,
+    children: 'Disabled {{componentName}}',
+  },
+}
+
+export const FullWidth: Story = {
+  args: {
+    ...Default.args,
+    fullWidth: true,
+    children: 'Full Width {{componentName}}',
+  },
+  parameters: {
+    layout: 'padded',
+  },
+}
+
+// Showcase all variants
+export const AllVariants: Story = {
+  render: (args) => (
+    <div className="flex flex-wrap gap-4">
+      {{#each variants}}
+      <{{../componentName}} {...args} variant="{{this}}">
+        {{capitalize this}}
+      </{{../componentName}}>
+      {{/each}}
+    </div>
+  ),
+  args: Default.args,
+  parameters: {
+    layout: 'padded',
+  },
+}
+
+// Showcase all sizes
+export const AllSizes: Story = {
+  render: (args) => (
+    <div className="flex flex-wrap items-center gap-4">
+      {{#each sizes}}
+      <{{../componentName}} {...args} size="{{this}}">
+        {{capitalize this}}
+      </{{../componentName}}>
+      {{/each}}
+    </div>
+  ),
+  args: Default.args,
+  parameters: {
+    layout: 'padded',
+  },
+}
+
+// Real-world usage examples
+export const RealWorldExample: Story = {
+  render: (args) => (
+    <div className="max-w-md space-y-4">
+      <h3 className="text-lg font-semibold text-gray-900">Real-world usage</h3>
+      
+      <div className="space-y-3">
+        <{{componentName}} variant="primary" size="lg" fullWidth>
+          Primary Action
+        </{{componentName}}>
+        
+        <{{componentName}} variant="secondary" size="md">
+          Secondary Action
+        </{{componentName}}>
+        
+        <{{componentName}} variant="outline" size="sm">
+          Tertiary Action
+        </{{componentName}}>
+      </div>
+      
+      <div className="flex gap-2">
+        <{{componentName}} variant="ghost" size="sm">
+          Cancel
+        </{{componentName}}>
+        
+        <{{componentName}} variant="primary" size="sm" loading>
+          Saving...
+        </{{componentName}}>
+      </div>
+    </div>
+  ),
+  parameters: {
+    layout: 'padded',
+  },
+}

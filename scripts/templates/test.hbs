@@ -1,0 +1,276 @@
+import { render, screen, fireEvent, waitFor } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
+import { {{componentName}} } from './{{componentName}}'
+
+// Mock framer-motion to avoid animation issues in tests
+{{#if includeAnimations}}
+jest.mock('framer-motion', () => ({
+  ...jest.requireActual('framer-motion'),
+  motion: {
+    {{#ifEquals componentType "primitive"}}button{{else}}div{{/ifEquals}}: ({ children, ...props }: any) => <{{#ifEquals componentType "primitive"}}button{{else}}div{{/ifEquals}} {...props}>{children}</{{#ifEquals componentType "primitive"}}button{{else}}div{{/ifEquals}}>,
+  },
+}))
+{{/if}}
+
+describe('{{componentName}}', () => {
+  // Basic rendering tests
+  describe('rendering', () => {
+    it('renders correctly with default props', () => {
+      render(<{{componentName}}>Test Content</{{componentName}}>)
+      
+      const element = screen.getByRole('{{#ifEquals componentType "primitive"}}button{{else}}generic{{/ifEquals}}')
+      expect(element).toBeInTheDocument()
+      expect(element).toHaveTextContent('Test Content')
+    })
+
+    it('renders with custom className', () => {
+      render(<{{componentName}} className="custom-class">Test</{{componentName}}>)
+      
+      const element = screen.getByRole('{{#ifEquals componentType "primitive"}}button{{else}}generic{{/ifEquals}}')
+      expect(element).toHaveClass('custom-class')
+    })
+
+    it('forwards ref correctly', () => {
+      const ref = jest.fn()
+      render(<{{componentName}} ref={ref}>Test</{{componentName}}>)
+      
+      expect(ref).toHaveBeenCalledWith(expect.any(HTML{{#ifEquals componentType "primitive"}}Button{{else}}Div{{/ifEquals}}Element))
+    })
+  })
+
+  // Variant tests
+  describe('variants', () => {
+    {{#each variants}}
+    it('renders {{this}} variant correctly', () => {
+      render(<{{../componentName}} variant="{{this}}">{{capitalize this}}</{{../componentName}}>)
+      
+      const element = screen.getByRole('{{#ifEquals ../componentType "primitive"}}button{{else}}generic{{/ifEquals}}')
+      expect(element).toBeInTheDocument()
+      // Add specific assertions for this variant's styling if needed
+    })
+    {{/each}}
+  })
+
+  // Size tests
+  describe('sizes', () => {
+    {{#each sizes}}
+    it('renders {{this}} size correctly', () => {
+      render(<{{../componentName}} size="{{this}}">{{capitalize this}}</{{../componentName}}>)
+      
+      const element = screen.getByRole('{{#ifEquals ../componentType "primitive"}}button{{else}}generic{{/ifEquals}}')
+      expect(element).toBeInTheDocument()
+      // Add specific assertions for this size's styling if needed
+    })
+    {{/each}}
+  })
+
+  // State tests
+  describe('states', () => {
+    it('handles disabled state correctly', () => {
+      render(<{{componentName}} disabled>Disabled</{{componentName}}>)
+      
+      const element = screen.getByRole('{{#ifEquals componentType "primitive"}}button{{else}}generic{{/ifEquals}}')
+      {{#ifEquals componentType "primitive"}}
+      expect(element).toBeDisabled()
+      {{/ifEquals}}
+      expect(element).toHaveClass('disabled:opacity-50', 'disabled:cursor-not-allowed')
+    })
+
+    it('handles loading state correctly', () => {
+      render(<{{componentName}} loading>Loading</{{componentName}}>)
+      
+      const element = screen.getByRole('{{#ifEquals componentType "primitive"}}button{{else}}generic{{/ifEquals}}')
+      {{#ifEquals componentType "primitive"}}
+      expect(element).toBeDisabled()
+      {{/ifEquals}}
+      
+      // Check for loading spinner
+      expect(element.querySelector('.animate-spin')).toBeInTheDocument()
+    })
+
+    it('handles fullWidth prop correctly', () => {
+      render(<{{componentName}} fullWidth>Full Width</{{componentName}}>)
+      
+      const element = screen.getByRole('{{#ifEquals componentType "primitive"}}button{{else}}generic{{/ifEquals}}')
+      expect(element).toHaveClass('w-full')
+    })
+  })
+
+  {{#if includeAnimations}}
+  // Animation tests
+  describe('animations', () => {
+    it('disables animations when disableAnimations is true', () => {
+      render(<{{componentName}} disableAnimations>No Animation</{{componentName}}>)
+      
+      const element = screen.getByRole('{{#ifEquals componentType "primitive"}}button{{else}}generic{{/ifEquals}}')
+      expect(element).toBeInTheDocument()
+      // Test that animation classes are not present or animation props are not set
+    })
+
+    it('applies scale animation by default', () => {
+      render(<{{componentName}} animation="scale">Scale</{{componentName}}>)
+      
+      const element = screen.getByRole('{{#ifEquals componentType "primitive"}}button{{else}}generic{{/ifEquals}}')
+      expect(element).toHaveClass('hover:scale-105', 'active:scale-95')
+    })
+  })
+  {{/if}}
+
+  // Interaction tests
+  describe('interactions', () => {
+    {{#ifEquals componentType "primitive"}}
+    it('handles click events', async () => {
+      const handleClick = jest.fn()
+      const user = userEvent.setup()
+      
+      render(<{{componentName}} onClick={handleClick}>Clickable</{{componentName}}>)
+      
+      const button = screen.getByRole('button')
+      await user.click(button)
+      
+      expect(handleClick).toHaveBeenCalledTimes(1)
+    })
+
+    it('does not fire click when disabled', async () => {
+      const handleClick = jest.fn()
+      const user = userEvent.setup()
+      
+      render(<{{componentName}} disabled onClick={handleClick}>Disabled</{{componentName}}>)
+      
+      const button = screen.getByRole('button')
+      await user.click(button)
+      
+      expect(handleClick).not.toHaveBeenCalled()
+    })
+
+    it('does not fire click when loading', async () => {
+      const handleClick = jest.fn()
+      const user = userEvent.setup()
+      
+      render(<{{componentName}} loading onClick={handleClick}>Loading</{{componentName}}>)
+      
+      const button = screen.getByRole('button')
+      await user.click(button)
+      
+      expect(handleClick).not.toHaveBeenCalled()
+    })
+    {{/ifEquals}}
+
+    it('handles keyboard navigation', async () => {
+      const user = userEvent.setup()
+      
+      render(<{{componentName}}>Focusable</{{componentName}}>)
+      
+      const element = screen.getByRole('{{#ifEquals componentType "primitive"}}button{{else}}generic{{/ifEquals}}')
+      
+      // Tab to focus the element
+      await user.tab()
+      expect(element).toHaveFocus()
+      
+      {{#ifEquals componentType "primitive"}}
+      // Press Enter to activate (if it's a button)
+      const handleClick = jest.fn()
+      element.onclick = handleClick
+      
+      await user.keyboard('{Enter}')
+      expect(handleClick).toHaveBeenCalledTimes(1)
+      {{/ifEquals}}
+    })
+  })
+
+  // Accessibility tests
+  describe('accessibility', () => {
+    it('has proper ARIA attributes', () => {
+      render(<{{componentName}} aria-label="Test label">Content</{{componentName}}>)
+      
+      const element = screen.getByRole('{{#ifEquals componentType "primitive"}}button{{else}}generic{{/ifEquals}}')
+      expect(element).toHaveAttribute('aria-label', 'Test label')
+    })
+
+    it('maintains focus management', async () => {
+      const user = userEvent.setup()
+      
+      render(
+        <div>
+          <button>Before</button>
+          <{{componentName}}>Target</{{componentName}}>
+          <button>After</button>
+        </div>
+      )
+      
+      const beforeButton = screen.getByText('Before')
+      const targetElement = screen.getByText('Target')
+      const afterButton = screen.getByText('After')
+      
+      // Test tab order
+      await user.tab()
+      expect(beforeButton).toHaveFocus()
+      
+      await user.tab()
+      expect(targetElement).toHaveFocus()
+      
+      await user.tab()
+      expect(afterButton).toHaveFocus()
+    })
+
+    it('provides proper contrast and visibility', () => {
+      render(<{{componentName}}>Visible Content</{{componentName}}>)
+      
+      const element = screen.getByRole('{{#ifEquals componentType "primitive"}}button{{else}}generic{{/ifEquals}}')
+      
+      // Basic visibility check
+      expect(element).toBeVisible()
+      
+      // Check that text is not hidden (opacity 0) unless in loading state
+      expect(element).not.toHaveClass('opacity-0')
+    })
+  })
+
+  // Edge cases and error handling
+  describe('edge cases', () => {
+    it('handles empty children gracefully', () => {
+      render(<{{componentName}}></{{componentName}}>)
+      
+      const element = screen.getByRole('{{#ifEquals componentType "primitive"}}button{{else}}generic{{/ifEquals}}')
+      expect(element).toBeInTheDocument()
+    })
+
+    it('handles null children gracefully', () => {
+      render(<{{componentName}}>{null}</{{componentName}}>)
+      
+      const element = screen.getByRole('{{#ifEquals componentType "primitive"}}button{{else}}generic{{/ifEquals}}')
+      expect(element).toBeInTheDocument()
+    })
+
+    it('handles complex children', () => {
+      render(
+        <{{componentName}}>
+          <span>Complex</span>
+          <strong>Children</strong>
+        </{{componentName}}>
+      )
+      
+      const element = screen.getByRole('{{#ifEquals componentType "primitive"}}button{{else}}generic{{/ifEquals}}')
+      expect(element).toHaveTextContent('ComplexChildren')
+    })
+  })
+
+  // Performance tests
+  describe('performance', () => {
+    it('does not cause unnecessary re-renders', () => {
+      const renderSpy = jest.fn()
+      
+      function TestComponent({ count }: { count: number }) {
+        renderSpy()
+        return <{{componentName}}>Render count: {count}</{{componentName}}>
+      }
+      
+      const { rerender } = render(<TestComponent count={1} />)
+      
+      rerender(<TestComponent count={1} />)
+      
+      // Should render twice: initial + rerender with same props
+      expect(renderSpy).toHaveBeenCalledTimes(2)
+    })
+  })
+})

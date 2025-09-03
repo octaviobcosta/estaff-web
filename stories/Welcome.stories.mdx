@@ -1,0 +1,132 @@
+import { Meta } from '@storybook/addon-docs'
+
+<Meta title="Welcome" />
+
+# eStaff Design System
+
+Welcome to the **eStaff Design System** documentation. This comprehensive guide showcases our design tokens, components, and patterns that power our freelancer-company marketplace platform.
+
+## 🎨 Design Philosophy
+
+Our design system is built on three core brand identities:
+
+- **Freelancer (Freela)**: Energetic and creative, using vibrant pink/coral colors
+- **Company (Empresa)**: Professional and trustworthy, featuring navy blue tones  
+- **Institutional**: Warm and approachable, with beige accents
+
+## 🏗️ Architecture
+
+The design system follows a **token-based architecture** with:
+
+### Design Tokens
+- **Colors**: Multi-brand color palettes with semantic naming
+- **Typography**: Consistent type scale from `xs` to `9xl`
+- **Spacing**: 40-point spacing scale for consistent layouts
+- **Animation**: Premium motion design with 60fps animations
+- **Elevation**: Layered shadow system for depth
+
+### Component Hierarchy
+1. **Primitives**: Basic building blocks (Button, Input, Badge)
+2. **Elements**: Composed components (Card, Form, Modal)
+3. **Patterns**: Complex UI patterns (Navigation, DataTable)
+4. **Templates**: Full page layouts
+
+## 🚀 Getting Started
+
+### Installation
+
+```bash
+npm install
+npm run storybook
+```
+
+### Using Components
+
+```tsx
+import { Button } from '@/components/ui/button'
+
+<Button variant="primary" size="lg" brand="freela">
+  Get Started
+</Button>
+```
+
+### Applying Tokens
+
+```tsx
+import { colors, spacing, typography } from '@/lib/design-system/tokens'
+
+const styles = {
+  color: colors.freela[500],
+  padding: spacing[4],
+  fontSize: typography.sizes.lg,
+}
+```
+
+## 🎯 Key Features
+
+### Theme Switching
+Use the toolbar above to switch between brand themes and see how components adapt.
+
+### Accessibility
+All components are WCAG 2.1 AA compliant with:
+- Keyboard navigation
+- Screen reader support
+- Color contrast ratios
+- Focus indicators
+
+### Performance
+- **Load Time**: <3s on 3G networks
+- **Bundle Size**: <500KB initial load
+- **Core Web Vitals**: Optimized for LCP, FID, and CLS
+
+### Responsive Design
+Mobile-first approach with breakpoints:
+- Mobile: 375px
+- Tablet: 768px
+- Desktop: 1366px
+- Wide: 1920px
+
+## 📚 Documentation Structure
+
+Navigate through our documentation:
+
+1. **Design System**: Core design tokens and principles
+2. **Components**: Interactive component library
+3. **Forms**: Form components and validation
+4. **Pages**: Full page examples and templates
+
+## 💻 Development
+
+### Component Creation
+
+```bash
+npm run create:component -- --name MyComponent
+```
+
+### Testing
+
+- **Visual Testing**: Chromatic integration
+- **Accessibility**: Built-in a11y testing
+- **Interaction**: Storybook play functions
+
+### Contributing
+
+1. Follow the token-based approach
+2. Ensure accessibility compliance
+3. Add comprehensive stories
+4. Include usage documentation
+
+## 🔗 Resources
+
+- [Design Tokens](/story/design-system-introduction--docs)
+- [Component Library](/story/components-primitives-button--docs)
+- [GitHub Repository](https://github.com/estaff/design-system)
+- [Figma Design Files](https://figma.com/estaff)
+
+---
+
+<div style={{ marginTop: '2rem', padding: '1rem', background: '#f5f5f5', borderRadius: '8px' }}>
+  <strong>Version:</strong> 1.0.0<br />
+  <strong>Last Updated:</strong> {new Date().toLocaleDateString()}<br />
+  <strong>License:</strong> MIT
+</div>

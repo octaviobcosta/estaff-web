@@ -1,0 +1,168 @@
+{
+  "componentTypes": {
+    "primitive": {
+      "description": "Basic building blocks (Button, Input, etc.)",
+      "path": "components/design-system/primitives",
+      "examples": ["Button", "Input", "Label", "Checkbox", "RadioButton"]
+    },
+    "element": {
+      "description": "Composed elements (Card, Badge, Avatar, etc.)",
+      "path": "components/design-system/elements", 
+      "examples": ["Card", "Badge", "Avatar", "Alert", "Progress", "Tooltip"]
+    },
+    "pattern": {
+      "description": "Complex patterns (Header, Footer, Forms, etc.)",
+      "path": "components/design-system/patterns",
+      "examples": ["Header", "Footer", "NavigationMenu", "DataTable", "Modal"]
+    }
+  },
+
+  "variants": {
+    "common": {
+      "primary": "Main brand color with high contrast",
+      "secondary": "Secondary brand color for supporting actions",
+      "outline": "Transparent background with colored border",
+      "ghost": "Transparent background with subtle hover effects",
+      "gradient": "Gradient background using brand colors"
+    },
+    "button": {
+      "primary": "Primary brand action",
+      "secondary": "Secondary brand action", 
+      "outline": "Outlined button style",
+      "ghost": "Ghost button style",
+      "gradient": "Gradient button style",
+      "glass": "Glass morphism effect",
+      "glow": "Glowing shadow effect"
+    },
+    "card": {
+      "default": "Standard card with border",
+      "elevated": "Card with shadow elevation",
+      "glass": "Glass morphism effect",
+      "gradient": "Gradient background"
+    },
+    "alert": {
+      "info": "Informational message",
+      "success": "Success notification",
+      "warning": "Warning message", 
+      "error": "Error message",
+      "neutral": "Neutral message"
+    }
+  },
+
+  "sizes": {
+    "common": ["xs", "sm", "md", "lg", "xl"],
+    "spacing": ["0", "1", "2", "3", "4", "5", "6", "8", "10", "12", "16", "20", "24"],
+    "font": ["xs", "sm", "base", "lg", "xl", "2xl", "3xl", "4xl", "5xl"]
+  },
+
+  "animations": {
+    "entrance": ["fade-in", "fade-up", "fade-down", "slide-in-left", "slide-in-right", "zoom-in"],
+    "hover": ["scale", "shine", "pulse", "float", "glow"],
+    "transition": ["scale", "opacity", "transform", "color"]
+  },
+
+  "brandColors": {
+    "freela": {
+      "description": "Pink/coral for freelancer features",
+      "variants": ["50", "100", "200", "300", "400", "500", "600", "700", "800", "900"]
+    },
+    "empresa": {
+      "description": "Navy blue for company features", 
+      "variants": ["50", "100", "200", "300", "400", "500", "600", "700", "800", "900"]
+    },
+    "institucional": {
+      "description": "Warm beige for institutional content",
+      "variants": ["50", "100", "200", "300", "400", "500", "600", "700", "800", "900"]
+    },
+    "gray": {
+      "description": "Neutral gray scale",
+      "variants": ["50", "100", "200", "300", "400", "500", "600", "700", "800", "900"]
+    }
+  },
+
+  "designTokens": {
+    "spacing": {
+      "import": "@/lib/design-system/tokens",
+      "type": "spacing",
+      "values": ["px", "0", "0.5", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "14", "16", "18", "20", "24", "28", "32", "36", "40", "48", "56", "64", "72", "80", "96"]
+    },
+    "colors": {
+      "import": "@/lib/design-system/tokens",
+      "type": "colors",
+      "categories": ["brand", "gray", "semantic", "accent"]
+    },
+    "typography": {
+      "import": "@/lib/design-system/tokens",
+      "type": "typography",
+      "properties": ["fontSizes", "fontWeights", "fontFamilies"]
+    },
+    "animations": {
+      "import": "@/lib/design-system/tokens",
+      "type": "animations",
+      "properties": ["transitions", "easings", "durations"]
+    }
+  },
+
+  "defaultProps": {
+    "primitive": {
+      "forwardRef": true,
+      "classNameMerge": true,
+      "designTokens": true,
+      "variants": true,
+      "animations": false
+    },
+    "element": {
+      "forwardRef": true,
+      "classNameMerge": true,
+      "designTokens": true,
+      "variants": true,
+      "animations": true
+    },
+    "pattern": {
+      "forwardRef": false,
+      "classNameMerge": true,
+      "designTokens": true,
+      "variants": true,
+      "animations": true
+    }
+  },
+
+  "imports": {
+    "react": [
+      "forwardRef",
+      "ReactNode", 
+      "HTMLAttributes",
+      "ButtonHTMLAttributes",
+      "InputHTMLAttributes"
+    ],
+    "framerMotion": [
+      "motion",
+      "HTMLMotionProps",
+      "Variants",
+      "AnimatePresence"
+    ],
+    "utils": [
+      "cn"
+    ],
+    "classVarianceAuthority": [
+      "cva",
+      "VariantProps"
+    ]
+  },
+
+  "fileExtensions": {
+    "component": ".tsx",
+    "story": ".stories.tsx",
+    "test": ".test.tsx", 
+    "index": ".ts"
+  },
+
+  "templateOptions": {
+    "includeStories": true,
+    "includeTests": true,
+    "includeIndex": true,
+    "useMotion": true,
+    "useTokens": true,
+    "useCVA": true
+  }
+}

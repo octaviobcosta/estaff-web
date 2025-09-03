@@ -3,6 +3,7 @@
 import { ButtonHTMLAttributes, forwardRef, ReactNode } from 'react'
 import { motion, HTMLMotionProps } from 'framer-motion'
 import { cn } from '@/lib/utils'
+import { tokens } from '@/lib/design-system/tokens'
 
 interface ButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'onDrag' | 'onDragStart' | 'onDragEnd' | 'onAnimationStart' | 'onAnimationEnd'> {
   variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'gradient' | 'glass' | 'glow'
@@ -33,32 +34,153 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     ...props 
   }, ref) => {
     
-    const baseClasses = 'relative inline-flex items-center justify-center font-medium transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed overflow-hidden'
+    // Pixel-perfect base styling using design tokens
+    const baseClasses = `
+      relative inline-flex items-center justify-center font-medium 
+      transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 
+      disabled:opacity-50 disabled:cursor-not-allowed overflow-hidden
+    `.replace(/\s+/g, ' ').trim()
     
-    const variantClasses = {
-      primary: 'bg-freela text-white hover:bg-freela-600 focus-visible:ring-freela shadow-md hover:shadow-lg',
-      secondary: 'bg-empresa text-white hover:bg-empresa-800 focus-visible:ring-empresa shadow-md hover:shadow-lg',
-      outline: 'border-2 border-freela text-freela hover:bg-freela hover:text-white focus-visible:ring-freela',
-      ghost: 'text-gray-700 hover:bg-gray-100 focus-visible:ring-gray-400',
-      gradient: `bg-gradient-to-r text-white shadow-lg hover:shadow-xl focus-visible:ring-freela ${getGradient(gradient)}`,
-      glass: 'backdrop-blur-md bg-white/20 border border-white/30 text-white hover:bg-white/30 focus-visible:ring-white/50 shadow-glass',
-      glow: 'bg-freela text-white shadow-glow hover:shadow-glow-empresa transition-shadow focus-visible:ring-freela'
+    // Style object for precise token usage
+    const baseStyle = {
+      fontFamily: tokens.fontFamilies.primary,
+      transitionDuration: tokens.durations.standard,
+      transitionTimingFunction: tokens.easings.easeOut,
     }
     
-    const sizeClasses = {
-      xs: 'px-2.5 py-1.5 text-xs gap-1',
-      sm: 'px-3 py-2 text-sm gap-1.5',
-      md: 'px-5 py-2.5 text-base gap-2',
-      lg: 'px-6 py-3 text-lg gap-2.5',
-      xl: 'px-8 py-4 text-xl gap-3',
+    const variantStyles = {
+      primary: {
+        backgroundColor: tokens.colors.brand.freela[500],
+        color: tokens.colors.brand.neutral.white,
+        boxShadow: tokens.shadows.dp2,
+        '&:hover': {
+          backgroundColor: tokens.colors.brand.freela[600],
+          boxShadow: tokens.shadows.dp4,
+          transform: `translateY(${tokens.spacing[0.5]}px)`,
+        },
+        '&:focus-visible': {
+          boxShadow: `${tokens.shadows.dp2}, 0 0 0 ${tokens.spacing[1]}px ${tokens.colors.brand.freela[500]}40`,
+        }
+      },
+      secondary: {
+        backgroundColor: tokens.colors.brand.empresa[700],
+        color: tokens.colors.brand.neutral.white,
+        boxShadow: tokens.shadows.dp2,
+        '&:hover': {
+          backgroundColor: tokens.colors.brand.empresa[800],
+          boxShadow: tokens.shadows.dp4,
+          transform: `translateY(-${tokens.spacing[0.5]}px)`,
+        }
+      },
+      outline: {
+        border: `2px solid ${tokens.colors.brand.freela[500]}`,
+        backgroundColor: 'transparent',
+        color: tokens.colors.brand.freela[500],
+        '&:hover': {
+          backgroundColor: tokens.colors.brand.freela[500],
+          color: tokens.colors.brand.neutral.white,
+        }
+      },
+      ghost: {
+        backgroundColor: 'transparent',
+        color: tokens.colors.gray[700],
+        '&:hover': {
+          backgroundColor: tokens.colors.gray[100],
+        }
+      },
+      gradient: {
+        background: `linear-gradient(135deg, ${tokens.colors.brand.freela[500]}, ${tokens.colors.brand.empresa[600]})`,
+        color: tokens.colors.brand.neutral.white,
+        boxShadow: tokens.shadows.dp6,
+        '&:hover': {
+          boxShadow: tokens.shadows.dp12,
+          transform: `translateY(-${tokens.spacing[1]}px)`,
+        }
+      },
+      glass: {
+        backgroundColor: `${tokens.colors.brand.neutral.white}20`,
+        backdropFilter: 'blur(12px)',
+        border: `1px solid ${tokens.colors.brand.neutral.white}30`,
+        color: tokens.colors.brand.neutral.white,
+        '&:hover': {
+          backgroundColor: `${tokens.colors.brand.neutral.white}30`,
+        }
+      },
+      glow: {
+        backgroundColor: tokens.colors.brand.freela[500],
+        color: tokens.colors.brand.neutral.white,
+        boxShadow: tokens.glows.freela,
+        '&:hover': {
+          boxShadow: tokens.glows.empresa,
+        }
+      }
+    }
+    
+    // Pixel-perfect sizing using 8px grid
+    const sizeStyles = {
+      xs: {
+        paddingLeft: tokens.spacing[2],    // 8px
+        paddingRight: tokens.spacing[2],   // 8px
+        paddingTop: tokens.spacing[1],     // 4px
+        paddingBottom: tokens.spacing[1],  // 4px
+        fontSize: tokens.typography.xs.size,
+        lineHeight: tokens.typography.xs.lineHeight,
+        letterSpacing: tokens.typography.xs.letterSpacing,
+        gap: tokens.spacing[1],            // 4px
+        minHeight: tokens.spacing[6],      // 24px
+      },
+      sm: {
+        paddingLeft: tokens.spacing[3],    // 12px
+        paddingRight: tokens.spacing[3],   // 12px
+        paddingTop: tokens.spacing[1.5],   // 6px
+        paddingBottom: tokens.spacing[1.5],// 6px
+        fontSize: tokens.typography.sm.size,
+        lineHeight: tokens.typography.sm.lineHeight,
+        letterSpacing: tokens.typography.sm.letterSpacing,
+        gap: tokens.spacing[1.5],          // 6px
+        minHeight: tokens.spacing[8],      // 32px
+      },
+      md: {
+        paddingLeft: tokens.spacing[4],    // 16px
+        paddingRight: tokens.spacing[4],   // 16px
+        paddingTop: tokens.spacing[2.5],   // 10px
+        paddingBottom: tokens.spacing[2.5],// 10px
+        fontSize: tokens.typography.base.size,
+        lineHeight: tokens.typography.base.lineHeight,
+        letterSpacing: tokens.typography.base.letterSpacing,
+        gap: tokens.spacing[2],            // 8px
+        minHeight: tokens.spacing[10],     // 40px
+      },
+      lg: {
+        paddingLeft: tokens.spacing[6],    // 24px
+        paddingRight: tokens.spacing[6],   // 24px
+        paddingTop: tokens.spacing[3],     // 12px
+        paddingBottom: tokens.spacing[3],  // 12px
+        fontSize: tokens.typography.lg.size,
+        lineHeight: tokens.typography.lg.lineHeight,
+        letterSpacing: tokens.typography.lg.letterSpacing,
+        gap: tokens.spacing[2.5],          // 10px
+        minHeight: tokens.spacing[12],     // 48px
+      },
+      xl: {
+        paddingLeft: tokens.spacing[8],    // 32px
+        paddingRight: tokens.spacing[8],   // 32px
+        paddingTop: tokens.spacing[4],     // 16px
+        paddingBottom: tokens.spacing[4],  // 16px
+        fontSize: tokens.typography.xl.size,
+        lineHeight: tokens.typography.xl.lineHeight,
+        letterSpacing: tokens.typography.xl.letterSpacing,
+        gap: tokens.spacing[3],            // 12px
+        minHeight: tokens.spacing[14],     // 56px
+      },
     }
 
-    const roundedClasses = {
-      sm: 'rounded',
-      md: 'rounded-md',
-      lg: 'rounded-lg',
-      xl: 'rounded-xl',
-      full: 'rounded-full'
+    const roundedStyles = {
+      sm: { borderRadius: tokens.spacing[1] },    // 4px
+      md: { borderRadius: tokens.spacing[1.5] },  // 6px
+      lg: { borderRadius: tokens.spacing[2] },    // 8px
+      xl: { borderRadius: tokens.spacing[3] },    // 12px
+      full: { borderRadius: '9999px' }
     }
     
     function getGradient(type: string) {
@@ -72,33 +194,59 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       return gradients[type as keyof typeof gradients] || gradients.brand
     }
 
+    // Pixel-perfect animations using design tokens
     const animationVariants = {
       scale: {
-        whileHover: !disabled && !loading ? { scale: 1.05 } : {},
-        whileTap: !disabled && !loading ? { scale: 0.95 } : {},
+        whileHover: !disabled && !loading ? { 
+          scale: 1.02,
+          transition: { 
+            duration: Number(tokens.durations.fast.replace('ms', '')) / 1000,
+            ease: tokens.springs.gentle.ease 
+          }
+        } : {},
+        whileTap: !disabled && !loading ? { 
+          scale: 0.98,
+          transition: { 
+            duration: Number(tokens.durations.faster.replace('ms', '')) / 1000,
+            ease: tokens.springs.snappy.ease 
+          }
+        } : {},
       },
       shine: {
-        whileHover: !disabled && !loading ? {} : {},
+        whileHover: !disabled && !loading ? {
+          transition: { 
+            duration: Number(tokens.durations.standard.replace('ms', '')) / 1000,
+            ease: tokens.easings.easeOut 
+          }
+        } : {},
       },
       pulse: {
-        animate: !disabled && !loading ? { scale: [1, 1.05, 1] } : {},
-        transition: { duration: 2, repeat: Infinity }
+        animate: !disabled && !loading ? { 
+          scale: [1, 1.02, 1],
+          transition: { 
+            duration: Number(tokens.durations.slow.replace('ms', '')) / 1000 * 2,
+            repeat: Infinity,
+            ease: tokens.easings.easeInOut 
+          }
+        } : {},
       },
       none: {}
+    }
+
+    // Combine all styles for the component
+    const combinedStyle = {
+      ...baseStyle,
+      ...sizeStyles[size],
+      ...roundedStyles[rounded],
+      ...(fullWidth && { width: '100%' }),
     }
 
     const MotionButton = motion.button
 
     return (
       <MotionButton
-        className={cn(
-          baseClasses,
-          variantClasses[variant],
-          sizeClasses[size],
-          roundedClasses[rounded],
-          fullWidth && 'w-full',
-          className
-        )}
+        className={cn(baseClasses, className)}
+        style={combinedStyle}
         ref={ref}
         disabled={disabled || loading}
         {...animationVariants[animation]}
@@ -107,19 +255,34 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         {/* Shine Effect Overlay */}
         {animation === 'shine' && !disabled && !loading && (
           <motion.div
-            className="absolute inset-0 -top-1 bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12"
+            className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12"
+            style={{
+              top: `-${tokens.spacing[0.5]}px`,
+            }}
             initial={{ x: '-200%' }}
             whileHover={{ x: '200%' }}
-            transition={{ duration: 0.7 }}
+            transition={{ 
+              duration: Number(tokens.durations.standard.replace('ms', '')) / 1000 * 2.5,
+              ease: tokens.easings.easeOut 
+            }}
           />
         )}
 
         {/* Loading Spinner */}
         {loading && (
           <motion.svg
-            className="absolute animate-spin h-5 w-5"
+            className="absolute animate-spin"
+            style={{
+              width: tokens.spacing[5],  // 20px
+              height: tokens.spacing[5], // 20px
+            }}
             initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
+            animate={{ 
+              opacity: 1,
+              transition: {
+                duration: Number(tokens.durations.fast.replace('ms', '')) / 1000
+              }
+            }}
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
@@ -173,18 +336,40 @@ interface IconButtonProps extends Omit<ButtonProps, 'children'> {
 
 const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
   ({ className, size = 'md', ...props }, ref) => {
-    const sizeClasses = {
-      xs: 'p-1',
-      sm: 'p-1.5',
-      md: 'p-2',
-      lg: 'p-2.5',
-      xl: 'p-3',
+    // Pixel-perfect icon button padding using tokens
+    const iconSizeStyles = {
+      xs: { 
+        padding: tokens.spacing[1],     // 4px
+        minWidth: tokens.spacing[6],    // 24px
+        minHeight: tokens.spacing[6],   // 24px
+      },
+      sm: { 
+        padding: tokens.spacing[1.5],   // 6px
+        minWidth: tokens.spacing[8],    // 32px
+        minHeight: tokens.spacing[8],   // 32px
+      },
+      md: { 
+        padding: tokens.spacing[2],     // 8px
+        minWidth: tokens.spacing[10],   // 40px
+        minHeight: tokens.spacing[10],  // 40px
+      },
+      lg: { 
+        padding: tokens.spacing[2.5],   // 10px
+        minWidth: tokens.spacing[12],   // 48px
+        minHeight: tokens.spacing[12],  // 48px
+      },
+      xl: { 
+        padding: tokens.spacing[3],     // 12px
+        minWidth: tokens.spacing[14],   // 56px
+        minHeight: tokens.spacing[14],  // 56px
+      },
     }
 
     return (
       <Button
         ref={ref}
-        className={cn(sizeClasses[size], 'aspect-square', className)}
+        className={cn('aspect-square', className)}
+        style={iconSizeStyles[size]}
         size={size}
         {...props}
       />

@@ -4,6 +4,7 @@ import React, { forwardRef, useState } from 'react'
 import { cn } from '@/lib/utils'
 import { motion, AnimatePresence } from 'framer-motion'
 import { AlertCircle, Check, Eye, EyeOff } from 'lucide-react'
+import { tokens } from '@/lib/design-system/tokens'
 
 /**
  * Input component props interface
@@ -59,59 +60,180 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     const [showPassword, setShowPassword] = useState(false)
     const isPassword = type === 'password'
 
-    // Size variants
-    const sizeClasses = {
-      sm: 'h-9 px-3 text-sm',
-      md: 'h-11 px-4 text-base',
-      lg: 'h-13 px-5 text-lg'
+    // Pixel-perfect size variants using design tokens
+    const sizeStyles = {
+      sm: {
+        height: tokens.spacing[9],           // 36px
+        paddingLeft: tokens.spacing[3],      // 12px
+        paddingRight: tokens.spacing[3],     // 12px
+        fontSize: tokens.typography.sm.size,
+        lineHeight: tokens.typography.sm.lineHeight,
+        letterSpacing: tokens.typography.sm.letterSpacing,
+      },
+      md: {
+        height: tokens.spacing[11],          // 44px
+        paddingLeft: tokens.spacing[4],      // 16px
+        paddingRight: tokens.spacing[4],     // 16px
+        fontSize: tokens.typography.base.size,
+        lineHeight: tokens.typography.base.lineHeight,
+        letterSpacing: tokens.typography.base.letterSpacing,
+      },
+      lg: {
+        height: tokens.spacing[13],          // 52px
+        paddingLeft: tokens.spacing[5],      // 20px
+        paddingRight: tokens.spacing[5],     // 20px
+        fontSize: tokens.typography.lg.size,
+        lineHeight: tokens.typography.lg.lineHeight,
+        letterSpacing: tokens.typography.lg.letterSpacing,
+      }
     }
 
-    // Variant focus colors
-    const variantClasses = {
-      freela: 'focus:border-freela-500 focus:ring-freela-500/20',
-      empresa: 'focus:border-empresa-500 focus:ring-empresa-500/20',
-      institucional: 'focus:border-institucional-500 focus:ring-institucional-500/20',
-      default: 'focus:border-gray-500 focus:ring-gray-500/20'
+    // Base input styling with design tokens
+    const baseStyle = {
+      position: 'relative' as const,
+      width: fullWidth ? '100%' : 'auto',
+      borderRadius: tokens.spacing[2],  // 8px
+      border: `1px solid ${tokens.colors.gray[200]}`,
+      backgroundColor: tokens.colors.brand.neutral.white,
+      fontFamily: tokens.fontFamilies.primary,
+      fontWeight: tokens.fontWeights.normal,
+      transition: `all ${tokens.durations.standard} ${tokens.easings.easeOut}`,
+      color: tokens.colors.gray[900],
+      ...sizeStyles[size],
+      '&:focus': {
+        outline: 'none',
+        boxShadow: `0 0 0 ${tokens.spacing[1]}px`,  // 4px ring
+      },
+      '&::placeholder': {
+        color: tokens.colors.gray[400],
+      },
+      ...(leftIcon && {
+        paddingLeft: tokens.spacing[10],  // 40px
+      }),
+      ...((rightIcon || isPassword) && {
+        paddingRight: tokens.spacing[10], // 40px
+      }),
+      ...(disabled && {
+        opacity: 0.5,
+        cursor: 'not-allowed',
+        backgroundColor: tokens.colors.gray[50],
+      })
     }
 
-    // State classes
-    const stateClasses = cn(
-      error && 'border-red-500 focus:border-red-500 focus:ring-red-500/20',
-      success && 'border-green-500 focus:border-green-500 focus:ring-green-500/20',
-      disabled && 'opacity-50 cursor-not-allowed bg-gray-50'
-    )
+    // Variant-specific focus styles
+    const variantFocusStyles = {
+      freela: {
+        '&:focus': {
+          ...baseStyle['&:focus'],
+          borderColor: tokens.colors.brand.freela[500],
+          boxShadow: `0 0 0 ${tokens.spacing[1]}px ${tokens.colors.brand.freela[500]}20`,
+        }
+      },
+      empresa: {
+        '&:focus': {
+          ...baseStyle['&:focus'],
+          borderColor: tokens.colors.brand.empresa[500],
+          boxShadow: `0 0 0 ${tokens.spacing[1]}px ${tokens.colors.brand.empresa[500]}20`,
+        }
+      },
+      institucional: {
+        '&:focus': {
+          ...baseStyle['&:focus'],
+          borderColor: tokens.colors.brand.institucional[500],
+          boxShadow: `0 0 0 ${tokens.spacing[1]}px ${tokens.colors.brand.institucional[500]}20`,
+        }
+      },
+      default: {
+        '&:focus': {
+          ...baseStyle['&:focus'],
+          borderColor: tokens.colors.gray[500],
+          boxShadow: `0 0 0 ${tokens.spacing[1]}px ${tokens.colors.gray[500]}20`,
+        }
+      }
+    }
 
-    const inputClasses = cn(
-      'relative w-full rounded-lg border border-gray-200 bg-white',
-      'transition-all duration-200 ease-out',
-      'focus:outline-none focus:ring-4',
-      'placeholder:text-gray-400',
-      sizeClasses[size],
-      !error && !success && variantClasses[variant],
-      stateClasses,
-      leftIcon && 'pl-10',
-      (rightIcon || isPassword) && 'pr-10',
-      fullWidth && 'w-full',
-      className
-    )
+    // State-specific styling
+    const stateStyle = {
+      ...(error && {
+        borderColor: tokens.colors.semantic.error[500],
+        '&:focus': {
+          borderColor: tokens.colors.semantic.error[500],
+          boxShadow: `0 0 0 ${tokens.spacing[1]}px ${tokens.colors.semantic.error[500]}20`,
+        }
+      }),
+      ...(success && {
+        borderColor: tokens.colors.semantic.success[500],
+        '&:focus': {
+          borderColor: tokens.colors.semantic.success[500],
+          boxShadow: `0 0 0 ${tokens.spacing[1]}px ${tokens.colors.semantic.success[500]}20`,
+        }
+      }),
+    }
+
+    // Combine all styles
+    const combinedStyle = {
+      ...baseStyle,
+      ...(!error && !success && variantFocusStyles[variant]),
+      ...stateStyle,
+    }
 
     const inputType = isPassword && showPassword ? 'text' : type
 
+    // Label styling with tokens
+    const labelStyle = {
+      display: 'block',
+      fontSize: tokens.typography.sm.size,
+      fontWeight: tokens.fontWeights.medium,
+      lineHeight: tokens.typography.sm.lineHeight,
+      color: tokens.colors.gray[700],
+      marginBottom: tokens.spacing[1.5], // 6px
+      fontFamily: tokens.fontFamilies.primary,
+    }
+
+    // Icon container styling with tokens
+    const iconContainerStyle = {
+      position: 'absolute' as const,
+      top: '50%',
+      transform: 'translateY(-50%)',
+      display: 'flex',
+      alignItems: 'center',
+      gap: tokens.spacing[2], // 8px
+    }
+
+    // Helper text styling with tokens
+    const helperTextStyle = {
+      fontSize: tokens.typography.sm.size,
+      lineHeight: tokens.typography.sm.lineHeight,
+      marginTop: tokens.spacing[1.5], // 6px
+      fontFamily: tokens.fontFamilies.primary,
+    }
+
     return (
-      <div className={cn('relative', fullWidth && 'w-full')}>
+      <div style={{ 
+        position: 'relative',
+        width: fullWidth ? '100%' : 'auto' 
+      }}>
         {label && (
           <motion.label
-            initial={{ opacity: 0, y: -5 }}
+            initial={{ opacity: 0, y: -Number(tokens.spacing[1.25]) }} // -5px
             animate={{ opacity: 1, y: 0 }}
-            className="block text-sm font-medium text-gray-700 mb-1.5"
+            transition={{
+              duration: Number(tokens.durations.fast.replace('ms', '')) / 1000,
+              ease: tokens.easings.easeOut
+            }}
+            style={labelStyle}
           >
             {label}
           </motion.label>
         )}
         
-        <div className="relative">
+        <div style={{ position: 'relative' }}>
           {leftIcon && (
-            <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+            <div style={{
+              ...iconContainerStyle,
+              left: tokens.spacing[3], // 12px
+              color: tokens.colors.gray[400],
+            }}>
               {leftIcon}
             </div>
           )}
@@ -119,26 +241,61 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           <motion.input
             ref={ref}
             type={inputType}
-            className={inputClasses}
+            className={className}
+            style={combinedStyle}
             disabled={disabled}
-            whileFocus={{ scale: 1.01 }}
-            transition={{ duration: 0.2 }}
+            whileFocus={{ 
+              scale: 1.005,
+              transition: {
+                duration: Number(tokens.durations.fast.replace('ms', '')) / 1000,
+                ease: tokens.easings.easeOut
+              }
+            }}
             {...props}
           />
           
           {(rightIcon || isPassword || error || success) && (
-            <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-2">
+            <div style={{
+              ...iconContainerStyle,
+              right: tokens.spacing[3], // 12px
+            }}>
               {isPassword && (
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="text-gray-400 hover:text-gray-600 transition-colors"
+                  style={{
+                    background: 'none',
+                    border: 'none',
+                    padding: 0,
+                    cursor: 'pointer',
+                    color: tokens.colors.gray[400],
+                    transition: `color ${tokens.durations.fast}`,
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.color = tokens.colors.gray[600]
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.color = tokens.colors.gray[400]
+                  }}
                 >
-                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                  {showPassword ? 
+                    <EyeOff size={Number(tokens.spacing[4.5])} /> : // 18px
+                    <Eye size={Number(tokens.spacing[4.5])} />
+                  }
                 </button>
               )}
-              {error && <AlertCircle className="text-red-500" size={18} />}
-              {success && <Check className="text-green-500" size={18} />}
+              {error && (
+                <AlertCircle 
+                  style={{ color: tokens.colors.semantic.error[500] }}
+                  size={Number(tokens.spacing[4.5])} // 18px
+                />
+              )}
+              {success && (
+                <Check 
+                  style={{ color: tokens.colors.semantic.success[500] }}
+                  size={Number(tokens.spacing[4.5])} // 18px
+                />
+              )}
               {!isPassword && !error && !success && rightIcon}
             </div>
           )}
@@ -147,13 +304,25 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         <AnimatePresence>
           {(error || helperText) && (
             <motion.p
-              initial={{ opacity: 0, y: -5 }}
+              initial={{ 
+                opacity: 0, 
+                y: -Number(tokens.spacing[1.25]) // -5px
+              }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -5 }}
-              className={cn(
-                'mt-1.5 text-sm',
-                error ? 'text-red-500' : 'text-gray-500'
-              )}
+              exit={{ 
+                opacity: 0, 
+                y: -Number(tokens.spacing[1.25]) // -5px
+              }}
+              transition={{
+                duration: Number(tokens.durations.fast.replace('ms', '')) / 1000,
+                ease: tokens.easings.easeOut
+              }}
+              style={{
+                ...helperTextStyle,
+                color: error 
+                  ? tokens.colors.semantic.error[500] 
+                  : tokens.colors.gray[500]
+              }}
             >
               {error || helperText}
             </motion.p>

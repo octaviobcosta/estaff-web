@@ -75,7 +75,7 @@ const CommunitySection = () => {
   // Duplicate logos for seamless loop
   const allLogos = [...logos, ...logos]
 
-  // Premium metrics with refined styling
+  // Premium metrics with refined styling (removed score médio)
   const metrics = [
     {
       value: 421000,
@@ -100,13 +100,6 @@ const CommunitySection = () => {
       label: 'profissionais',
       displayValue: (count: number) => `${Math.floor(count / 1000)}k`,
       duration: 2700,
-    },
-    {
-      value: 4.7,
-      label: 'score médio',
-      displayValue: (count: number) => count.toFixed(1),
-      duration: 2500,
-      isDecimal: true,
     }
   ]
 
@@ -118,123 +111,153 @@ const CommunitySection = () => {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-empresa-900/[0.02] via-transparent to-transparent"></div>
       </div>
 
-      {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-
-        {/* Premium Metrics Display with Enhanced UX */}
-        <div className="py-16 md:py-20">
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 md:gap-8">
-            {metrics.map((metric, index) => {
-              const { count, setIsInView } = useCounter(
-                metric.value,
-                metric.duration,
-                true,
-                metric.isDecimal ? 1 : 0
-              )
-              
-              return (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 40, scale: 0.9 }}
-                  whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                  viewport={{ once: true, margin: "-100px" }}
-                  onViewportEnter={() => setIsInView(true)}
-                  transition={{ 
-                    duration: 0.7, 
-                    delay: index * 0.12,
-                    ease: [0.16, 1, 0.3, 1]
-                  }}
-                  className="group relative"
-                >
-                  <div className="relative">
-                    {/* Premium glass card effect */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-white/80 to-white/40 rounded-3xl backdrop-blur-xl border border-gray-100/50 shadow-[0_8px_32px_rgba(0,0,0,0.04)] transform transition-all duration-700 group-hover:shadow-[0_12px_48px_rgba(20,36,68,0.08)] group-hover:scale-[1.02] group-hover:border-empresa-900/10"></div>
-                    
-                    {/* Premium content container */}
-                    <div className="relative p-8 text-center">
-                      {/* Animated accent circle */}
-                      <motion.div 
-                        className="absolute top-4 right-4 w-8 h-8 rounded-full bg-gradient-to-br from-empresa-900/5 to-empresa-900/10"
-                        animate={{
-                          scale: [1, 1.2, 1],
-                          opacity: [0.3, 0.6, 0.3]
-                        }}
-                        transition={{
-                          duration: 3,
-                          delay: index * 0.2,
-                          repeat: Infinity,
-                          ease: "easeInOut"
-                        }}
-                      />
-                      
-                      {/* Premium number display with depth */}
-                      <div className="relative">
+      {/* Main Content - Aligned with Hero Section */}
+      <div className="max-w-7xl mx-auto px-4 relative z-10">
+        
+        {/* Two Column Layout: Numbers Left, Hero Content Right */}
+        <div className="py-8 md:py-12">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+            
+            {/* Left Column - Numbers (2x2 grid) */}
+            <div className="order-2 lg:order-1">
+              <div className="grid grid-cols-2 gap-6 md:gap-8">
+                {metrics.map((metric, index) => {
+                  const { count, setIsInView } = useCounter(
+                    metric.value,
+                    metric.duration,
+                    true,
+                    0
+                  )
+                  
+                  return (
+                    <motion.div
+                      key={index}
+                      initial={{ opacity: 0, y: 40, scale: 0.9 }}
+                      whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                      viewport={{ once: true, margin: "-100px" }}
+                      onViewportEnter={() => setIsInView(true)}
+                      transition={{ 
+                        duration: 0.7, 
+                        delay: index * 0.15,
+                        ease: [0.16, 1, 0.3, 1]
+                      }}
+                      className="group relative"
+                    >
+                      {/* Clean content container */}
+                      <div className="relative p-4 text-center">
+                        {/* Professional corner accent */}
                         <motion.div 
-                          className="text-5xl md:text-6xl lg:text-7xl font-black bg-gradient-to-br from-empresa-900 via-empresa-800 to-empresa-900 bg-clip-text text-transparent mb-3 tabular-nums leading-none"
-                          initial={{ opacity: 0, scale: 0.5, rotateX: -30 }}
-                          animate={{ opacity: 1, scale: 1, rotateX: 0 }}
-                          transition={{ 
-                            duration: 0.8,
-                            delay: 0.3 + index * 0.15,
-                            ease: [0.34, 1.56, 0.64, 1]
-                          }}
-                        >
-                          {metric.isDecimal ? count.toFixed(1) : metric.displayValue(count)}
-                        </motion.div>
-                        
-                        {/* Elegant divider line */}
-                        <motion.div
-                          className="w-12 h-[2px] bg-gradient-to-r from-transparent via-empresa-900/20 to-transparent mx-auto my-4"
-                          initial={{ scaleX: 0 }}
-                          animate={{ scaleX: 1 }}
+                          className="absolute top-2 right-2 w-8 h-[2px] bg-gradient-to-r from-freela/40 to-transparent rounded-full"
+                          initial={{ scaleX: 0, opacity: 0 }}
+                          animate={{ scaleX: 1, opacity: 1 }}
                           transition={{
-                            duration: 0.6,
-                            delay: 0.5 + index * 0.15,
+                            duration: 0.8,
+                            delay: 0.2 + index * 0.1,
                             ease: [0.22, 1, 0.36, 1]
                           }}
                         />
                         
-                        <motion.p 
-                          className="text-sm md:text-base text-gray-700 font-medium tracking-wide uppercase"
-                          initial={{ opacity: 0, y: 10 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ 
-                            duration: 0.5,
-                            delay: 0.6 + index * 0.15
+                        {/* Vertical accent line */}
+                        <motion.div 
+                          className="absolute top-2 right-2 w-[2px] h-8 bg-gradient-to-b from-freela/40 to-transparent rounded-full"
+                          initial={{ scaleY: 0, opacity: 0 }}
+                          animate={{ scaleY: 1, opacity: 1 }}
+                          transition={{
+                            duration: 0.8,
+                            delay: 0.4 + index * 0.1,
+                            ease: [0.22, 1, 0.36, 1]
                           }}
-                        >
-                          {metric.label}
-                        </motion.p>
+                        />
+                        
+                        {/* Premium number display */}
+                        <div className="relative">
+                          <motion.div 
+                            className="text-4xl md:text-5xl lg:text-6xl font-black bg-gradient-to-br from-freela via-freela-600 to-freela-700 bg-clip-text text-transparent mb-3 tabular-nums leading-none"
+                            initial={{ opacity: 0, scale: 0.3, rotateY: -45, filter: "blur(8px)" }}
+                            animate={{ opacity: 1, scale: 1, rotateY: 0, filter: "blur(0px)" }}
+                            transition={{ 
+                              duration: 1.2,
+                              delay: 0.3 + index * 0.15,
+                              ease: [0.34, 1.56, 0.64, 1]
+                            }}
+                            whileHover={{
+                              scale: 1.05,
+                              filter: "brightness(1.2)",
+                              transition: { duration: 0.3 }
+                            }}
+                          >
+                            {metric.displayValue(count)}
+                          </motion.div>
+                          
+                          {/* Elegant animated divider */}
+                          <motion.div
+                            className="w-12 h-[2px] bg-gradient-to-r from-transparent via-freela/60 to-transparent mx-auto my-3 rounded-full"
+                            initial={{ scaleX: 0, opacity: 0 }}
+                            animate={{ scaleX: 1, opacity: 1 }}
+                            transition={{
+                              duration: 0.8,
+                              delay: 0.5 + index * 0.15,
+                              ease: [0.22, 1, 0.36, 1]
+                            }}
+                          />
+                          
+                          <motion.p 
+                            className="text-sm md:text-base text-gray-700 font-semibold tracking-wide uppercase"
+                            initial={{ opacity: 0, y: 15, filter: "blur(4px)" }}
+                            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                            transition={{ 
+                              duration: 0.6,
+                              delay: 0.7 + index * 0.15
+                            }}
+                          >
+                            {metric.label}
+                          </motion.p>
+                        </div>
                       </div>
+                    </motion.div>
+                  )
+                })}
+              </div>
+            </div>
 
-                      {/* Interactive hover indicator */}
-                      <motion.div
-                        className="absolute bottom-3 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-empresa-900"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: [0, 0.5, 0] }}
-                        transition={{
-                          duration: 2,
-                          delay: 1 + index * 0.1,
-                          repeat: Infinity
-                        }}
-                      />
-                    </div>
-                  </div>
-                </motion.div>
-              )
-            })}
+            {/* Right Column - Hero Content */}
+            <div className="order-1 lg:order-2">
+              <motion.div
+                initial={{ opacity: 0, x: 30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+                className="text-center lg:text-left"
+              >
+                <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-empresa-900 mb-6">
+                  Uma comunidade que não para de crescer!
+                </h2>
+                
+                {/* Mini subtitle */}
+                <motion.p
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: 0.3 }}
+                  className="text-lg md:text-xl text-gray-600 font-medium leading-relaxed"
+                >
+                  Conectamos talentos e empresas em um ecossistema próspero de oportunidades
+                </motion.p>
+              </motion.div>
+            </div>
+
           </div>
         </div>
 
       </div>
 
-      {/* Premium Logo Carousel - Closer to Numbers */}
+      {/* Premium Logo Carousel - Full Width Cutting */}
       <motion.div 
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
         transition={{ duration: 0.8 }}
-        className="relative mt-8 pb-16"
+        className="relative pb-8 md:pb-12"
       >
         {/* Elegant edge gradients */}
         <div className="absolute left-0 top-0 w-32 md:w-48 h-full bg-gradient-to-r from-white to-transparent z-10 pointer-events-none"></div>

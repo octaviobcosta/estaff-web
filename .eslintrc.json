@@ -1,7 +1,8 @@
 {
   "extends": [
     "next/core-web-vitals",
-    "next/typescript"
+    "next/typescript",
+    "plugin:storybook/recommended"
   ],
   "rules": {
     "@next/next/no-img-element": "error",
@@ -10,7 +11,13 @@
     "prefer-const": "error",
     "no-var": "error",
     "no-console": "warn",
-    "react/jsx-curly-brace-presence": ["error", { "props": "never", "children": "never" }],
+    "react/jsx-curly-brace-presence": [
+      "error",
+      {
+        "props": "never",
+        "children": "never"
+      }
+    ],
     "react/self-closing-comp": "error",
     "import/order": [
       "error",
@@ -19,7 +26,10 @@
           "builtin",
           "external",
           "internal",
-          ["parent", "sibling"],
+          [
+            "parent",
+            "sibling"
+          ],
           "index"
         ],
         "newlines-between": "always",
@@ -32,7 +42,10 @@
   },
   "overrides": [
     {
-      "files": ["*.config.js", "*.config.ts"],
+      "files": [
+        "*.config.js",
+        "*.config.ts"
+      ],
       "rules": {
         "no-console": "off"
       }
