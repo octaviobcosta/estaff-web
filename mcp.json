@@ -1,0 +1,103 @@
+{
+  "mcpServers": {
+    "supabase": {
+      "command": "cmd",
+      "args": [
+        "/c",
+        "npx",
+        "-y",
+        "@supabase/mcp-server-supabase@latest",
+        "--access-token",
+        "sbp_a16a07f8c9b3a3954a90f4aa06fb38e4234b8610"
+      ]
+    },
+    "github": {
+      "command": "cmd",
+      "args": [
+        "/c",
+        "npx",
+        "-y",
+        "@modelcontextprotocol/server-github@latest"
+      ],
+      "env": {
+        "GITHUB_TOKEN": "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"
+      }
+    },
+    "playwright": {
+      "command": "cmd",
+      "args": [
+        "/c",
+        "npx",
+        "-y",
+        "@playwright/mcp@latest"
+      ]
+    },
+    "memory": {
+      "command": "cmd",
+      "args": [
+        "/c",        "npx",
+        "-y",
+        "@modelcontextprotocol/server-memory@latest"
+      ],
+      "env": {
+        "MEMORY_STORE_PATH": "C:\\Users\\octav\\.config\\mcp-memory",
+        "MAX_MEMORIES_BEFORE_OPTIMIZE": "10000",
+        "SIMILARITY_THRESHOLD": "0.7",
+        "MAX_RESULTS_PER_QUERY": "10"
+      }
+    },
+    "everything": {
+      "command": "cmd",
+      "args": [
+        "/c",
+        "npx",
+        "-y",
+        "@modelcontextprotocol/server-everything@latest"
+      ]
+    },
+    "sequential-thinking": {
+      "command": "cmd",
+      "args": [
+        "/c",
+        "npx",
+        "-y",
+        "@modelcontextprotocol/server-sequential-thinking@latest"
+      ]
+    },
+    "puppeteer": {
+      "command": "cmd",
+      "args": [
+        "/c",        "npx",
+        "-y",
+        "@modelcontextprotocol/server-puppeteer@latest"
+      ]
+    },
+    "desktop-commander": {
+      "command": "cmd",
+      "args": [
+        "/c",
+        "npx",
+        "-y",
+        "@wonderwhy-er/desktop-commander@latest"
+      ]
+    },
+    "excel": {
+      "command": "cmd",
+      "args": [
+        "/c",
+        "npx",
+        "-y",
+        "@negokaz/excel-mcp-server@latest"
+      ]
+    },
+    "context7": {
+      "command": "cmd",
+      "args": [
+        "/c",
+        "npx",
+        "-y",
+        "@upstash/context7-mcp@latest"
+      ]
+    }
+  }
+}

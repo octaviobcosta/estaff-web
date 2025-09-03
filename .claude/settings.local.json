@@ -16,7 +16,14 @@
       "mcp__sequential-thinking__sequentialthinking",
       "Bash(npm run dev:*)",
       "Bash(timeout 10 npm run dev)",
-      "Bash(npm run build:*)"
+      "Bash(npm run build:*)",
+      "Read(/home/octavio/**)",
+      "Read(/home/octavio/.config/**)",
+      "Read(/home/octavio/**)",
+      "Read(/home/octavio/.claude/**)",
+      "Read(/home/octavio/.claude/**)",
+      "Read(/home/octavio/.claude/shared/**)",
+      "Read(/home/octavio/**)"
     ],
     "deny": [],
     "ask": []

@@ -17,7 +17,7 @@ export default function HeroInstawork() {
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 pt-8 pb-20 lg:pt-12 lg:pb-32">
-        <div className="grid lg:grid-cols-[60%_40%] gap-12 items-center">
+        <div className="grid lg:grid-cols-[50%_50%] gap-8 items-center">
           {/* Left Side - Content */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -109,7 +109,7 @@ export default function HeroInstawork() {
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.4, duration: 0.8 }}
-            className="relative w-full h-[650px] overflow-visible"
+            className="relative w-full h-[650px] overflow-visible pl-6"
           >
             <ProfileCards className="w-full h-full" />
           </motion.div>
