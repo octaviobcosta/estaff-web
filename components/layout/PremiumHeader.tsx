@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
-import { motion, AnimatePresence, useScroll, useMotionValue, useTransform, useSpring } from 'framer-motion'
+import { motion, AnimatePresence, useScroll, useMotionValue, useTransform, useSpring, Variants } from 'framer-motion'
 import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
@@ -43,7 +43,7 @@ const navigationItems: NavItem[] = [
 ]
 
 // Animation variants for different elements
-const logoVariants = {
+const logoVariants: Variants = {
   idle: { scale: 1, rotate: 0 },
   hover: { 
     scale: 1.05, 
@@ -52,15 +52,29 @@ const logoVariants = {
   }
 }
 
-const navItemVariants = {
+const navItemVariants: Variants = {
   idle: { y: 0 },
-  hover: { y: -2 },
+  hover: { 
+    y: -2,
+    transition: { 
+      duration: 0.2,
+      type: "tween" as const,
+      ease: [0.25, 0.46, 0.45, 0.94]
+    }
+  },
   tap: { scale: 0.98 }
 }
 
-const ctaButtonVariants = {
+const ctaButtonVariants: Variants = {
   idle: { scale: 1 },
-  hover: { scale: 1.05 },
+  hover: { 
+    scale: 1.05,
+    transition: { 
+      duration: 0.2,
+      type: "tween" as const,
+      ease: [0.25, 0.46, 0.45, 0.94]
+    }
+  },
   tap: { scale: 0.98 }
 }
 
@@ -188,7 +202,7 @@ export default function PremiumHeader() {
 
             {/* Desktop Navigation with Smooth Hover Effects */}
             <nav className="hidden lg:flex items-center h-full" role="navigation">
-              <div className="flex items-center space-x-6 relative">
+              <div className="flex items-center space-x-6 relative z-10">
                 {navigationItems.map((item, index) => (
                   <motion.div
                     key={item.href}
@@ -199,6 +213,7 @@ export default function PremiumHeader() {
                     onHoverStart={() => setHoveredItem(item.href)}
                     onHoverEnd={() => setHoveredItem(null)}
                     className="relative"
+                    style={{ zIndex: 1 }}
                   >
                     <Link
                       href={item.href}
@@ -207,20 +222,25 @@ export default function PremiumHeader() {
                         text-sm font-medium
                         transition-all duration-200 ease-out
                         focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#122046] focus-visible:ring-offset-2
-                        will-change-transform
+                        ${item.href === '/vagas-fixas' ? '' : 'will-change-transform'}
                         ${isActiveLink(item.href)
                           ? 'text-[#122046] bg-gray-50'
                           : 'text-gray-600 hover:text-[#122046] hover:bg-gray-50'
                         }
                       `}
+                      style={{
+                        transform: item.href === '/vagas-fixas' ? 'translateZ(0)' : undefined,
+                        isolation: 'isolate'
+                      }}
                     >
-                      {item.label}
+                      <span className="relative z-10">{item.label}</span>
                       
                       {/* Animated underline for active state */}
                       {isActiveLink(item.href) && (
                         <motion.div
                           layoutId="activeNavIndicator"
-                          className="absolute bottom-0.5 left-4 right-4 h-0.5 bg-[#122046] rounded-full"
+                          className="absolute bottom-0 left-4 right-4 h-0.5 bg-[#122046] rounded-full pointer-events-none"
+                          style={{ zIndex: 0 }}
                           transition={{
                             type: "spring",
                             stiffness: 380,
@@ -232,7 +252,8 @@ export default function PremiumHeader() {
                       {/* Hover indicator */}
                       {hoveredItem === item.href && !isActiveLink(item.href) && (
                         <motion.div
-                          className="absolute bottom-0.5 left-4 right-4 h-0.5 bg-gray-300 rounded-full"
+                          className="absolute bottom-0 left-4 right-4 h-0.5 bg-gray-300 rounded-full pointer-events-none"
+                          style={{ zIndex: 0 }}
                           initial={{ scaleX: 0 }}
                           animate={{ scaleX: 1 }}
                           exit={{ scaleX: 0 }}
@@ -253,27 +274,28 @@ export default function PremiumHeader() {
                 initial="idle"
                 whileHover="hover"
                 whileTap="tap"
-                className="ml-8"
+                className="ml-8 relative"
+                style={{ zIndex: 2, isolation: 'isolate' }}
               >
                 <Link
                   href="/demo"
                   className="
-                    relative overflow-hidden
+                    relative overflow-hidden block
                     px-6 py-2.5
                     bg-[#122046] text-white text-sm font-semibold
                     rounded-lg
                     transition-all duration-200
                     focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#122046] focus-visible:ring-offset-2
-                    will-change-transform
-                    group
                     shadow-sm hover:shadow-md
                   "
+                  style={{ transform: 'translateZ(0)' }}
                 >
-                  <span className="relative z-10">Agendar Demo</span>
+                  <span className="relative z-10 pointer-events-none">Agendar Demo</span>
                   
                   {/* Animated gradient overlay */}
                   <motion.div
-                    className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
+                    className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none"
+                    style={{ zIndex: 1 }}
                     initial={{ x: "-100%", opacity: 0 }}
                     whileHover={{ 
                       x: "100%",

@@ -6,7 +6,20 @@ const nextConfig = {
   
   // Images otimizadas
   images: {
-    domains: ['i.pravatar.cc', 'supabase.com'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'i.pravatar.cc',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'supabase.com',
+        port: '',
+        pathname: '/**',
+      },
+    ],
     formats: ['image/webp', 'image/avif'],
     minimumCacheTTL: 300,
   },

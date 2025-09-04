@@ -5,6 +5,8 @@ import { motion, useScroll, useTransform, useInView, AnimatePresence, useMotionV
 import Image from 'next/image'
 import HeroInstawork from '@/components/sections/HeroInstawork'
 import CommunitySection from '@/components/sections/CommunitySection'
+import TargetAudienceSection from '@/components/sections/TargetAudienceSection'
+import TechnologyBenefitsSection from '@/components/sections/TechnologyBenefitsSection'
 // import LogoCarousel from '@/components/sections/LogoCarousel'
 // import LogoCarouselSimple from '@/components/sections/LogoCarouselSimple'
 // import TestCarousel from '@/components/sections/TestCarousel'
@@ -115,6 +117,7 @@ export default function HomePage() {
       }, 5000)
       return () => clearInterval(interval)
     }
+    return undefined
   }, [isCarouselPaused, activeTestimonial])
 
   // Parallax scroll effect for cards
@@ -262,6 +265,12 @@ export default function HomePage() {
 
         {/* COMMUNITY SECTION */}
         <CommunitySection />
+
+        {/* TARGET AUDIENCE SECTION - PARA QUEM */}
+        <TargetAudienceSection />
+
+        {/* TECHNOLOGY BENEFITS SECTION */}
+        <TechnologyBenefitsSection />
 
       </main>
 

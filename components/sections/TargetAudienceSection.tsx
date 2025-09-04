@@ -134,7 +134,7 @@ export default function TargetAudienceSection() {
               >
                 <Link
                   href="/cadastro"
-                  className="inline-flex items-center justify-center px-6 py-3 bg-institucional-300 text-empresa-900 border-2 border-empresa-900 rounded-xl font-bold text-base shadow-lg hover:shadow-xl hover:scale-105 hover:bg-institucional-200 transition-all duration-300"
+                  className="inline-flex items-center justify-center px-6 py-3 bg-transparent text-empresa-900 border-2 border-empresa-900 rounded-xl font-bold text-base hover:bg-empresa-900 hover:text-white hover:shadow-xl hover:scale-105 transition-all duration-300"
                 >
                   Quero Fazer Parte
                 </Link>

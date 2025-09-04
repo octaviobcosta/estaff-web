@@ -214,6 +214,34 @@
     }
   }
 
+  /* MISSING KEYFRAMES - CRITICAL FOR ANIMATIONS */
+  @keyframes gradient {
+    0%, 100% { 
+      background-position: 0% 50%; 
+    }
+    50% { 
+      background-position: 100% 50%; 
+    }
+  }
+
+  @keyframes shimmer {
+    0% { 
+      left: -100%; 
+    }
+    100% { 
+      left: 100%; 
+    }
+  }
+
+  @keyframes float {
+    0%, 100% { 
+      transform: translateY(0px); 
+    }
+    50% { 
+      transform: translateY(-20px); 
+    }
+  }
+
   /* Noise Texture Overlay */
   .noise-overlay {
     position: relative;
