@@ -20,23 +20,23 @@ interface Benefit {
   text: string
 }
 
-// Premium benefits data
+// Premium benefits data - more concise
 const benefits: Benefit[] = [
   {
     icon: Database,
-    text: 'Dados auxiliam a dar o match ideal entre profissionais e clientes'
+    text: 'Match ideal entre profissionais e clientes'
   },
   {
     icon: ShieldCheck,
-    text: 'Segurança: Check-in e check-out para evitar fraudes'
+    text: 'Check-in e check-out seguros'
   },
   {
     icon: CalendarDays,
-    text: 'Escala: ferramenta de auxílio na montagem de brigada'
+    text: 'Ferramenta de escala inteligente'
   },
   {
     icon: BarChart3,
-    text: 'Relatórios em tempo real de toda a operação de staff'
+    text: 'Relatórios em tempo real'
   },
   {
     icon: Headphones,
@@ -44,7 +44,7 @@ const benefits: Benefit[] = [
   },
   {
     icon: Star,
-    text: 'Favoritar os staffs que se destacam'
+    text: 'Favoritar profissionais de destaque'
   }
 ]
 
@@ -101,7 +101,7 @@ export default function TechnologyBenefitsSection() {
       
       <div 
         ref={containerRef}
-        className="relative z-10 w-full max-w-[1440px] mx-auto px-6 sm:px-8 lg:px-12 py-20 lg:py-0"
+        className="relative z-10 w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-0"
       >
         {/* Premium 55-45 Split Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-[55fr_45fr] gap-12 lg:gap-16 items-center">
@@ -113,15 +113,15 @@ export default function TechnologyBenefitsSection() {
             transition={{ duration: 0.8, ease: smoothEase }}
             className="space-y-10"
           >
-            {/* Premium Title */}
+            {/* Premium Title - Two Lines */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.8, delay: 0.1, ease: smoothEase }}
             >
-              <h2 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-black text-[#2d3436] leading-[1.1] tracking-tight">
-                Usamos a tecnologia
-                <span className="block text-[#ec4464] mt-2">a seu favor</span>
+              <h2 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-black text-[#2d3436] leading-[1.05] tracking-tight">
+                <span className="block">Usamos a tecnologia</span>
+                <span className="block text-[#ec4464] mt-1">a seu favor</span>
               </h2>
             </motion.div>
             
@@ -151,14 +151,14 @@ export default function TechnologyBenefitsSection() {
                     }}
                     className="group"
                   >
-                    <div className="flex items-start gap-4 p-5 rounded-2xl bg-white border border-gray-100 hover:border-freela-200 hover:bg-gradient-to-br hover:from-white hover:to-freela-50/30 transition-all duration-500 hover:shadow-lg hover:shadow-freela-100/50">
+                    <div className="flex items-start gap-4 p-4 rounded-2xl bg-white border border-gray-100 hover:border-freela-200 hover:bg-gradient-to-br hover:from-white hover:to-freela-50/30 transition-all duration-500 hover:shadow-lg hover:shadow-freela-100/50">
                       {/* Premium Icon Container - Exactly 40px */}
                       <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-gradient-to-br from-freela-50 to-freela-100/50 flex items-center justify-center group-hover:from-freela-100 group-hover:to-freela-200/50 transition-all duration-500">
                         <Icon className="w-5 h-5 text-freela-600 group-hover:text-freela-700 transition-colors duration-300" />
                       </div>
                       
-                      {/* Premium Text */}
-                      <p className="text-[#2d3436]/80 leading-relaxed text-[15px] font-medium group-hover:text-[#2d3436] transition-colors duration-300">
+                      {/* Premium Text - More Concise */}
+                      <p className="text-[#2d3436]/80 leading-[1.4] text-[14px] font-medium group-hover:text-[#2d3436] transition-colors duration-300">
                         {benefit.text}
                       </p>
                     </div>
@@ -168,32 +168,32 @@ export default function TechnologyBenefitsSection() {
             </motion.div>
           </motion.div>
           
-          {/* Right Column - Premium Image (45%) */}
+          {/* Right Column - Premium Image (45%) - Bottom Aligned */}
           <motion.div 
-            className="relative lg:h-[700px] flex items-center justify-end"
+            className="relative lg:h-[700px] flex items-end justify-center"
             initial={{ opacity: 0, x: 60 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 1, delay: 0.2, ease: smoothEase }}
           >
             <motion.div
-              className="relative w-full max-w-[500px] scale-[1.4] translate-x-[15%] lg:translate-x-[20%]"
+              className="relative w-full max-w-[600px] -mb-20 lg:-mb-0"
               style={{ 
                 y: imageY,
                 scale: imageScale
               }}
             >
-              {/* Premium Image Container */}
+              {/* Premium Image Container - Max Size */}
               <div className="relative group">
                 {/* Subtle gradient overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-freela-100/10 via-transparent to-transparent rounded-3xl pointer-events-none" />
                 
-                {/* Main Image */}
+                {/* Main Image - Bottom Aligned */}
                 <Image
                   src="/phone-mockup-hand.png"
                   alt="Interface do app estaff mostrando tecnologia avançada"
-                  width={600}
-                  height={800}
-                  className="w-full h-auto object-contain relative z-10 cursor-pointer transition-transform duration-500 group-hover:scale-[1.02]"
+                  width={700}
+                  height={900}
+                  className="w-full h-auto object-contain object-bottom relative z-10 cursor-pointer transition-transform duration-500 group-hover:scale-[1.02]"
                   quality={95}
                   priority
                   onClick={() => setIsExpanded(true)}
