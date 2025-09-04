@@ -4,6 +4,7 @@ import React, { useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
+import { sectionClasses } from '@/lib/design-system/spacing-system'
 import { 
   Wine,
   Building2,
@@ -54,8 +55,8 @@ export default function TargetAudienceSection() {
     margin: "-100px" 
   })
 
-  const easeOut = [0.16, 1, 0.3, 1]
-  const easeLuxury = [0.25, 0.46, 0.45, 0.94]
+  const easeOut = [0.16, 1, 0.3, 1] as const
+  const easeLuxury = [0.25, 0.46, 0.45, 0.94] as const
 
   const fadeIn = {
     hidden: { opacity: 0, y: 20, filter: "blur(2px)" },
@@ -89,7 +90,7 @@ export default function TargetAudienceSection() {
   return (
     <section 
       ref={sectionRef}
-      className="w-full overflow-hidden relative bg-gradient-to-br from-white/95 via-slate-50/90 to-white/95"
+      className={`${sectionClasses.primary} w-full overflow-hidden relative bg-gradient-to-br from-white/95 via-slate-50/90 to-white/95`}
       aria-label="Para quem é a plataforma estaff"
     >
       {/* Ambient background effects */}
@@ -100,33 +101,31 @@ export default function TargetAudienceSection() {
 
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 relative z-10">
-        
         {/* Two Column Layout */}
-        <div className="pt-4 pb-2 md:pt-6 md:pb-3">
-          <motion.div 
-            className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start"
-            variants={staggerContainer}
-            initial="hidden"
-            animate={isInView ? "visible" : "hidden"}
-          >
+        <motion.div 
+          className="grid grid-cols-1 lg:grid-cols-[1.2fr_1fr] gap-8 lg:gap-6 items-start"
+          variants={staggerContainer}
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+        >
             
             {/* Left Column - Image */}
             <motion.div 
               variants={slideInLeft}
-              className="order-2 lg:order-1 lg:scale-110 flex flex-col items-center gap-4"
+              className="order-2 lg:order-1 flex flex-col items-center gap-4 lg:-ml-8 lg:-mr-4 overflow-visible"
             >
               <Image
                 src="/3mob.png"
                 alt="Profissionais da hospitalidade usando a plataforma estaff"
-                width={700}
-                height={840}
-                className="w-full h-auto rounded-xl"
+                width={900}
+                height={1080}
+                className="w-full h-auto max-w-none lg:max-w-2xl rounded-xl"
                 priority
-                quality={90}
+                quality={95}
               />
               
-              {/* CTA Button below Image */}
-              <motion.div
+              {/* CTA Button below Image - Commented Out */}
+              {/* <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: isInView ? 1 : 0, y: isInView ? 0 : 20 }}
                 transition={{ delay: 0.8, duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
@@ -138,11 +137,11 @@ export default function TargetAudienceSection() {
                 >
                   Quero Fazer Parte
                 </Link>
-              </motion.div>
+              </motion.div> */}
             </motion.div>
 
             {/* Right Column - Content matched to image height */}
-            <div className="order-1 lg:order-2 h-full">
+            <div className="order-1 lg:order-2 h-full lg:-ml-6">
               {/* Container that matches image aspect ratio */}
               <div className="flex flex-col h-full gap-6">
                 
@@ -213,7 +212,6 @@ export default function TargetAudienceSection() {
               </div>
             </div>
           </motion.div>
-        </div>
       </div>
     </section>
   )

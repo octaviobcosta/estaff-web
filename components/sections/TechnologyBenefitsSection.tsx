@@ -3,6 +3,7 @@
 import { useRef } from 'react'
 import { motion, useInView, useScroll, useTransform } from 'framer-motion'
 import Image from 'next/image'
+import { sectionClasses } from '@/lib/design-system/spacing-system'
 import { 
   Database,
   ShieldCheck,
@@ -63,8 +64,8 @@ export default function TechnologyBenefitsSection() {
     offset: ["start end", "end start"]
   })
   
-  // Transform values for parallax effect
-  const imageY = useTransform(scrollYProgress, [0, 1], [40, -40])
+  // Transform values for parallax effect - sem movimento vertical
+  const imageY = useTransform(scrollYProgress, [0, 1], [0, 0])
   const imageScale = useTransform(scrollYProgress, [0, 0.5, 1], [0.92, 1, 0.92])
   
   // Premium animation configurations
@@ -73,7 +74,7 @@ export default function TechnologyBenefitsSection() {
   return (
     <section 
       ref={sectionRef}
-      className="relative w-full overflow-visible bg-white"
+      className={`${sectionClasses.primary} relative w-full overflow-visible bg-white`}
       aria-label="Tecnologia e benefícios da plataforma"
     >
       {/* Subtle background gradients */}
@@ -86,7 +87,7 @@ export default function TechnologyBenefitsSection() {
       <div className="max-w-7xl mx-auto px-4 relative z-10">
         
         {/* Content Section - Matching TargetAudienceSection structure */}
-        <div className="pt-4 pb-2 md:pt-6 md:pb-3">
+        <div>
           <div ref={containerRef} className="relative">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
@@ -151,32 +152,33 @@ export default function TechnologyBenefitsSection() {
               </motion.div>
             </motion.div>
         
-            {/* Image Section - Positioned independently */}
-            <div className="absolute top-4 md:top-6 right-0 w-full lg:w-1/2 h-full">
+            {/* Image Section - Ajustado tamanho e posição */}
+            <div className="absolute -bottom-2 -right-10 md:-right-16 lg:-right-20 w-full lg:w-2/3 h-full">
               <motion.div 
-                className="relative flex items-center justify-end h-full"
+                className="relative flex items-end justify-end h-full"
                 initial={{ opacity: 0, x: 60 }}
                 animate={isInView ? { opacity: 1, x: 0 } : {}}
                 transition={{ duration: 1, delay: 0.2, ease: smoothEase }}
               >
                 <motion.div
-                  className="relative w-full max-w-[1500px] lg:max-w-[1800px]"
+                  className="relative w-full"
                   style={{ 
-                    y: imageY
+                    y: imageY,
+                    scale: 1.2  // Reduzido para 20% de aumento
                   }}
                 >
-                  {/* Premium Image Container - Dramatically Larger */}
+                  {/* Premium Image Container */}
                   <div className="relative">
                     {/* Subtle gradient overlay */}
                     <div className="absolute inset-0 bg-gradient-to-t from-freela-100/10 via-transparent to-transparent rounded-3xl pointer-events-none" />
                     
-                    {/* Main Image - Much Larger */}
+                    {/* Main Image - Tamanho otimizado */}
                     <Image
                       src="/phone-mockup-hand.png"
                       alt="Interface do app estaff mostrando tecnologia avançada"
-                      width={3120}
-                      height={3744}
-                      className="w-full h-auto object-contain relative z-10 transition-transform duration-500 hover:scale-[1.02]"
+                      width={4500}
+                      height={5400}
+                      className="w-full h-auto object-contain relative z-10 transition-transform duration-500 hover:scale-[1.02] origin-bottom"
                       quality={100}
                       priority
                     />

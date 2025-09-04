@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { sectionClasses } from '@/lib/design-system/spacing-system'
 
 const LogoCarouselSimple = () => {
   const [mounted, setMounted] = useState(false)
@@ -20,14 +21,14 @@ const LogoCarouselSimple = () => {
 
   if (!mounted) {
     return (
-      <div className="py-16 bg-gray-100 text-center">
+      <div className={`${sectionClasses.secondary} bg-gray-100 text-center`}>
         <div className="text-gray-500">Loading simple carousel...</div>
       </div>
     )
   }
 
   return (
-    <section className="py-16 bg-gray-100">
+    <section className={`${sectionClasses.secondary} bg-gray-100`}>
       {/* Debug Info */}
       <div className="fixed top-20 left-2 z-[100] bg-black text-white p-2 rounded text-xs">
         <div>✅ Simple Carousel Mounted</div>

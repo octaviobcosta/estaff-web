@@ -3,6 +3,7 @@
 import { motion, useMotionValue, useTransform } from 'framer-motion'
 import { useRef, useState, useEffect } from 'react'
 import './LogoCarousel.css'
+import { sectionClasses } from '@/lib/design-system/spacing-system'
 
 const CommunitySection = () => {
   const containerRef = useRef<HTMLDivElement>(null)
@@ -104,7 +105,7 @@ const CommunitySection = () => {
   ]
 
   return (
-    <section className="w-full bg-white overflow-hidden relative">
+    <section className={`${sectionClasses.primary} w-full bg-white overflow-hidden relative`}>
       {/* Premium layered background with depth */}
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-gradient-to-br from-gray-50/40 via-transparent to-empresa-900/[0.02]"></div>
@@ -115,7 +116,7 @@ const CommunitySection = () => {
       <div className="max-w-7xl mx-auto px-4 relative z-10">
         
         {/* Two Column Layout: Numbers Left, Hero Content Right */}
-        <div className="pt-4 pb-2 md:pt-6 md:pb-3">
+        <div>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
             
             {/* Left Column - Numbers (2x2 grid) */}
@@ -257,7 +258,7 @@ const CommunitySection = () => {
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
         transition={{ duration: 0.8 }}
-        className="relative pb-6 md:pb-8"
+        className="relative"
       >
         {/* Elegant edge gradients */}
         <div className="absolute left-0 top-0 w-32 md:w-48 h-full bg-gradient-to-r from-white to-transparent z-10 pointer-events-none"></div>

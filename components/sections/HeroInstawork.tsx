@@ -5,12 +5,13 @@ import { motion, AnimatePresence } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
 import ProfileCards from '@/components/ui/ProfileCards'
+import { sectionClasses } from '@/lib/design-system/spacing-system'
 
 export default function HeroInstawork() {
   const [showDebug, setShowDebug] = useState(false)
 
   return (
-    <section className="relative min-h-[50vh] lg:min-h-[55vh] bg-gradient-to-b from-gray-50 to-white" style={showDebug ? { outline: '2px solid red', position: 'relative' } : {}}>
+    <section className={`${sectionClasses.hero} relative min-h-[50vh] lg:min-h-[55vh] bg-gradient-to-b from-gray-50 to-white`} style={showDebug ? { outline: '2px solid red', position: 'relative' } : {}}>
       {/* Debug Info */}
       {showDebug && (
         <div className="absolute top-2 left-2 z-50 bg-black/80 text-white p-2 rounded text-xs font-mono">
@@ -24,7 +25,7 @@ export default function HeroInstawork() {
         <div className="absolute bottom-0 right-0 w-96 h-96 bg-empresa/10 rounded-full blur-3xl" />
       </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 pt-4 pb-2 lg:pt-8 lg:pb-4" style={showDebug ? { outline: '2px solid blue' } : {}}>
+      <div className="relative z-10 max-w-7xl mx-auto px-4" style={showDebug ? { outline: '2px solid blue' } : {}}>
         {/* Container Debug */}
         {showDebug && (
           <div className="absolute top-2 right-2 z-50 bg-blue-600/80 text-white p-2 rounded text-xs font-mono">

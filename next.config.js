@@ -4,18 +4,40 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   
-  // WSL2 Hot Reload Fix
-  webpack: (config, { dev, isServer }) => {
-    // Fix for HMR in WSL2
-    if (dev && !isServer) {
-      config.watchOptions = {
-        poll: 1000, // Check for changes every second
-        aggregateTimeout: 300, // Delay before rebuilding
-        ignored: /node_modules/,
+  // Enhanced Hot Reload Configuration (only when not using Turbopack)
+  ...(process.env.NODE_ENV === 'development' && !process.argv.includes('--turbo') && {
+    webpack: (config, { dev, isServer }) => {
+      // Optimized HMR for fast development
+      if (dev && !isServer) {
+        config.watchOptions = {
+          poll: 500, // Faster polling - check every 500ms
+          aggregateTimeout: 200, // Faster rebuild - 200ms delay
+          ignored: [
+            /node_modules/,
+            /.next/,
+            /out/,
+            /.git/,
+            /coverage/,
+            /\.env/
+          ],
+        }
+        
+        // Fast refresh optimization
+        config.cache = {
+          type: 'memory',
+        }
+        
+        // Enhanced hot module replacement
+        config.optimization = {
+          ...config.optimization,
+          removeAvailableModules: false,
+          removeEmptyChunks: false,
+          splitChunks: false,
+        }
       }
-    }
-    return config
-  },
+      return config
+    },
+  }),
   
   // Images otimizadas
   images: {
@@ -40,6 +62,15 @@ const nextConfig = {
   // Experimental features for Next.js 14
   experimental: {
     serverComponentsExternalPackages: ['@supabase/supabase-js'],
+    optimizePackageImports: ['lucide-react', 'framer-motion'],
+    turbo: {
+      rules: {
+        '*.svg': {
+          loaders: ['@svgr/webpack'],
+          as: '*.js',
+        },
+      },
+    },
   },
   
   // Headers de segurança
@@ -67,16 +98,9 @@ const nextConfig = {
   
   // Bundle analyzer apenas para builds de produção
   ...(process.env.NODE_ENV === 'production' && process.env.ANALYZE === 'true' && {
-    webpack: (config, { isServer }) => {
-      const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
-      config.plugins.push(
-        new BundleAnalyzerPlugin({
-          analyzerMode: 'server',
-          analyzerPort: isServer ? 8888 : 8889,
-          openAnalyzer: true,
-        })
-      )
-      return config
+    bundleAnalyzer: {
+      enabled: true,
+      openAnalyzer: true,
     },
   }),
 }

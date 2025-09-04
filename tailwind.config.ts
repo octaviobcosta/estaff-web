@@ -248,5 +248,14 @@ const config: Config = {
     },
   },
   plugins: [],
+  // Safelist para classes de espaçamento dinâmicas (valores otimizados)
+  safelist: [
+    // Espaçamento de seções - valores compactos
+    'py-3', 'py-4', 'py-6', 'py-8',
+    'md:py-4', 'md:py-6', 'md:py-8', 'md:py-10',
+    'lg:py-6', 'lg:py-8', 'lg:py-10', 'lg:py-12',
+    // Gaps comuns
+    'gap-2', 'gap-4', 'gap-6', 'gap-8', 'gap-12', 'gap-16',
+  ],
 }
 export default config
