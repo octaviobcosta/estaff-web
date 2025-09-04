@@ -101,7 +101,7 @@ export default function TechnologyBenefitsSection() {
       
       <div 
         ref={containerRef}
-        className="relative z-10 w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-0"
+        className="relative z-10 w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:pb-0 lg:pt-20"
       >
         {/* Premium 55-45 Split Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-[55fr_45fr] gap-12 lg:gap-16 items-center">
@@ -119,15 +119,15 @@ export default function TechnologyBenefitsSection() {
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.8, delay: 0.1, ease: smoothEase }}
             >
-              <h2 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-black text-[#2d3436] leading-[1.05] tracking-tight">
+              <h2 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-black text-[#2d3436] leading-[0.95] tracking-tight">
                 <span className="block">Usamos a tecnologia</span>
-                <span className="block text-[#ec4464] mt-1">a seu favor</span>
+                <span className="block text-[#ec4464]">a seu favor</span>
               </h2>
             </motion.div>
             
             {/* Benefits Grid - Premium Design */}
             <motion.div 
-              className="grid grid-cols-1 sm:grid-cols-2 gap-5"
+              className="grid grid-cols-1 sm:grid-cols-2 gap-4"
               initial={{ opacity: 0 }}
               animate={isInView ? { opacity: 1 } : {}}
               transition={{ duration: 0.6, delay: 0.3, ease: smoothEase }}
@@ -151,10 +151,10 @@ export default function TechnologyBenefitsSection() {
                     }}
                     className="group"
                   >
-                    <div className="flex items-start gap-4 p-4 rounded-2xl bg-white border border-gray-100 hover:border-freela-200 hover:bg-gradient-to-br hover:from-white hover:to-freela-50/30 transition-all duration-500 hover:shadow-lg hover:shadow-freela-100/50">
-                      {/* Premium Icon Container - Exactly 40px */}
-                      <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-gradient-to-br from-freela-50 to-freela-100/50 flex items-center justify-center group-hover:from-freela-100 group-hover:to-freela-200/50 transition-all duration-500">
-                        <Icon className="w-5 h-5 text-freela-600 group-hover:text-freela-700 transition-colors duration-300" />
+                    <div className="flex items-start gap-3 p-3 rounded-2xl bg-white border border-gray-100 hover:border-freela-200 hover:bg-gradient-to-br hover:from-white hover:to-freela-50/30 transition-all duration-500 hover:shadow-lg hover:shadow-freela-100/50">
+                      {/* Premium Icon Container - Smaller */}
+                      <div className="flex-shrink-0 w-8 h-8 rounded-lg bg-gradient-to-br from-freela-50 to-freela-100/50 flex items-center justify-center group-hover:from-freela-100 group-hover:to-freela-200/50 transition-all duration-500">
+                        <Icon className="w-4 h-4 text-freela-600 group-hover:text-freela-700 transition-colors duration-300" />
                       </div>
                       
                       {/* Premium Text - More Concise */}
@@ -170,13 +170,13 @@ export default function TechnologyBenefitsSection() {
           
           {/* Right Column - Premium Image (45%) - Bottom Aligned */}
           <motion.div 
-            className="relative lg:h-[700px] flex items-end justify-center"
+            className="relative lg:h-[700px] flex items-end justify-center lg:justify-end"
             initial={{ opacity: 0, x: 60 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 1, delay: 0.2, ease: smoothEase }}
           >
             <motion.div
-              className="relative w-full max-w-[600px] -mb-20 lg:-mb-0"
+              className="relative w-full scale-[1.3] lg:scale-[1.5] origin-bottom-right -mb-32 lg:-mb-40 mr-0 lg:mr-[-10%]"
               style={{ 
                 y: imageY,
                 scale: imageScale
@@ -191,8 +191,8 @@ export default function TechnologyBenefitsSection() {
                 <Image
                   src="/phone-mockup-hand.png"
                   alt="Interface do app estaff mostrando tecnologia avançada"
-                  width={700}
-                  height={900}
+                  width={800}
+                  height={1000}
                   className="w-full h-auto object-contain object-bottom relative z-10 cursor-pointer transition-transform duration-500 group-hover:scale-[1.02]"
                   quality={95}
                   priority
