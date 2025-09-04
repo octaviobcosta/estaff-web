@@ -160,7 +160,7 @@ export default function TechnologyBenefitsSection() {
             transition={{ duration: 1, delay: 0.2, ease: smoothEase }}
           >
             <motion.div
-              className="relative w-full scale-[2.5] lg:scale-[3.5] origin-center -mb-80 lg:-mb-[120vh] mr-0 lg:mr-[-40%]"
+              className="relative w-full scale-[2.2] lg:scale-[2.8] origin-bottom-right -mb-48 lg:-mb-64 mr-0 lg:mr-[-20%]"
               style={{ 
                 y: imageY,
                 scale: imageScale
