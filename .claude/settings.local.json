@@ -23,7 +23,8 @@
       "Read(/home/octavio/.claude/**)",
       "Read(/home/octavio/.claude/**)",
       "Read(/home/octavio/.claude/shared/**)",
-      "Read(/home/octavio/**)"
+      "Read(/home/octavio/**)",
+      "Bash(git add:*)"
     ],
     "deny": [],
     "ask": []
